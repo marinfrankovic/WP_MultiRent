@@ -1,0 +1,44 @@
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local WordPress and Docker runtime data
+local-wordpress*/
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/cache/
+wp-config.php
+*.sql
+*.sqlite
+*.db
+
+# Credentials, auth data, and secrets
+.env
+.env.*
+!.env.example
+AuthData/
+*AuthData*/
+*.pem
+*.key
+*.pfx
+*.p12
+*.crt
+*.cer
+*.token
+*token*
+*secret*
+*password*
+
+# Backups and temporary packages
+*.bak
+*.tmp
+*.log
+_zipstage*/
+check-admin-validation.php
+check-menu-order.php
+
+# Keep intentional release ZIPs only
+*.zip
+!release-assets/*.zip
