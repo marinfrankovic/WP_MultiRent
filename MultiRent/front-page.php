@@ -48,18 +48,20 @@ $hero_style     = $hero_image_url ? ' style="background-image: linear-gradient(9
 		</section>
 	<?php endif; ?>
 
-	<section id="rentals" class="section rentals-section">
-		<div class="container section-heading">
-			<p class="eyebrow"><?php esc_html_e( 'Rental units', 'multirent' ); ?></p>
-			<h2><?php esc_html_e( 'Choose what fits your stay', 'multirent' ); ?></h2>
-		</div>
-		<?php if ( post_type_exists( 'rental_unit' ) ) : ?>
+	<?php if ( '1' === (string) multirent_display_option( 'show_front_page_rentals', '1' ) ) : ?>
+		<section id="rentals" class="section rentals-section">
+			<div class="container section-heading">
+				<p class="eyebrow"><?php esc_html_e( 'Rental units', 'multirent' ); ?></p>
+				<h2><?php esc_html_e( 'Choose what fits your stay', 'multirent' ); ?></h2>
+			</div>
+			<?php if ( post_type_exists( 'rental_unit' ) ) : ?>
+			<?php $front_page_rental_count = min( 50, max( 1, absint( multirent_display_option( 'front_page_rental_count', 12 ) ) ) ); ?>
 			<div class="container rental-grid">
 				<?php
 				$units = new WP_Query(
 					array(
 						'post_type'      => 'rental_unit',
-						'posts_per_page' => 12,
+						'posts_per_page' => $front_page_rental_count,
 						'orderby'        => 'menu_order title',
 						'order'          => 'ASC',
 					)
@@ -80,13 +82,14 @@ $hero_style     = $hero_image_url ? ' style="background-image: linear-gradient(9
 					</div>
 				<?php endif; ?>
 			</div>
-		<?php else : ?>
+			<?php else : ?>
 			<div class="container notice-card">
 				<h3><?php esc_html_e( 'MultiRent Companion plugin required', 'multirent' ); ?></h3>
 				<p><?php esc_html_e( 'Activate the companion plugin to manage rental units, amenities, setup wizard, and demo content from the WordPress dashboard.', 'multirent' ); ?></p>
 			</div>
-		<?php endif; ?>
-	</section>
+			<?php endif; ?>
+		</section>
+	<?php endif; ?>
 
 	<?php $reviews_shortcode = trim( multirent_display_option( 'reviews_shortcode', '' ) ); ?>
 	<?php if ( '1' === (string) multirent_display_option( 'show_reviews', '0' ) && $reviews_shortcode ) : ?>

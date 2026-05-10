@@ -11,14 +11,14 @@ Email: marin.frankovic@outlook.com
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload `MultiRent-0.1.8.zip`.
+2. Upload `MultiRent-0.1.9.zip`.
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload `multirent-companion-0.1.12.zip`.
+5. Upload `multirent-companion-0.1.13.zip`.
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received `multirent-template-0.1.13.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
+If you received `multirent-template-0.1.14.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
 
 ## Intended Use
 
@@ -38,6 +38,7 @@ Users can manage:
 - Configurable Contact page sections
 - Configurable Local information page sections
 - Preset and custom color schemes
+- Homepage apartment-card visibility and count controls
 - Apartment tile images managed from each apartment editor
 - Starter pages, menu, and demo rental units
 - Separate page administration for Apartments, Contact, and Local pages
@@ -54,6 +55,7 @@ The homepage is built for rental businesses and uses editable content from **Mul
 - Property intro
 - Stats strip
 - Rental unit cards
+- Homepage controls to hide rental cards or limit how many cards are shown
 - Optional reviews section
 - Contact call to action
 
@@ -235,6 +237,10 @@ Install these manually only if the site needs them. This list is based on the pl
 - **Rich Showcase for Google Reviews** (`widget-google-reviews`): optional Google Reviews shortcode workflow.
 
 The theme and companion plugin do not automatically install third-party plugins. This avoids server permission problems and keeps setup under the WordPress administrator's control.
+
+## Responsive Layout
+
+The header switches to a compact menu at tablet widths, rental cards move from three columns to two columns and then one column, and phone layouts tighten hero type, button widths, card padding, stats, contact, local guide, and apartment detail sections so pages remain readable on small screens.
 
 Backup/migration plugins are not listed as live-site detected plugins because they usually do not expose public frontend assets. Add a backup plugin manually if the site owner needs export, import, or migration workflows.
 

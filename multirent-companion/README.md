@@ -12,15 +12,15 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate `MultiRent-0.1.8.zip` in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate `multirent-companion-0.1.12.zip` in **Plugins > Add New > Upload Plugin**.
+1. Install and activate `MultiRent-0.1.9.zip` in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate `multirent-companion-0.1.13.zip` in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, and Amenities** if this is a fresh site.
 5. Create the required number of rental units from the **Starter Content** section.
 6. Edit each rental unit under **MultiRent Setup > Rental Units**.
 7. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, `multirent-template-0.1.13.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, `multirent-template-0.1.14.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
 ## What This Plugin Adds
 
@@ -51,6 +51,7 @@ The **Website Setup** screen controls homepage and brand content:
 - Hero button label and link
 - Homepage intro title and text
 - Stats lines, such as unit count, distance, or service notes
+- Homepage apartment-card visibility and number of apartments to show
 - Reviews shortcode field
 - Contact call-to-action title, text, button label, and button link
 
@@ -67,6 +68,8 @@ The landing page is the only mandatory page. Apartments, Contact, and Local page
 - **Intro title**: heading for the landing-page intro section below the hero.
 - **Intro text**: text for the landing-page intro section.
 - **Stats lines**: landing-page facts, one per line, using `value | label`, for example `4 | Apartments`.
+- **Homepage apartments checkbox**: shows or hides rental-unit cards on the front page.
+- **Number of apartments to show**: limits the homepage rental cards from 1 to 50. Use the Apartments page for the complete list.
 - **Reviews shortcode**: shortcode from a reviews plugin. The reviews section also needs the Google Reviews checkbox enabled.
 - **Google Reviews checkbox**: shows or hides the reviews section.
 - **SEO reminder checkbox**: shows a private admin-only reminder to configure SEO metadata.

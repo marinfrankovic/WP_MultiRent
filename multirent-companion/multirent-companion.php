@@ -3,7 +3,7 @@
  * Plugin Name: MultiRent Companion
  * Plugin URI: https://frankovic.net
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.12
+ * Version: 0.1.13
  * Requires at least: 6.5
  * Requires PHP: 8.1
  * Author: Marin Frankovic
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.12' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.13' );
 
 function multirent_companion_activate() {
 	multirent_companion_register_content_types();
@@ -125,6 +125,8 @@ function multirent_companion_field_descriptions() {
 		'intro_title'         => esc_html__( 'Heading for the landing-page intro section below the hero.', 'multirent-companion' ),
 		'intro_text'          => esc_html__( 'Text for the landing-page intro section. Explain what guests can manage or discover.', 'multirent-companion' ),
 		'stats_lines'         => esc_html__( 'Landing-page facts, one per line, using value | label. Example: 4 | Apartments.', 'multirent-companion' ),
+		'show_front_page_rentals' => esc_html__( 'When enabled, rental-unit cards appear on the homepage below the intro and stats.', 'multirent-companion' ),
+		'front_page_rental_count' => esc_html__( 'Maximum number of rental units shown on the homepage. Use the Apartments page for the full list.', 'multirent-companion' ),
 		'reviews_shortcode'   => esc_html__( 'Shortcode from a reviews plugin. The reviews section also needs the Google Reviews checkbox enabled.', 'multirent-companion' ),
 		'contact_title'       => esc_html__( 'Heading for the landing-page contact call-to-action band.', 'multirent-companion' ),
 		'contact_text'        => esc_html__( 'Short text in the landing-page contact call-to-action band.', 'multirent-companion' ),
@@ -256,6 +258,8 @@ function multirent_companion_default_settings() {
 		'intro_title'         => 'Manage every unit from WordPress',
 		'intro_text'          => 'Add rental units, amenities, photos, capacity, booking links, and guest-facing details from the WordPress dashboard.',
 		'stats_lines'         => "4 | Rental units\n100 m | Example distance\n24/7 | Self-managed content",
+		'show_front_page_rentals' => '1',
+		'front_page_rental_count' => '12',
 		'reviews_shortcode'   => '',
 		'show_reviews'        => '0',
 		'show_seo_note'       => '0',
@@ -578,8 +582,10 @@ function multirent_companion_sanitize_settings( $input, $scope = null ) {
 		}
 
 		$value = isset( $input[ $key ] ) ? wp_unslash( $input[ $key ] ) : $default;
-		if ( in_array( $key, array( 'show_reviews', 'show_seo_note', 'show_migration_note', 'show_apartments_page', 'show_contact_page', 'show_local_page', 'show_contact_details', 'show_booking_help', 'show_contact_map', 'show_contact_content', 'show_contact_form', 'show_contact_map_note', 'show_local_guides', 'show_local_highlights', 'show_local_activities', 'show_local_links', 'show_local_content', 'use_custom_colors' ), true ) ) {
+		if ( in_array( $key, array( 'show_front_page_rentals', 'show_reviews', 'show_seo_note', 'show_migration_note', 'show_apartments_page', 'show_contact_page', 'show_local_page', 'show_contact_details', 'show_booking_help', 'show_contact_map', 'show_contact_content', 'show_contact_form', 'show_contact_map_note', 'show_local_guides', 'show_local_highlights', 'show_local_activities', 'show_local_links', 'show_local_content', 'use_custom_colors' ), true ) ) {
 			$output[ $key ] = ! empty( $input[ $key ] ) ? '1' : '0';
+		} elseif ( 'front_page_rental_count' === $key ) {
+			$output[ $key ] = (string) min( 50, max( 1, absint( $value ) ) );
 		} elseif ( 'hero_image' === $key ) {
 			$output[ $key ] = absint( $value );
 		} elseif ( 'contact_email' === $key ) {
@@ -861,7 +867,7 @@ function multirent_companion_render_setup_page() {
 		<form method="post" action="">
 			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
 			<input type="hidden" name="multirent_action" value="save_settings">
-			<input type="hidden" name="multirent_settings_scope" value="property_name,hero_title,hero_text,hero_image,hero_button_text,hero_button_url,intro_title,intro_text,stats_lines,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,contact_title,contact_text,contact_button_text,contact_button_url,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
+			<input type="hidden" name="multirent_settings_scope" value="property_name,hero_title,hero_text,hero_image,hero_button_text,hero_button_url,intro_title,intro_text,stats_lines,show_front_page_rentals,front_page_rental_count,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,contact_title,contact_text,contact_button_text,contact_button_url,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
 			<h2><?php esc_html_e( 'Homepage and Brand', 'multirent-companion' ); ?></h2>
 			<table class="form-table" role="presentation">
 				<?php foreach ( array( 'property_name', 'hero_title', 'hero_text', 'hero_button_text', 'hero_button_url', 'intro_title', 'intro_text', 'stats_lines', 'reviews_shortcode', 'contact_title', 'contact_text', 'contact_button_text', 'contact_button_url' ) as $key ) : ?>
@@ -882,6 +888,16 @@ function multirent_companion_render_setup_page() {
 					<td>
 						<?php multirent_companion_media_field( 'multirent_settings[hero_image]', absint( $settings['hero_image'] ), __( 'Choose hero image', 'multirent-companion' ), __( 'Remove hero image', 'multirent-companion' ) ); ?>
 						<p class="description"><?php esc_html_e( 'This controls the large homepage image. Users can change it without opening theme files.', 'multirent-companion' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Homepage apartments', 'multirent-companion' ); ?></th>
+					<td>
+						<label><input name="multirent_settings[show_front_page_rentals]" type="checkbox" value="1" <?php checked( $settings['show_front_page_rentals'], '1' ); ?>> <?php esc_html_e( 'Show apartment cards on the homepage.', 'multirent-companion' ); ?></label>
+						<?php multirent_companion_description( 'show_front_page_rentals' ); ?>
+						<label for="multirent-front-page-rental-count"><strong><?php esc_html_e( 'Number of apartments to show', 'multirent-companion' ); ?></strong></label><br>
+						<input id="multirent-front-page-rental-count" name="multirent_settings[front_page_rental_count]" type="number" min="1" max="50" step="1" value="<?php echo esc_attr( $settings['front_page_rental_count'] ); ?>">
+						<?php multirent_companion_description( 'front_page_rental_count' ); ?>
 					</td>
 				</tr>
 			</table>
