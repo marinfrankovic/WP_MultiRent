@@ -11,10 +11,10 @@ Email: marin.frankovic@outlook.com
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload `MultiRent-0.1.9.zip`.
+2. Upload `MultiRent-0.1.14.zip`.
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload `multirent-companion-0.1.13.zip`.
+5. Upload `multirent-companion-0.1.14.zip`.
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 

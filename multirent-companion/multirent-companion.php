@@ -3,7 +3,7 @@
  * Plugin Name: MultiRent Companion
  * Plugin URI: https://frankovic.net
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.13
+ * Version: 0.1.14
  * Requires at least: 6.5
  * Requires PHP: 8.1
  * Author: Marin Frankovic
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.13' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.14' );
 
 function multirent_companion_activate() {
 	multirent_companion_register_content_types();

@@ -12,8 +12,8 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate `MultiRent-0.1.9.zip` in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate `multirent-companion-0.1.13.zip` in **Plugins > Add New > Upload Plugin**.
+1. Install and activate `MultiRent-0.1.14.zip` in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate `multirent-companion-0.1.14.zip` in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, and Amenities** if this is a fresh site.
 5. Create the required number of rental units from the **Starter Content** section.
