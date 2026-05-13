@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.14
+ * Version: 0.1.15
  * Requires at least: 6.5
  * Requires PHP: 8.1
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.14' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.15' );
 
 function multirent_companion_activate() {
 	multirent_companion_register_content_types();
