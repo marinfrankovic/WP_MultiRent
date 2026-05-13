@@ -16,12 +16,22 @@ Keep the latest 10 releases available on GitHub.
 
 For future releases:
 
-1. Build and validate the theme ZIP, plugin ZIP, and combined template ZIP.
+1. Build and validate the theme ZIP, plugin ZIP, and combined template ZIP with `scripts/New-MultiRentReleasePackage.ps1 -Version x.y.z -CleanOldLocalPackages`.
 2. Create a new GitHub release with those three ZIP files attached.
 3. Mark the newest release as latest.
 4. List releases newest-first.
 5. Delete releases older than the newest 10.
 6. Delete old local ZIP files from `release-assets/` after the new release is published so only the newest theme, companion plugin, and combined template packages remain locally.
+
+## Local Source Safety
+
+The release packaging script must verify these files before and after packaging:
+
+- `MultiRent/style.css`
+- `MultiRent/functions.php`
+- `multirent-companion/multirent-companion.php`
+
+If any of these files are missing, stop immediately and restore the source folders before publishing or uploading release assets. Do not manually delete, move, or clean `MultiRent/` or `multirent-companion/` during release packaging. Only remove old local ZIP files from `release-assets/`.
 
 ## Privacy
 
