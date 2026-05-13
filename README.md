@@ -8,6 +8,7 @@ The project is designed for apartment, room, villa, and multi-unit rental websit
 
 - `MultiRent/`: installable WordPress theme source.
 - `multirent-companion/`: companion plugin source for setup screens, rental units, amenities, top menu builder, color controls, recommended plugins, and in-admin README help.
+- `local-wordpress/`: local Docker WordPress setup for testing this repository's theme and companion plugin source folders.
 - `release-assets/`: latest packaged ZIP files for WordPress upload and the combined template bundle.
 
 ## Latest Packages
@@ -48,9 +49,9 @@ The companion README is also visible inside WordPress after installation under *
 
 ## License And Commercial Use
 
-Copyright 2026 Marin Frankovic. All rights reserved.
+Copyright 2026 MultiRent Project. All rights reserved.
 
-This code is provided for non-commercial use only. It may not be used, copied, modified, redistributed, included, bundled, adapted, sold, licensed, hosted, deployed, or otherwise used as part of any commercial project, paid product, paid service, client project, agency project, marketplace product, hosted service, SaaS product, or revenue-generating website without prior written permission from Marin Frankovic.
+This code is provided for non-commercial use only. It may not be used, copied, modified, redistributed, included, bundled, adapted, sold, licensed, hosted, deployed, or otherwise used as part of any commercial project, paid product, paid service, client project, agency project, marketplace product, hosted service, SaaS product, or revenue-generating website without prior written permission from the copyright holder.
 
 See [LICENSE.md](LICENSE.md) for the full non-commercial license notice.
 
@@ -62,7 +63,7 @@ Do not commit:
 
 - `.env` files or database dumps.
 - WordPress `wp-config.php` files containing secrets.
-- Local Docker volumes or `local-wordpress-*` folders.
+- Local Docker volumes, uploaded media, databases, and runtime files.
 - Admin usernames, passwords, tokens, cookies, private keys, or backup archives from a live site.
 - Account-specific plugin configuration from production websites.
 
@@ -71,14 +72,6 @@ Do not commit:
 GitHub Releases should contain the latest packaged theme ZIP, plugin ZIP, and combined template ZIP.
 
 Keep only the latest 10 GitHub Releases available. When publishing future releases, delete older releases beyond the newest 10 so users see a small, current release history.
-
-## Author
-
-Created by Marin Frankovic.
-
-Website: https://frankovic.net
-
-Email: marin.frankovic@outlook.com
 
 ## Disclaimer
 

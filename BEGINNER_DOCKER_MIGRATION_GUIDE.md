@@ -48,6 +48,17 @@ Both commands should show a version number. If they do not, close and reopen Pow
 
 ## Part 2: Create A Local WordPress Folder
 
+If you are using the full WP MultiRent repository, you can use the included `local-wordpress` folder instead of creating your own folder and files. Open PowerShell in the repository and run:
+
+```powershell
+Set-Location .\local-wordpress
+docker compose up -d
+```
+
+Then continue with **Part 4: Install WordPress Locally**.
+
+If you only received the theme/plugin ZIP files and do not have the repository, create a local WordPress folder manually:
+
 1. Create a folder somewhere easy to find, for example:
 
 ```text

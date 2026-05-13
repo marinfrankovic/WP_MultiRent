@@ -5,7 +5,15 @@ Thumbs.db
 .idea/
 
 # Local WordPress and Docker runtime data
-local-wordpress*/
+local-wordpress/.env
+local-wordpress/.env.*
+local-wordpress/wp-content/
+local-wordpress/mysql/
+local-wordpress/db_data/
+local-wordpress/wordpress_data/
+local-wordpress/*.sql
+local-wordpress/*.sqlite
+local-wordpress/*.db
 wp-content/uploads/
 wp-content/upgrade/
 wp-content/cache/

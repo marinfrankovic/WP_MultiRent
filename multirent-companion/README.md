@@ -2,12 +2,6 @@
 
 MultiRent Companion is the setup and content-management plugin for the **Multi Apartment Rental** WordPress theme.
 
-Creator and copyright owner: Marin Frankovic.
-
-Website: https://frankovic.net
-
-Email: marin.frankovic@outlook.com
-
 The plugin is designed for rental-property owners who want to manage apartments, images, menus, colors, review sections, and starter pages from the WordPress dashboard without editing theme files.
 
 ## Install Order
@@ -407,7 +401,7 @@ Amenities are grouped under **MultiRent Setup > Amenities**. They can be assigne
 
 ## Recommended Plugins
 
-These plugins are optional. Install them manually from **Plugins > Add New** only if the site needs them. This recommendation list is based on the plugins publicly detected on the live Brajkovic Apartments site at `https://brajkovic.net` on May 10, 2026.
+These plugins are optional. Install them manually from **Plugins > Add New** only if the site needs them. This recommendation list is based on the plugins validated during local rental-site testing.
 
 - **CookieYes - Cookie Banner for Cookie Consent** (`cookie-law-info`): cookie consent banner and GDPR/CCPA cookie notice workflow.
 - **Rank Math SEO** (`seo-by-rank-math`): SEO titles, metadata, sitemap, schema, and search optimization.
@@ -442,12 +436,12 @@ The plugin ships with placeholder content only. It does not include real propert
 
 ## Disclaimer
 
-Copyright 2026 Marin Frankovic. Original theme and companion plugin by Marin Frankovic, https://frankovic.net, marin.frankovic@outlook.com.
+Copyright 2026 MultiRent Project. Original theme and companion plugin by the MultiRent project.
 
-This code is provided for non-commercial use only. It may not be used, copied, modified, redistributed, included, bundled, adapted, sold, licensed, hosted, deployed, or otherwise used as part of any commercial project, paid product, paid service, client project, agency project, marketplace product, hosted service, SaaS product, or revenue-generating website without prior written permission from Marin Frankovic.
+This code is provided for non-commercial use only. It may not be used, copied, modified, redistributed, included, bundled, adapted, sold, licensed, hosted, deployed, or otherwise used as part of any commercial project, paid product, paid service, client project, agency project, marketplace product, hosted service, SaaS product, or revenue-generating website without prior written permission from the copyright holder.
 
 This theme and companion plugin are provided on a best-effort basis. No guarantees are given for correctness, compatibility, security, availability, fitness for a particular purpose, or future maintenance. The end user is responsible for everything they install, configure, publish, modify, connect, or deploy with this theme and plugin.
 
-Any permitted non-commercial modified or redistributed version must clearly state that it originated from the Multi Apartment Rental theme by Marin Frankovic and must credit Marin Frankovic as the original author.
+Any permitted non-commercial modified or redistributed version must clearly state that it originated from the Multi Apartment Rental theme and must credit the original MultiRent project.
 
-No free or paid support is provided. At any time, Marin Frankovic may remove this theme/plugin, stop distributing it, or stop developing it without notice.
+No free or paid support is provided. The copyright holder may remove this theme/plugin, stop distributing it, or stop developing it without notice.
