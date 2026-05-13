@@ -9,22 +9,22 @@ The project is designed for apartment, room, villa, and multi-unit rental websit
 - `MultiRent/`: installable WordPress theme source.
 - `multirent-companion/`: companion plugin source for setup screens, rental units, amenities, top menu builder, color controls, recommended plugins, and in-admin README help.
 - `local-wordpress/`: local Docker WordPress setup for testing this repository's theme and companion plugin source folders.
-- `release-assets/`: latest packaged ZIP files for WordPress upload and the combined template bundle.
+- `release-assets/`: latest packaged ZIP files for WordPress upload and the extract-first complete package.
 
 ## Latest Packages
 
-- `release-assets/MultiRent-0.1.17.zip`: theme upload ZIP.
-- `release-assets/multirent-companion-0.1.17.zip`: companion plugin upload ZIP.
-- `release-assets/multirent-template-0.1.17.zip`: convenience bundle containing both upload ZIPs.
+- `release-assets/multirent-theme-upload-0.1.18.zip`: theme upload ZIP.
+- `release-assets/multirent-companion-plugin-upload-0.1.18.zip`: companion plugin upload ZIP.
+- `release-assets/multirent-complete-package-extract-first-0.1.18.zip`: extract-first package containing both upload ZIPs.
 
-Important: upload only `MultiRent-0.1.17.zip` in **Appearance > Themes > Upload Theme**. Do not upload `multirent-template-0.1.17.zip` or GitHub's automatic source-code ZIP as a theme, because WordPress will report that the package is missing `style.css`.
+Important: upload only `multirent-theme-upload-0.1.18.zip` in **Appearance > Themes > Upload Theme**. Do not upload `multirent-complete-package-extract-first-0.1.18.zip` or GitHub's automatic source-code ZIP as a theme, because WordPress will report that the package is missing `style.css`.
 
 ## Install Order
 
 1. In WordPress admin, open **Appearance > Themes > Add New > Upload Theme**.
-2. Upload and activate `MultiRent-0.1.17.zip`.
+2. Upload and activate `multirent-theme-upload-0.1.18.zip`.
 3. Open **Plugins > Add New > Upload Plugin**.
-4. Upload and activate `multirent-companion-0.1.17.zip`.
+4. Upload and activate `multirent-companion-plugin-upload-0.1.18.zip`.
 5. Open **MultiRent Setup** from the WordPress left admin menu.
 6. Use **Create Starter Pages, Menu, and Amenities** on a fresh site.
 7. Add or edit rental units under **MultiRent Setup > Rental Units**.

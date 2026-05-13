@@ -6,9 +6,9 @@ This repository publishes packaged WordPress upload ZIPs through GitHub Releases
 
 Each release should include:
 
-- `MultiRent-x.y.z.zip`: the WordPress theme upload package.
-- `multirent-companion-x.y.z.zip`: the WordPress companion plugin upload package.
-- `multirent-template-x.y.z.zip`: a convenience bundle containing the theme ZIP and plugin ZIP.
+- `multirent-theme-upload-x.y.z.zip`: upload this in **Appearance > Themes > Add New > Upload Theme**.
+- `multirent-companion-plugin-upload-x.y.z.zip`: upload this in **Plugins > Add New > Upload Plugin**.
+- `multirent-complete-package-extract-first-x.y.z.zip`: extract this first; it contains the separate theme and plugin upload ZIPs.
 
 ## Retention
 
@@ -16,7 +16,7 @@ Keep the latest 10 releases available on GitHub.
 
 For future releases:
 
-1. Build and validate the theme ZIP, plugin ZIP, and combined template ZIP with `scripts/New-MultiRentReleasePackage.ps1 -Version x.y.z -CleanOldLocalPackages`.
+1. Build and validate the theme ZIP, plugin ZIP, and extract-first complete package ZIP with `scripts/New-MultiRentReleasePackage.ps1 -Version x.y.z -CleanOldLocalPackages`.
 2. Create a new GitHub release with those three ZIP files attached.
 3. Mark the newest release as latest.
 4. List releases newest-first.

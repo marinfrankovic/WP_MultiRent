@@ -64,9 +64,9 @@ try {
 	Copy-Item -LiteralPath $themeDir -Destination (Join-Path $packagesDir 'MultiRent') -Recurse
 	Copy-Item -LiteralPath $pluginDir -Destination (Join-Path $packagesDir 'multirent-companion') -Recurse
 
-	$themeZip = Join-Path $releaseDir ("MultiRent-{0}.zip" -f $Version)
-	$pluginZip = Join-Path $releaseDir ("multirent-companion-{0}.zip" -f $Version)
-	$templateZip = Join-Path $releaseDir ("multirent-template-{0}.zip" -f $Version)
+	$themeZip = Join-Path $releaseDir ("multirent-theme-upload-{0}.zip" -f $Version)
+	$pluginZip = Join-Path $releaseDir ("multirent-companion-plugin-upload-{0}.zip" -f $Version)
+	$templateZip = Join-Path $releaseDir ("multirent-complete-package-extract-first-{0}.zip" -f $Version)
 
 	Push-Location $packagesDir
 	try {
@@ -79,14 +79,14 @@ try {
 		Pop-Location
 	}
 
-	$bundleDir = Join-Path $templateDir 'multirent-template'
+	$bundleDir = Join-Path $templateDir 'multirent-complete-package-extract-first'
 	New-Item -ItemType Directory -Path $bundleDir | Out-Null
 	Copy-Item -LiteralPath $themeZip -Destination $bundleDir
 	Copy-Item -LiteralPath $pluginZip -Destination $bundleDir
 
 	Push-Location $templateDir
 	try {
-		& tar.exe -a -cf $templateZip 'multirent-template'
+		& tar.exe -a -cf $templateZip 'multirent-complete-package-extract-first'
 		if ($LASTEXITCODE -ne 0) { throw "Failed to create template ZIP: $templateZip" }
 	} finally {
 		Pop-Location
@@ -94,8 +94,8 @@ try {
 
 	Assert-ZipEntry -ZipPath $themeZip -Entry 'MultiRent/style.css'
 	Assert-ZipEntry -ZipPath $pluginZip -Entry 'multirent-companion/multirent-companion.php'
-	Assert-ZipEntry -ZipPath $templateZip -Entry ("multirent-template/MultiRent-{0}.zip" -f $Version)
-	Assert-ZipEntry -ZipPath $templateZip -Entry ("multirent-template/multirent-companion-{0}.zip" -f $Version)
+	Assert-ZipEntry -ZipPath $templateZip -Entry ("multirent-complete-package-extract-first/multirent-theme-upload-{0}.zip" -f $Version)
+	Assert-ZipEntry -ZipPath $templateZip -Entry ("multirent-complete-package-extract-first/multirent-companion-plugin-upload-{0}.zip" -f $Version)
 
 	if ($CleanOldLocalPackages) {
 		Get-ChildItem -LiteralPath $releaseDir -File -Filter '*.zip' |
