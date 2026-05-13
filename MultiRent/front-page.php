@@ -25,7 +25,7 @@ $hero_style     = $hero_image_url ? ' style="background-image: linear-gradient(9
 	<section class="section intro-section">
 		<div class="container split-section">
 			<div>
-				<p class="eyebrow"><?php esc_html_e( 'GUI managed', 'multirent' ); ?></p>
+				<p class="eyebrow"><?php echo esc_html( multirent_display_option( 'intro_eyebrow', __( 'About the property', 'multirent' ) ) ); ?></p>
 				<h2><?php echo esc_html( multirent_display_option( 'intro_title', __( 'Manage every unit from WordPress', 'multirent' ) ) ); ?></h2>
 			</div>
 			<div class="lead-text">

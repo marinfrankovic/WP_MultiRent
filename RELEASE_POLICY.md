@@ -21,6 +21,7 @@ For future releases:
 3. Mark the newest release as latest.
 4. List releases newest-first.
 5. Delete releases older than the newest 10.
+6. Delete old local ZIP files from `release-assets/` after the new release is published so only the newest theme, companion plugin, and combined template packages remain locally.
 
 ## Privacy
 

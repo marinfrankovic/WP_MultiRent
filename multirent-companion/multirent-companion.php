@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.15
+ * Version: 0.1.16
  * Requires at least: 6.5
  * Requires PHP: 8.1
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.15' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.16' );
 
 function multirent_companion_activate() {
 	multirent_companion_register_content_types();
@@ -119,6 +119,7 @@ function multirent_companion_field_descriptions() {
 		'hero_text'           => esc_html__( 'Short landing-page introduction below the headline.', 'multirent-companion' ),
 		'hero_button_text'    => esc_html__( 'Text shown on the main landing-page call-to-action button.', 'multirent-companion' ),
 		'hero_button_url'     => esc_html__( 'Where the hero button opens. Use a page path such as /apartments/ or a full URL.', 'multirent-companion' ),
+		'intro_eyebrow'       => esc_html__( 'Small label shown above the landing-page intro heading.', 'multirent-companion' ),
 		'intro_title'         => esc_html__( 'Heading for the landing-page intro section below the hero.', 'multirent-companion' ),
 		'intro_text'          => esc_html__( 'Text for the landing-page intro section. Explain what guests can manage or discover.', 'multirent-companion' ),
 		'stats_lines'         => esc_html__( 'Landing-page facts, one per line, using value | label. Example: 4 | Apartments.', 'multirent-companion' ),
@@ -252,6 +253,7 @@ function multirent_companion_default_settings() {
 		'hero_image'          => '',
 		'hero_button_text'    => 'View rentals',
 		'hero_button_url'     => '#rentals',
+		'intro_eyebrow'       => 'About the property',
 		'intro_title'         => 'Manage every unit from WordPress',
 		'intro_text'          => 'Add rental units, amenities, photos, capacity, booking links, and guest-facing details from the WordPress dashboard.',
 		'stats_lines'         => "4 | Rental units\n100 m | Example distance\n24/7 | Self-managed content",
@@ -864,10 +866,10 @@ function multirent_companion_render_setup_page() {
 		<form method="post" action="">
 			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
 			<input type="hidden" name="multirent_action" value="save_settings">
-			<input type="hidden" name="multirent_settings_scope" value="property_name,hero_title,hero_text,hero_image,hero_button_text,hero_button_url,intro_title,intro_text,stats_lines,show_front_page_rentals,front_page_rental_count,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,contact_title,contact_text,contact_button_text,contact_button_url,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
+			<input type="hidden" name="multirent_settings_scope" value="property_name,hero_title,hero_text,hero_image,hero_button_text,hero_button_url,intro_eyebrow,intro_title,intro_text,stats_lines,show_front_page_rentals,front_page_rental_count,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,contact_title,contact_text,contact_button_text,contact_button_url,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
 			<h2><?php esc_html_e( 'Homepage and Brand', 'multirent-companion' ); ?></h2>
 			<table class="form-table" role="presentation">
-				<?php foreach ( array( 'property_name', 'hero_title', 'hero_text', 'hero_button_text', 'hero_button_url', 'intro_title', 'intro_text', 'stats_lines', 'reviews_shortcode', 'contact_title', 'contact_text', 'contact_button_text', 'contact_button_url' ) as $key ) : ?>
+				<?php foreach ( array( 'property_name', 'hero_title', 'hero_text', 'hero_button_text', 'hero_button_url', 'intro_eyebrow', 'intro_title', 'intro_text', 'stats_lines', 'reviews_shortcode', 'contact_title', 'contact_text', 'contact_button_text', 'contact_button_url' ) as $key ) : ?>
 					<tr>
 						<th scope="row"><label for="multirent-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( ucwords( str_replace( '_', ' ', $key ) ) ); ?></label></th>
 						<td>

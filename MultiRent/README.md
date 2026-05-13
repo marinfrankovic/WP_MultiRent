@@ -5,14 +5,14 @@ Multi Apartment Rental is a clean, PII-free WordPress theme for apartment, room,
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload `MultiRent-0.1.15.zip`.
+2. Upload `MultiRent-0.1.16.zip`.
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload `multirent-companion-0.1.15.zip`.
+5. Upload `multirent-companion-0.1.16.zip`.
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received `multirent-template-0.1.15.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
+If you received `multirent-template-0.1.16.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
 
 ## Intended Use
 
@@ -46,7 +46,7 @@ The homepage is built for rental businesses and uses editable content from **Mul
 
 - Hero section
 - Hero image
-- Property intro
+- Property intro eyebrow, heading, and text
 - Stats strip
 - Rental unit cards
 - Homepage controls to hide rental cards or limit how many cards are shown
@@ -87,7 +87,7 @@ To edit text on an existing page:
 4. Use the **+** button to add more blocks.
 5. Click **Update**.
 
-Homepage fields are edited from **MultiRent Setup > Website Setup**. Contact page fields are edited from **MultiRent Setup > Contact Page**. Local page fields are edited from **MultiRent Setup > Local Page**.
+Homepage fields, including the intro eyebrow above the property intro heading, are edited from **MultiRent Setup > Website Setup**. Contact page fields are edited from **MultiRent Setup > Contact Page**. Local page fields are edited from **MultiRent Setup > Local Page**.
 
 ### Separate Page Administration
 

@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.1.15' );
+define( 'MULTIRENT_VERSION', '0.1.16' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -151,6 +151,7 @@ function multirent_customize_register( $wp_customize ) {
 		'hero_text'           => array( 'label' => esc_html__( 'Hero text', 'multirent' ), 'default' => esc_html__( 'Showcase apartments, rooms, villas, or holiday homes with clear details and easy inquiry paths.', 'multirent' ), 'type' => 'textarea' ),
 		'hero_button_text'    => array( 'label' => esc_html__( 'Hero button text', 'multirent' ), 'default' => esc_html__( 'View rentals', 'multirent' ), 'type' => 'text' ),
 		'hero_button_url'     => array( 'label' => esc_html__( 'Hero button URL', 'multirent' ), 'default' => '#rentals', 'type' => 'url' ),
+		'intro_eyebrow'       => array( 'label' => esc_html__( 'Intro eyebrow', 'multirent' ), 'default' => esc_html__( 'About the property', 'multirent' ), 'type' => 'text' ),
 		'intro_title'         => array( 'label' => esc_html__( 'Intro title', 'multirent' ), 'default' => esc_html__( 'Manage every unit from WordPress', 'multirent' ), 'type' => 'text' ),
 		'intro_text'          => array( 'label' => esc_html__( 'Intro text', 'multirent' ), 'default' => esc_html__( 'Add rental units, amenities, photos, capacity, booking links, and guest-facing details from the WordPress dashboard.', 'multirent' ), 'type' => 'textarea' ),
 		'stats_lines'         => array( 'label' => esc_html__( 'Homepage stats, one per line: value | label', 'multirent' ), 'default' => "4 | Rental units\n100 m | Example distance\n24/7 | Self-managed content", 'type' => 'textarea' ),
