@@ -26,6 +26,10 @@ The project is designed for apartment, room, villa, and multi-unit rental websit
 6. Use **Create Starter Pages, Menu, and Amenities** on a fresh site.
 7. Add or edit rental units under **MultiRent Setup > Rental Units**.
 
+## Update Safety
+
+Updating MultiRent or MultiRent Companion does not delete existing WordPress content. Always create a backup before updating. Starter content actions are intended for new sites and should not be used to reset a live site unless you understand the result.
+
 ## Detailed Setup Guides
 
 For a beginner step-by-step workflow that starts with Docker Desktop, creates a local WordPress site, installs the packaged theme and companion plugin, exports a backup, and restores it on a live site, read:
