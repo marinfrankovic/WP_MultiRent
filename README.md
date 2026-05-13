@@ -28,6 +28,10 @@ The project is designed for apartment, room, villa, and multi-unit rental websit
 
 ## Detailed Setup Guides
 
+For a beginner step-by-step workflow that starts with Docker Desktop, creates a local WordPress site, installs the packaged theme and companion plugin, exports a backup, and restores it on a live site, read:
+
+- [Beginner Docker, backup, and live restore guide](BEGINNER_DOCKER_MIGRATION_GUIDE.md)
+
 For the full no-code setup workflow, read the detailed companion plugin guide:
 
 - [MultiRent Companion setup README](multirent-companion/README.md)
