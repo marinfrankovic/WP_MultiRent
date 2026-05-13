@@ -51,9 +51,11 @@ The companion README is also visible inside WordPress after installation under *
 
 Copyright 2026 MultiRent Project. All rights reserved.
 
-This code is provided for non-commercial use only. It may not be used, copied, modified, redistributed, included, bundled, adapted, sold, licensed, hosted, deployed, or otherwise used as part of any commercial project, paid product, paid service, client project, agency project, marketplace product, hosted service, SaaS product, or revenue-generating website without prior written permission from the copyright holder.
+This code is free to use and modify for private, non-commercial purposes, provided that the original author and the MultiRent project are clearly credited.
 
-See [LICENSE.md](LICENSE.md) for the full non-commercial license notice.
+Commercial use, including client work, paid services, marketplace products, hosted services, SaaS products, agency projects, revenue-generating websites, or resale, requires prior written permission from the copyright holder.
+
+See [LICENSE.md](LICENSE.md) for the full private-use license notice.
 
 ## Privacy Boundary
 

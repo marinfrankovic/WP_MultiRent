@@ -1,16 +1,20 @@
-# Proprietary Non-Commercial License
+# Proprietary Private-Use License
 
 Copyright 2026 MultiRent Project. All rights reserved.
 
-The Multi Apartment Rental theme and MultiRent Companion plugin are provided for non-commercial use only.
+The Multi Apartment Rental theme and MultiRent Companion plugin are provided free of charge for private, non-commercial use.
 
-## Commercial Use Prohibited
+## Private Use
+
+You may use, copy, and modify this code for your own private, non-commercial website or learning purposes, provided that the original author and the MultiRent project are clearly credited.
+
+## Attribution Required
+
+Any permitted private-use copy, modified version, or redistributed non-commercial version must clearly state that it originated from the Multi Apartment Rental theme and MultiRent Companion plugin, and must credit the original author and the MultiRent project.
+
+## Commercial Use Requires Permission
 
 This code may not be used, copied, modified, redistributed, included, bundled, adapted, sold, licensed, hosted, deployed, or otherwise used as part of any commercial project, paid product, paid service, client project, agency project, marketplace product, hosted service, SaaS product, or revenue-generating website without prior written permission from the copyright holder.
-
-## Attribution
-
-Any permitted non-commercial modified or redistributed version must clearly state that it originated from the Multi Apartment Rental theme and must credit the original MultiRent project.
 
 ## No Warranty
 

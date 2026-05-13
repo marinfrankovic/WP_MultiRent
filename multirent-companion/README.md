@@ -438,10 +438,12 @@ The plugin ships with placeholder content only. It does not include real propert
 
 Copyright 2026 MultiRent Project. Original theme and companion plugin by the MultiRent project.
 
-This code is provided for non-commercial use only. It may not be used, copied, modified, redistributed, included, bundled, adapted, sold, licensed, hosted, deployed, or otherwise used as part of any commercial project, paid product, paid service, client project, agency project, marketplace product, hosted service, SaaS product, or revenue-generating website without prior written permission from the copyright holder.
+This code is free to use and modify for private, non-commercial purposes, provided that the original author and the MultiRent project are clearly credited.
+
+Commercial use, including client work, paid services, marketplace products, hosted services, SaaS products, agency projects, revenue-generating websites, or resale, requires prior written permission from the copyright holder.
 
 This theme and companion plugin are provided on a best-effort basis. No guarantees are given for correctness, compatibility, security, availability, fitness for a particular purpose, or future maintenance. The end user is responsible for everything they install, configure, publish, modify, connect, or deploy with this theme and plugin.
 
-Any permitted non-commercial modified or redistributed version must clearly state that it originated from the Multi Apartment Rental theme and must credit the original MultiRent project.
+Any permitted private-use copy, modified version, or redistributed non-commercial version must clearly state that it originated from the Multi Apartment Rental theme and MultiRent Companion plugin, and must credit the original author and the MultiRent project.
 
 No free or paid support is provided. The copyright holder may remove this theme/plugin, stop distributing it, or stop developing it without notice.

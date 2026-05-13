@@ -7,8 +7,8 @@
  * Requires PHP: 8.1
  * Author: MultiRent Project
  * Text Domain: multirent-companion
- * Copyright: 2026 MultiRent Project. Non-commercial use only. Commercial use is prohibited without prior written permission from the copyright holder.
- * License: Proprietary non-commercial license
+ * Copyright: 2026 MultiRent Project. Free for private, non-commercial use and modification with original author credit. Commercial use requires prior written permission from the copyright holder.
+ * License: Proprietary private-use license
  *
  * @package MultiRentCompanion
  */
