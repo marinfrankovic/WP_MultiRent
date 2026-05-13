@@ -13,16 +13,18 @@ The project is designed for apartment, room, villa, and multi-unit rental websit
 
 ## Latest Packages
 
-- `release-assets/MultiRent-0.1.16.zip`: theme upload ZIP.
-- `release-assets/multirent-companion-0.1.16.zip`: companion plugin upload ZIP.
-- `release-assets/multirent-template-0.1.16.zip`: convenience bundle containing both upload ZIPs.
+- `release-assets/MultiRent-0.1.17.zip`: theme upload ZIP.
+- `release-assets/multirent-companion-0.1.17.zip`: companion plugin upload ZIP.
+- `release-assets/multirent-template-0.1.17.zip`: convenience bundle containing both upload ZIPs.
+
+Important: upload only `MultiRent-0.1.17.zip` in **Appearance > Themes > Upload Theme**. Do not upload `multirent-template-0.1.17.zip` or GitHub's automatic source-code ZIP as a theme, because WordPress will report that the package is missing `style.css`.
 
 ## Install Order
 
 1. In WordPress admin, open **Appearance > Themes > Add New > Upload Theme**.
-2. Upload and activate `MultiRent-0.1.16.zip`.
+2. Upload and activate `MultiRent-0.1.17.zip`.
 3. Open **Plugins > Add New > Upload Plugin**.
-4. Upload and activate `multirent-companion-0.1.16.zip`.
+4. Upload and activate `multirent-companion-0.1.17.zip`.
 5. Open **MultiRent Setup** from the WordPress left admin menu.
 6. Use **Create Starter Pages, Menu, and Amenities** on a fresh site.
 7. Add or edit rental units under **MultiRent Setup > Rental Units**.
