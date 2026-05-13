@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.18
+ * Version: 0.1.20
  * Requires at least: 6.5
  * Requires PHP: 8.1
  * Author: MultiRent Project
@@ -17,7 +17,74 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.18' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.20' );
+
+function multirent_companion_default_amenities() {
+	return array(
+		'parking'          => 'Parking',
+		'wifi'             => 'WiFi',
+		'balcony'          => 'Balcony',
+		'bathroom'         => 'Bathroom',
+		'air-condition'    => 'Air Condition',
+		'tv'               => 'TV',
+		'bbq'              => 'BBQ',
+		'terrace'          => 'Terrace',
+		'no-smoking'       => 'No-Smoking',
+		'kitchen'          => 'Kitchen',
+		'pets-allowed'     => 'Pets allowed',
+		'pets-not-allowed' => 'Pets not allowed',
+	);
+}
+
+function multirent_companion_ensure_default_amenities() {
+	if ( ! taxonomy_exists( 'rental_amenity' ) ) {
+		return;
+	}
+
+	foreach ( multirent_companion_default_amenities() as $slug => $name ) {
+		if ( ! term_exists( $slug, 'rental_amenity' ) ) {
+			wp_insert_term( $name, 'rental_amenity', array( 'slug' => $slug ) );
+		}
+	}
+}
+
+function multirent_companion_migrate_legacy_amenities() {
+	if ( ! taxonomy_exists( 'rental_amenity' ) ) {
+		return;
+	}
+
+	$legacy_map = array(
+		'wi-fi'            => 'wifi',
+		'air-conditioning' => 'air-condition',
+	);
+
+	foreach ( $legacy_map as $old_slug => $new_slug ) {
+		$old_term = get_term_by( 'slug', $old_slug, 'rental_amenity' );
+		$new_term = get_term_by( 'slug', $new_slug, 'rental_amenity' );
+
+		if ( ! $old_term || ! $new_term ) {
+			continue;
+		}
+
+		$object_ids = get_objects_in_term( $old_term->term_id, 'rental_amenity' );
+		foreach ( $object_ids as $object_id ) {
+			wp_set_object_terms( $object_id, array( (int) $new_term->term_id ), 'rental_amenity', true );
+			wp_remove_object_terms( $object_id, (int) $old_term->term_id, 'rental_amenity' );
+		}
+
+		$old_term = get_term( $old_term->term_id, 'rental_amenity' );
+		if ( $old_term && ! is_wp_error( $old_term ) && 0 === (int) $old_term->count ) {
+			wp_delete_term( $old_term->term_id, 'rental_amenity' );
+		}
+	}
+
+	foreach ( array( 'family-friendly', 'sea-view' ) as $old_slug ) {
+		$old_term = get_term_by( 'slug', $old_slug, 'rental_amenity' );
+		if ( $old_term && 0 === (int) $old_term->count ) {
+			wp_delete_term( $old_term->term_id, 'rental_amenity' );
+		}
+	}
+}
 
 function multirent_companion_activate() {
 	multirent_companion_register_content_types();
@@ -59,14 +126,17 @@ function multirent_companion_register_content_types() {
 				'singular_name' => esc_html__( 'Amenity', 'multirent-companion' ),
 			),
 			'public'       => true,
-			'hierarchical' => false,
+			'hierarchical' => true,
 			'rewrite'      => array( 'slug' => 'amenity' ),
 			'show_in_rest' => true,
 			'show_in_menu' => 'multirent-setup',
+			'show_admin_column' => true,
 		)
 	);
 }
 add_action( 'init', 'multirent_companion_register_content_types' );
+add_action( 'init', 'multirent_companion_ensure_default_amenities', 20 );
+add_action( 'init', 'multirent_companion_migrate_legacy_amenities', 30 );
 
 function multirent_companion_unit_fields() {
 	return array(
@@ -74,7 +144,6 @@ function multirent_companion_unit_fields() {
 		'bedrooms'   => esc_html__( 'Bedrooms', 'multirent-companion' ),
 		'bathrooms'  => esc_html__( 'Bathrooms', 'multirent-companion' ),
 		'size'       => esc_html__( 'Size', 'multirent-companion' ),
-		'distance'   => esc_html__( 'Location note', 'multirent-companion' ),
 		'price_note' => esc_html__( 'Price note', 'multirent-companion' ),
 		'booking_url'=> esc_html__( 'Booking or inquiry URL', 'multirent-companion' ),
 	);
@@ -160,8 +229,7 @@ function multirent_companion_field_descriptions() {
 		'bedrooms'            => esc_html__( 'Number or description of bedrooms, such as 2 or Studio.', 'multirent-companion' ),
 		'bathrooms'           => esc_html__( 'Number or description of bathrooms.', 'multirent-companion' ),
 		'size'                => esc_html__( 'Apartment size, such as 45 m2.', 'multirent-companion' ),
-		'distance'            => esc_html__( 'Short location note, such as 100 m from beach or City center.', 'multirent-companion' ),
-		'price_note'          => esc_html__( 'Short price message, such as On request, From 90 EUR, or Seasonal rates.', 'multirent-companion' ),
+		'price_note'          => esc_html__( 'Optional short price message, such as On request, From 90 EUR, or Seasonal rates. Leave empty to hide the price tile on the apartment detail page.', 'multirent-companion' ),
 		'booking_url'         => esc_html__( 'Link for booking or inquiry button for this apartment. Use a full URL or a site page path.', 'multirent-companion' ),
 	);
 }
@@ -635,6 +703,20 @@ function multirent_companion_handle_setup_actions() {
 		add_settings_error( 'multirent_messages', 'site_created', esc_html__( 'Starter pages, menu, and amenities created.', 'multirent-companion' ), 'updated' );
 	}
 
+	if ( 'create_demo_content' === $action ) {
+		$result = multirent_companion_create_demo_content();
+		if ( is_wp_error( $result ) ) {
+			add_settings_error( 'multirent_messages', 'demo_failed', $result->get_error_message(), 'error' );
+		} else {
+			add_settings_error( 'multirent_messages', 'demo_created', esc_html__( 'Demo pages, apartments, amenities, menu, and settings created. You can remove them later with Remove Demo Content.', 'multirent-companion' ), 'updated' );
+		}
+	}
+
+	if ( 'remove_demo_content' === $action ) {
+		$deleted = multirent_companion_remove_demo_content();
+		add_settings_error( 'multirent_messages', 'demo_removed', sprintf( esc_html__( 'Removed %d demo pages/apartments and restored the previous MultiRent settings when available.', 'multirent-companion' ), $deleted ), 'updated' );
+	}
+
 }
 add_action( 'admin_init', 'multirent_companion_handle_setup_actions' );
 
@@ -697,8 +779,6 @@ function multirent_companion_create_units( $count ) {
 			update_post_meta( $post_id, '_bedrooms', '1' );
 			update_post_meta( $post_id, '_bathrooms', '1' );
 			update_post_meta( $post_id, '_size', '45 m2' );
-			update_post_meta( $post_id, '_distance', 'Add location note' );
-			update_post_meta( $post_id, '_price_note', 'On request' );
 		}
 	}
 }
@@ -731,16 +811,554 @@ function multirent_companion_create_starter_site() {
 		update_option( 'page_on_front', $page_ids['Home'] );
 	}
 
-	foreach ( array( 'Wi-Fi', 'Parking', 'Air conditioning', 'Kitchen', 'Sea view', 'Family friendly' ) as $term ) {
-		if ( ! term_exists( $term, 'rental_amenity' ) ) {
-			wp_insert_term( $term, 'rental_amenity' );
-		}
-	}
+	multirent_companion_ensure_default_amenities();
 
 	multirent_companion_sync_optional_page_visibility( multirent_companion_settings() );
 	multirent_companion_apply_top_menu( multirent_companion_settings()['menu_items'] );
 
 	flush_rewrite_rules();
+}
+
+function multirent_companion_demo_marker() {
+	return 'multirent-demo-content-v1';
+}
+
+function multirent_companion_demo_previous_option_key() {
+	return 'multirent_demo_previous_options_v1';
+}
+
+function multirent_companion_demo_image_specs() {
+	return array(
+		'hero' => array(
+			'title'    => 'MultiRent Demo Hero Image',
+			'filename' => 'multirent-demo-hero.jpg',
+			'label'    => 'Demo Seaside House',
+			'subtitle' => 'Preview hero image',
+			'colors'   => array( array( 6, 54, 77 ), array( 8, 126, 164 ), array( 223, 243, 251 ) ),
+		),
+		'demo-sea-view-studio' => array(
+			'title'    => 'MultiRent Demo Sea View Studio Image',
+			'filename' => 'multirent-demo-sea-view-studio.jpg',
+			'label'    => 'Sea View Studio',
+			'subtitle' => 'Balcony and kitchen',
+			'colors'   => array( array( 7, 78, 110 ), array( 32, 158, 181 ), array( 236, 248, 252 ) ),
+		),
+		'demo-sea-view-studio-gallery-1' => array(
+			'title'    => 'MultiRent Demo Sea View Studio Gallery 1',
+			'filename' => 'multirent-demo-sea-view-studio-gallery-1.jpg',
+			'label'    => 'Studio Balcony',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 9, 68, 95 ), array( 88, 180, 197 ), array( 232, 247, 250 ) ),
+		),
+		'demo-sea-view-studio-gallery-2' => array(
+			'title'    => 'MultiRent Demo Sea View Studio Gallery 2',
+			'filename' => 'multirent-demo-sea-view-studio-gallery-2.jpg',
+			'label'    => 'Studio Kitchen',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 28, 74, 94 ), array( 117, 166, 179 ), array( 245, 251, 253 ) ),
+		),
+		'demo-sea-view-studio-gallery-3' => array(
+			'title'    => 'MultiRent Demo Sea View Studio Gallery 3',
+			'filename' => 'multirent-demo-sea-view-studio-gallery-3.jpg',
+			'label'    => 'Studio Bathroom',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 18, 83, 109 ), array( 91, 159, 179 ), array( 239, 249, 251 ) ),
+		),
+		'demo-sea-view-studio-gallery-4' => array(
+			'title'    => 'MultiRent Demo Sea View Studio Gallery 4',
+			'filename' => 'multirent-demo-sea-view-studio-gallery-4.jpg',
+			'label'    => 'Studio Sea View',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 5, 77, 111 ), array( 38, 141, 178 ), array( 226, 244, 250 ) ),
+		),
+		'demo-sea-view-studio-gallery-5' => array(
+			'title'    => 'MultiRent Demo Sea View Studio Gallery 5',
+			'filename' => 'multirent-demo-sea-view-studio-gallery-5.jpg',
+			'label'    => 'Studio Dining Nook',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 21, 87, 112 ), array( 83, 151, 172 ), array( 241, 249, 251 ) ),
+		),
+		'demo-sea-view-studio-gallery-6' => array(
+			'title'    => 'MultiRent Demo Sea View Studio Gallery 6',
+			'filename' => 'multirent-demo-sea-view-studio-gallery-6.jpg',
+			'label'    => 'Studio Entrance',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 12, 70, 98 ), array( 71, 138, 166 ), array( 232, 246, 250 ) ),
+		),
+		'demo-family-apartment' => array(
+			'title'    => 'MultiRent Demo Family Apartment Image',
+			'filename' => 'multirent-demo-family-apartment.jpg',
+			'label'    => 'Family Apartment',
+			'subtitle' => 'Two bedrooms and parking',
+			'colors'   => array( array( 18, 83, 64 ), array( 76, 143, 105 ), array( 241, 248, 237 ) ),
+		),
+		'demo-family-apartment-gallery-1' => array(
+			'title'    => 'MultiRent Demo Family Apartment Gallery 1',
+			'filename' => 'multirent-demo-family-apartment-gallery-1.jpg',
+			'label'    => 'Family Living Room',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 31, 92, 74 ), array( 99, 157, 111 ), array( 238, 247, 236 ) ),
+		),
+		'demo-family-apartment-gallery-2' => array(
+			'title'    => 'MultiRent Demo Family Apartment Gallery 2',
+			'filename' => 'multirent-demo-family-apartment-gallery-2.jpg',
+			'label'    => 'Family Bedroom',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 46, 96, 68 ), array( 138, 180, 122 ), array( 249, 252, 244 ) ),
+		),
+		'demo-family-apartment-gallery-3' => array(
+			'title'    => 'MultiRent Demo Family Apartment Gallery 3',
+			'filename' => 'multirent-demo-family-apartment-gallery-3.jpg',
+			'label'    => 'Family Kitchen',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 41, 91, 70 ), array( 119, 166, 98 ), array( 244, 250, 239 ) ),
+		),
+		'demo-family-apartment-gallery-4' => array(
+			'title'    => 'MultiRent Demo Family Apartment Gallery 4',
+			'filename' => 'multirent-demo-family-apartment-gallery-4.jpg',
+			'label'    => 'Family Balcony',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 20, 101, 77 ), array( 91, 150, 126 ), array( 239, 248, 241 ) ),
+		),
+		'demo-family-apartment-gallery-5' => array(
+			'title'    => 'MultiRent Demo Family Apartment Gallery 5',
+			'filename' => 'multirent-demo-family-apartment-gallery-5.jpg',
+			'label'    => 'Family Bathroom',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 38, 87, 69 ), array( 112, 156, 116 ), array( 246, 251, 241 ) ),
+		),
+		'demo-family-apartment-gallery-6' => array(
+			'title'    => 'MultiRent Demo Family Apartment Gallery 6',
+			'filename' => 'multirent-demo-family-apartment-gallery-6.jpg',
+			'label'    => 'Family Second Bedroom',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 27, 86, 75 ), array( 97, 147, 135 ), array( 241, 250, 244 ) ),
+		),
+		'demo-garden-terrace-suite' => array(
+			'title'    => 'MultiRent Demo Garden Terrace Suite Image',
+			'filename' => 'multirent-demo-garden-terrace-suite.jpg',
+			'label'    => 'Garden Terrace Suite',
+			'subtitle' => 'Terrace and BBQ',
+			'colors'   => array( array( 78, 68, 42 ), array( 174, 128, 61 ), array( 252, 246, 230 ) ),
+		),
+		'demo-garden-terrace-suite-gallery-1' => array(
+			'title'    => 'MultiRent Demo Garden Terrace Suite Gallery 1',
+			'filename' => 'multirent-demo-garden-terrace-suite-gallery-1.jpg',
+			'label'    => 'Garden Terrace',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 92, 76, 42 ), array( 188, 139, 68 ), array( 253, 247, 230 ) ),
+		),
+		'demo-garden-terrace-suite-gallery-2' => array(
+			'title'    => 'MultiRent Demo Garden Terrace Suite Gallery 2',
+			'filename' => 'multirent-demo-garden-terrace-suite-gallery-2.jpg',
+			'label'    => 'Outdoor Dining',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 86, 87, 53 ), array( 170, 150, 83 ), array( 252, 249, 235 ) ),
+		),
+		'demo-garden-terrace-suite-gallery-3' => array(
+			'title'    => 'MultiRent Demo Garden Terrace Suite Gallery 3',
+			'filename' => 'multirent-demo-garden-terrace-suite-gallery-3.jpg',
+			'label'    => 'Terrace Kitchen',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 102, 82, 46 ), array( 178, 130, 73 ), array( 251, 245, 228 ) ),
+		),
+		'demo-garden-terrace-suite-gallery-4' => array(
+			'title'    => 'MultiRent Demo Garden Terrace Suite Gallery 4',
+			'filename' => 'multirent-demo-garden-terrace-suite-gallery-4.jpg',
+			'label'    => 'Garden Bedroom',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 78, 87, 48 ), array( 146, 153, 88 ), array( 249, 247, 232 ) ),
+		),
+		'demo-garden-terrace-suite-gallery-5' => array(
+			'title'    => 'MultiRent Demo Garden Terrace Suite Gallery 5',
+			'filename' => 'multirent-demo-garden-terrace-suite-gallery-5.jpg',
+			'label'    => 'Garden Bathroom',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 92, 83, 49 ), array( 158, 142, 78 ), array( 250, 248, 235 ) ),
+		),
+		'demo-garden-terrace-suite-gallery-6' => array(
+			'title'    => 'MultiRent Demo Garden Terrace Suite Gallery 6',
+			'filename' => 'multirent-demo-garden-terrace-suite-gallery-6.jpg',
+			'label'    => 'Garden Walkway',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 83, 94, 52 ), array( 134, 160, 90 ), array( 246, 249, 232 ) ),
+		),
+		'demo-pet-friendly-loft' => array(
+			'title'    => 'MultiRent Demo Pet Friendly Loft Image',
+			'filename' => 'multirent-demo-pet-friendly-loft.jpg',
+			'label'    => 'Pet Friendly Loft',
+			'subtitle' => 'Flexible demo stay',
+			'colors'   => array( array( 72, 52, 105 ), array( 134, 111, 180 ), array( 245, 239, 252 ) ),
+		),
+		'demo-pet-friendly-loft-gallery-1' => array(
+			'title'    => 'MultiRent Demo Pet Friendly Loft Gallery 1',
+			'filename' => 'multirent-demo-pet-friendly-loft-gallery-1.jpg',
+			'label'    => 'Loft Seating',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 88, 63, 116 ), array( 152, 123, 190 ), array( 248, 242, 253 ) ),
+		),
+		'demo-pet-friendly-loft-gallery-2' => array(
+			'title'    => 'MultiRent Demo Pet Friendly Loft Gallery 2',
+			'filename' => 'multirent-demo-pet-friendly-loft-gallery-2.jpg',
+			'label'    => 'Loft Kitchen',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 72, 67, 118 ), array( 126, 138, 198 ), array( 244, 244, 253 ) ),
+		),
+		'demo-pet-friendly-loft-gallery-3' => array(
+			'title'    => 'MultiRent Demo Pet Friendly Loft Gallery 3',
+			'filename' => 'multirent-demo-pet-friendly-loft-gallery-3.jpg',
+			'label'    => 'Loft Bathroom',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 78, 57, 112 ), array( 139, 119, 184 ), array( 246, 241, 252 ) ),
+		),
+		'demo-pet-friendly-loft-gallery-4' => array(
+			'title'    => 'MultiRent Demo Pet Friendly Loft Gallery 4',
+			'filename' => 'multirent-demo-pet-friendly-loft-gallery-4.jpg',
+			'label'    => 'Pet Friendly Corner',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 92, 70, 122 ), array( 148, 129, 190 ), array( 249, 244, 253 ) ),
+		),
+		'demo-pet-friendly-loft-gallery-5' => array(
+			'title'    => 'MultiRent Demo Pet Friendly Loft Gallery 5',
+			'filename' => 'multirent-demo-pet-friendly-loft-gallery-5.jpg',
+			'label'    => 'Loft Sleeping Area',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 82, 62, 118 ), array( 132, 117, 181 ), array( 246, 242, 252 ) ),
+		),
+		'demo-pet-friendly-loft-gallery-6' => array(
+			'title'    => 'MultiRent Demo Pet Friendly Loft Gallery 6',
+			'filename' => 'multirent-demo-pet-friendly-loft-gallery-6.jpg',
+			'label'    => 'Loft Balcony View',
+			'subtitle' => 'Extra demo gallery image',
+			'colors'   => array( array( 68, 70, 124 ), array( 122, 132, 190 ), array( 243, 244, 253 ) ),
+		),
+	);
+}
+
+function multirent_companion_demo_gallery_image_keys( $rental_slug ) {
+	return array( $rental_slug . '-gallery-1', $rental_slug . '-gallery-2', $rental_slug . '-gallery-3', $rental_slug . '-gallery-4', $rental_slug . '-gallery-5', $rental_slug . '-gallery-6' );
+}
+
+function multirent_companion_demo_attachment_by_filename( $filename ) {
+	$attachments = get_posts(
+		array(
+			'post_type'      => 'attachment',
+			'post_status'    => 'inherit',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'meta_key'       => '_multirent_demo_image_filename',
+			'meta_value'     => $filename,
+		)
+	);
+
+	return $attachments ? (int) $attachments[0] : 0;
+}
+
+function multirent_companion_create_demo_image_attachment( $key, $parent_id = 0 ) {
+	$specs = multirent_companion_demo_image_specs();
+	if ( empty( $specs[ $key ] ) || ! function_exists( 'imagecreatetruecolor' ) || ! function_exists( 'imagejpeg' ) ) {
+		return 0;
+	}
+
+	$spec = $specs[ $key ];
+	$existing_id = multirent_companion_demo_attachment_by_filename( $spec['filename'] );
+	if ( $existing_id ) {
+		if ( $parent_id ) {
+			wp_update_post( array( 'ID' => $existing_id, 'post_parent' => $parent_id ) );
+		}
+		return $existing_id;
+	}
+
+	$upload_dir = wp_upload_dir();
+	if ( ! empty( $upload_dir['error'] ) ) {
+		return 0;
+	}
+
+	$demo_dir = trailingslashit( $upload_dir['basedir'] ) . 'multirent-demo';
+	if ( ! wp_mkdir_p( $demo_dir ) ) {
+		return 0;
+	}
+
+	$path = trailingslashit( $demo_dir ) . $spec['filename'];
+	$image = imagecreatetruecolor( 1600, 1000 );
+	if ( ! $image ) {
+		return 0;
+	}
+
+	$dark = imagecolorallocate( $image, $spec['colors'][0][0], $spec['colors'][0][1], $spec['colors'][0][2] );
+	$mid = imagecolorallocate( $image, $spec['colors'][1][0], $spec['colors'][1][1], $spec['colors'][1][2] );
+	$light = imagecolorallocate( $image, $spec['colors'][2][0], $spec['colors'][2][1], $spec['colors'][2][2] );
+	$white = imagecolorallocate( $image, 255, 255, 255 );
+	$ink = imagecolorallocate( $image, 16, 32, 51 );
+
+	imagefilledrectangle( $image, 0, 0, 1600, 1000, $light );
+	imagefilledrectangle( $image, 0, 0, 1600, 560, $mid );
+	imagefilledrectangle( $image, 0, 560, 1600, 1000, $dark );
+	imagefilledrectangle( $image, 160, 210, 1440, 790, $white );
+	imagefilledrectangle( $image, 230, 290, 1370, 720, $light );
+	imagefilledrectangle( $image, 320, 360, 600, 720, $mid );
+	imagefilledrectangle( $image, 675, 360, 955, 720, $mid );
+	imagefilledrectangle( $image, 1030, 360, 1310, 720, $mid );
+	imagefilledrectangle( $image, 260, 765, 1340, 815, $dark );
+	imagefilledellipse( $image, 1280, 170, 140, 140, $light );
+	imagestring( $image, 5, 235, 250, strtoupper( $spec['label'] ), $ink );
+	imagestring( $image, 4, 235, 275, $spec['subtitle'], $ink );
+	imagestring( $image, 3, 235, 835, 'Generated MultiRent demo image - replace with real property photography', $white );
+
+	imagejpeg( $image, $path, 88 );
+	imagedestroy( $image );
+
+	$filetype = wp_check_filetype( $path );
+	$attachment_id = wp_insert_attachment(
+		array(
+			'post_mime_type' => $filetype['type'],
+			'post_title'     => $spec['title'],
+			'post_content'   => '',
+			'post_status'    => 'inherit',
+			'post_parent'    => $parent_id,
+		),
+		$path
+	);
+
+	if ( is_wp_error( $attachment_id ) ) {
+		return 0;
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	$metadata = wp_generate_attachment_metadata( $attachment_id, $path );
+	wp_update_attachment_metadata( $attachment_id, $metadata );
+	update_post_meta( $attachment_id, '_multirent_demo_content', multirent_companion_demo_marker() );
+	update_post_meta( $attachment_id, '_multirent_demo_image_filename', $spec['filename'] );
+	update_post_meta( $attachment_id, '_multirent_demo_image_key', $key );
+	update_post_meta( $attachment_id, '_wp_attachment_image_alt', $spec['label'] . ' demo image' );
+
+	return (int) $attachment_id;
+}
+
+function multirent_companion_upsert_demo_post( $args, $meta = array(), $amenity_slugs = array() ) {
+	$existing = get_page_by_path( $args['post_name'], OBJECT, $args['post_type'] );
+	if ( $existing && multirent_companion_demo_marker() === get_post_meta( $existing->ID, '_multirent_demo_content', true ) ) {
+		$args['ID'] = $existing->ID;
+		$post_id = wp_update_post( $args, true );
+	} else {
+		if ( $existing ) {
+			$args['post_name'] = $args['post_name'] . '-' . wp_generate_password( 6, false, false );
+		}
+
+		$post_id = wp_insert_post( $args, true );
+	}
+
+	if ( is_wp_error( $post_id ) ) {
+		return $post_id;
+	}
+
+	foreach ( $meta as $key => $value ) {
+		update_post_meta( $post_id, $key, $value );
+	}
+
+	update_post_meta( $post_id, '_multirent_demo_content', multirent_companion_demo_marker() );
+
+	if ( $amenity_slugs ) {
+		wp_set_object_terms( $post_id, $amenity_slugs, 'rental_amenity', false );
+	}
+
+	return $post_id;
+}
+
+function multirent_companion_demo_settings() {
+	return array(
+		'property_name'            => 'MultiRent Demo Seaside House',
+		'hero_title'               => 'Demo apartments ready to explore',
+		'hero_text'                => 'Four example apartments with realistic details, selected amenities, contact information, and local guide content.',
+		'hero_button_text'         => 'View demo apartments',
+		'hero_button_url'          => '/demo-apartments/',
+		'intro_eyebrow'            => 'Demo content',
+		'intro_title'              => 'Preview every apartment display state',
+		'intro_text'               => 'Use this optional demo dataset to understand how MultiRent looks before adding real property content.',
+		'stats_lines'              => "4 | Demo apartments\n12 | Amenity options\n1 | Complete test site",
+		'show_front_page_rentals'  => '1',
+		'front_page_rental_count'  => '4',
+		'contact_title'            => 'Demo inquiry call to action',
+		'contact_text'             => 'Use the demo contact page to test booking links, phone, email, map, and editor content.',
+		'contact_button_text'      => 'Open demo contact',
+		'contact_button_url'       => '/demo-contact/',
+		'menu_items'               => "Home | /demo-home/\nApartments | /demo-apartments/\nLocal | /demo-local-guide/\nContact | /demo-contact/",
+		'show_apartments_page'     => '1',
+		'show_contact_page'        => '1',
+		'show_local_page'          => '1',
+		'contact_page_title'       => 'Demo contact and booking inquiry',
+		'contact_page_intro'       => 'Send demo dates, guest count, and the preferred apartment so the layout can be tested end to end.',
+		'contact_address'          => "MultiRent Demo Seaside House\nDemo Street 12\n21329 Demo Coast, Croatia",
+		'contact_phone'            => '+385 21 000 111',
+		'contact_mobile'           => '+385 91 000 222',
+		'contact_email'            => 'demo-booking@example.test',
+		'contact_form_shortcode'   => '',
+		'contact_map_query'        => 'Split Croatia waterfront',
+		'contact_map_note'         => 'Demo map note: parking is available behind the house after check-in.',
+		'booking_help_lines'       => "Check-in | Demo check-in starts after 15:00.\nPayment | Demo payment can be tested with text-only instructions.\nResponse time | Demo owner replies within one working day.",
+		'local_page_title'         => 'Demo local guide',
+		'local_page_intro'         => 'Use this page to test guide cards, highlights, activity sections, useful links, and extra editor content.',
+		'local_guide_lines'        => "Closest beach | Five-minute demo walk with shallow entry and afternoon shade.\nArrival notes | Use the demo parking bay behind the blue gate, then ring the demo bell.\nBest season | May, June, September, and October are quieter in this demo guide.",
+		'local_highlight_lines'    => "Bakery | Two-minute walk for breakfast pastries.\nMarket | Small grocery shop near the demo bus stop.\nRestaurant | Waterfront tavern with family-friendly seating.\nPharmacy | Located beside the demo main square.",
+		'local_activity_lines'     => "Morning swim | Test short activity text and two-column cards.\nBoat trip | Demo island excursion with pickup at the pier.\nFamily walk | Easy sunset path suitable for strollers.",
+		'local_link_lines'         => "Local tourism board | https://example.test/tourism\nBus timetable | https://example.test/bus\nFerry information | https://example.test/ferry",
+		'show_local_guides'        => '1',
+		'show_local_highlights'    => '1',
+		'show_local_activities'    => '1',
+		'show_local_links'         => '1',
+		'show_local_content'       => '1',
+	);
+}
+
+function multirent_companion_demo_rentals() {
+	return array(
+		array(
+			'title'     => 'Demo Sea View Studio',
+			'slug'      => 'demo-sea-view-studio',
+			'excerpt'   => 'Compact studio for two with balcony, WiFi, TV, and sea-view breakfast seating.',
+			'content'   => '',
+			'meta'      => array( '_capacity' => '2 guests', '_bedrooms' => 'Studio', '_bathrooms' => '1 bathroom', '_size' => '28 m2', '_price_note' => 'From 75 EUR / night', '_booking_url' => '/demo-contact/?unit=demo-sea-view-studio' ),
+			'amenities' => array( 'wifi', 'balcony', 'bathroom', 'air-condition', 'tv', 'kitchen', 'no-smoking' ),
+		),
+		array(
+			'title'     => 'Demo Family Apartment',
+			'slug'      => 'demo-family-apartment',
+			'excerpt'   => 'Two-bedroom family apartment with parking, kitchen, balcony, and no-smoking setup.',
+			'content'   => '',
+			'meta'      => array( '_capacity' => '2-5 guests', '_bedrooms' => '2 bedrooms', '_bathrooms' => '1 bathroom', '_size' => '62 m2', '_price_note' => 'From 130 EUR / night', '_booking_url' => '/demo-contact/?unit=demo-family-apartment' ),
+			'amenities' => array( 'parking', 'wifi', 'balcony', 'bathroom', 'air-condition', 'tv', 'kitchen', 'no-smoking' ),
+		),
+		array(
+			'title'     => 'Demo Garden Terrace Suite',
+			'slug'      => 'demo-garden-terrace-suite',
+			'excerpt'   => 'Ground-floor suite with terrace, BBQ area, parking, and outdoor dining space.',
+			'content'   => '',
+			'meta'      => array( '_capacity' => '2-4 guests', '_bedrooms' => '1 bedroom', '_bathrooms' => '1 bathroom', '_size' => '48 m2', '_price_note' => 'From 110 EUR / night', '_booking_url' => '/demo-contact/?unit=demo-garden-terrace-suite' ),
+			'amenities' => array( 'parking', 'wifi', 'bathroom', 'air-condition', 'bbq', 'terrace', 'kitchen', 'pets-not-allowed' ),
+		),
+		array(
+			'title'     => 'Demo Pet Friendly Loft',
+			'slug'      => 'demo-pet-friendly-loft',
+			'excerpt'   => 'Pet-friendly loft with WiFi, TV, private bathroom, kitchen, and flexible stay notes.',
+			'content'   => '',
+			'meta'      => array( '_capacity' => '2-3 guests', '_bedrooms' => 'Loft layout', '_bathrooms' => '1 bathroom', '_size' => '40 m2', '_price_note' => 'From 95 EUR / night', '_booking_url' => '/demo-contact/?unit=demo-pet-friendly-loft' ),
+			'amenities' => array( 'wifi', 'bathroom', 'air-condition', 'tv', 'kitchen', 'pets-allowed', 'no-smoking' ),
+		),
+	);
+}
+
+function multirent_companion_create_demo_content() {
+	multirent_companion_ensure_default_amenities();
+	multirent_companion_migrate_legacy_amenities();
+
+	$previous_option_key = multirent_companion_demo_previous_option_key();
+	if ( ! get_option( $previous_option_key ) ) {
+		update_option(
+			$previous_option_key,
+			array(
+				'show_on_front'      => get_option( 'show_on_front' ),
+				'page_on_front'      => get_option( 'page_on_front' ),
+				'page_for_posts'     => get_option( 'page_for_posts' ),
+				'multirent_settings' => get_option( 'multirent_settings', array() ),
+			)
+		);
+	}
+
+	$pages = array(
+		'home'       => multirent_companion_upsert_demo_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'MultiRent Demo Home', 'post_name' => 'demo-home', 'post_content' => '<p>Demo homepage for testing the MultiRent layout, apartment cards, amenity icons, and inquiry flow.</p>' ), array( '_wp_page_template' => 'default' ) ),
+		'apartments' => multirent_companion_upsert_demo_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'MultiRent Demo Apartments', 'post_name' => 'demo-apartments', 'post_content' => '<p>Demo apartment listing page. Use this to compare cards, details, selected amenities, and responsive layouts.</p>' ), array( '_wp_page_template' => 'template-apartments-grid.php' ) ),
+		'contact'    => multirent_companion_upsert_demo_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'MultiRent Demo Contact', 'post_name' => 'demo-contact', 'post_content' => '<p>This is demo contact-page body content for testing optional editor text below the contact cards.</p>' ), array( '_wp_page_template' => 'template-contact.php' ) ),
+		'local'      => multirent_companion_upsert_demo_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'MultiRent Demo Local Guide', 'post_name' => 'demo-local-guide', 'post_content' => '<p>Demo local guide editor content. Add notes here while testing how page content appears with generated guide cards.</p>' ), array( '_wp_page_template' => 'template-local.php' ) ),
+	);
+
+	foreach ( $pages as $page_id ) {
+		if ( is_wp_error( $page_id ) ) {
+			return $page_id;
+		}
+	}
+
+	update_option( 'show_on_front', 'page' );
+	update_option( 'page_on_front', $pages['home'] );
+
+	$hero_image_id = multirent_companion_create_demo_image_attachment( 'hero' );
+	$settings = array_merge( multirent_companion_settings(), multirent_companion_demo_settings() );
+	if ( $hero_image_id ) {
+		$settings['hero_image'] = $hero_image_id;
+	}
+	update_option( 'multirent_settings', $settings );
+
+	foreach ( multirent_companion_demo_rentals() as $index => $rental ) {
+		$post_id = multirent_companion_upsert_demo_post(
+			array(
+				'post_type'    => 'rental_unit',
+				'post_status'  => 'publish',
+				'post_title'   => $rental['title'],
+				'post_name'    => $rental['slug'],
+				'post_excerpt' => $rental['excerpt'],
+				'post_content' => $rental['content'],
+				'menu_order'   => $index + 1,
+			),
+			$rental['meta'],
+			$rental['amenities']
+		);
+
+		if ( is_wp_error( $post_id ) ) {
+			return $post_id;
+		}
+
+		delete_post_meta( $post_id, '_distance' );
+
+		$demo_image_id = multirent_companion_create_demo_image_attachment( $rental['slug'], $post_id );
+		if ( $demo_image_id ) {
+			set_post_thumbnail( $post_id, $demo_image_id );
+		}
+
+		foreach ( multirent_companion_demo_gallery_image_keys( $rental['slug'] ) as $gallery_image_key ) {
+			multirent_companion_create_demo_image_attachment( $gallery_image_key, $post_id );
+		}
+	}
+
+	multirent_companion_apply_top_menu( $settings['menu_items'] );
+	flush_rewrite_rules();
+
+	return true;
+}
+
+function multirent_companion_remove_demo_content() {
+	$demo_posts = get_posts(
+		array(
+			'post_type'      => array( 'page', 'rental_unit', 'attachment' ),
+			'post_status'    => 'any',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'meta_key'       => '_multirent_demo_content',
+			'meta_value'     => multirent_companion_demo_marker(),
+		)
+	);
+
+	foreach ( $demo_posts as $post_id ) {
+		wp_delete_post( $post_id, true );
+	}
+
+	$previous = get_option( multirent_companion_demo_previous_option_key() );
+	if ( is_array( $previous ) ) {
+		foreach ( array( 'show_on_front', 'page_on_front', 'page_for_posts' ) as $option_key ) {
+			if ( array_key_exists( $option_key, $previous ) ) {
+				update_option( $option_key, $previous[ $option_key ] );
+			}
+		}
+
+		if ( array_key_exists( 'multirent_settings', $previous ) ) {
+			update_option( 'multirent_settings', $previous['multirent_settings'] );
+			$settings = multirent_companion_settings();
+			multirent_companion_apply_top_menu( $settings['menu_items'] );
+		}
+	}
+
+	delete_option( multirent_companion_demo_previous_option_key() );
+	flush_rewrite_rules();
+
+	return count( $demo_posts );
 }
 
 function multirent_companion_menu_url( $url ) {
@@ -977,6 +1595,21 @@ function multirent_companion_render_setup_page() {
 			<input id="unit-count" name="unit_count" type="number" min="1" max="50" value="4">
 			<?php submit_button( esc_html__( 'Create Rental Units', 'multirent-companion' ), 'secondary', 'submit', false ); ?>
 		</form>
+
+		<hr>
+		<h2><?php esc_html_e( 'Demo Content', 'multirent-companion' ); ?></h2>
+		<p><?php esc_html_e( 'Create a complete example site with four demo apartments, selected amenity checkboxes, demo Contact and Local pages, menu links, and sample settings. Demo content is marked so it can be removed later without deleting your real content.', 'multirent-companion' ); ?></p>
+		<form method="post" action="" style="display:inline-block;margin-right:12px;margin-bottom:12px;">
+			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
+			<input type="hidden" name="multirent_action" value="create_demo_content">
+			<?php submit_button( esc_html__( 'Create Demo Content', 'multirent-companion' ), 'secondary', 'submit', false ); ?>
+		</form>
+		<form method="post" action="" style="display:inline-block;margin-bottom:12px;">
+			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
+			<input type="hidden" name="multirent_action" value="remove_demo_content">
+			<?php submit_button( esc_html__( 'Remove Demo Content', 'multirent-companion' ), 'delete', 'submit', false ); ?>
+		</form>
+		<p class="description"><?php esc_html_e( 'The demo uses pages and apartments whose slugs begin with demo-. It also stores the previous homepage and MultiRent settings so Remove Demo Content can restore them.', 'multirent-companion' ); ?></p>
 
 		<hr>
 		<h2><?php esc_html_e( 'Recommended Plugins', 'multirent-companion' ); ?></h2>

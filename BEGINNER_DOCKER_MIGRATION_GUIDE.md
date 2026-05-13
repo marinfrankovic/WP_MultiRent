@@ -11,8 +11,8 @@ You will create a private WordPress site on your own computer:
 - Local website: `http://localhost:8082`
 - Local WordPress admin: `http://localhost:8082/wp-admin`
 - Database: stored inside Docker on your computer
-- Theme ZIP: `multirent-theme-upload-0.1.18.zip`
-- Plugin ZIP: `multirent-companion-plugin-upload-0.1.18.zip`
+- Theme ZIP: `multirent-theme-upload-0.1.20.zip`
+- Plugin ZIP: `multirent-companion-plugin-upload-0.1.20.zip`
 
 At the end, you will export the local site to one backup file and import that file into the live WordPress site.
 
@@ -174,19 +174,19 @@ http://localhost:8082/wp-admin
 
 Use the packaged ZIP files from the release assets:
 
-- `multirent-theme-upload-0.1.18.zip`
-- `multirent-companion-plugin-upload-0.1.18.zip`
+- `multirent-theme-upload-0.1.20.zip`
+- `multirent-companion-plugin-upload-0.1.20.zip`
 
-If you received `multirent-complete-package-extract-first-0.1.18.zip`, unzip it first. It contains the separate theme and plugin ZIP files.
+If you received `multirent-complete-package-extract-first-0.1.20.zip`, unzip it first. It contains the separate theme and plugin ZIP files.
 
-Important: do not upload `multirent-complete-package-extract-first-0.1.18.zip` or GitHub's automatic source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.18.zip` for the theme installer.
+Important: do not upload `multirent-complete-package-extract-first-0.1.20.zip` or GitHub's automatic source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.20.zip` for the theme installer.
 
 ### Install The Theme
 
 1. In WordPress admin, open **Appearance > Themes**.
 2. Click **Add New**.
 3. Click **Upload Theme**.
-4. Choose `multirent-theme-upload-0.1.18.zip`.
+4. Choose `multirent-theme-upload-0.1.20.zip`.
 5. Click **Install Now**.
 6. Click **Activate**.
 
@@ -194,7 +194,7 @@ Important: do not upload `multirent-complete-package-extract-first-0.1.18.zip` o
 
 1. In WordPress admin, open **Plugins > Add New**.
 2. Click **Upload Plugin**.
-3. Choose `multirent-companion-plugin-upload-0.1.18.zip`.
+3. Choose `multirent-companion-plugin-upload-0.1.20.zip`.
 4. Click **Install Now**.
 5. Click **Activate Plugin**.
 
@@ -213,6 +213,14 @@ http://localhost:8082
 ```
 
 Use the existing MultiRent theme and companion guides for the normal site editing work.
+
+### Preview With Demo Content
+
+If you want to see how a full MultiRent site looks before adding real content, open **MultiRent Setup > Demo Content** and click **Create Demo Content**. This option is part of the released companion plugin, not only the local Docker setup.
+
+The demo creates four example apartments, generated hero/featured/gallery images, demo Home/Apartments/Contact/Local pages, selected amenity checkboxes, a demo menu, and sample contact/local-guide settings. It is safe to remove later because the generated demo pages, apartments, and images are marked with `_multirent_demo_content=multirent-demo-content-v1`.
+
+When you are done testing, click **Remove Demo Content** from the same screen. This removes the generated demo pages, apartments, and images and restores the previous homepage and MultiRent settings when possible.
 
 ## Part 6: Stop And Start The Local Site Later
 

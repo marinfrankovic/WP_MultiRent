@@ -34,7 +34,6 @@ $local_links      = multirent_lines_to_links( multirent_display_option( 'local_l
 					<?php if ( '1' === (string) multirent_display_option( 'show_local_guides', '1' ) && $local_guides ) : ?>
 						<section class="local-guide-panel">
 							<p class="eyebrow"><?php esc_html_e( 'Plan your stay', 'multirent' ); ?></p>
-							<h2><?php esc_html_e( 'Guest guide', 'multirent' ); ?></h2>
 							<div class="local-guide-grid">
 								<?php foreach ( $local_guides as $local_guide ) : ?>
 									<section>

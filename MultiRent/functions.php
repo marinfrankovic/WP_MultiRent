@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.1.18' );
+define( 'MULTIRENT_VERSION', '0.1.20' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -36,6 +36,7 @@ function multirent_enqueue_assets() {
 	wp_enqueue_style( 'multirent-theme', MULTIRENT_URI . '/assets/css/theme.css', array(), MULTIRENT_VERSION );
 	wp_add_inline_style( 'multirent-theme', multirent_custom_color_css() );
 	wp_enqueue_script( 'multirent-navigation', MULTIRENT_URI . '/assets/js/navigation.js', array(), MULTIRENT_VERSION, true );
+	wp_enqueue_script( 'multirent-gallery-lightbox', MULTIRENT_URI . '/assets/js/gallery-lightbox.js', array(), MULTIRENT_VERSION, true );
 }
 add_action( 'wp_enqueue_scripts', 'multirent_enqueue_assets' );
 
@@ -267,7 +268,6 @@ function multirent_unit_detail_labels() {
 		'bedrooms'   => esc_html__( 'Bedrooms', 'multirent' ),
 		'bathrooms'  => esc_html__( 'Bathrooms', 'multirent' ),
 		'size'       => esc_html__( 'Size', 'multirent' ),
-		'distance'   => esc_html__( 'Location', 'multirent' ),
 		'price_note' => esc_html__( 'Price', 'multirent' ),
 	);
 }
@@ -277,7 +277,7 @@ function multirent_render_unit_details( $post_id, $compact = false ) {
 	foreach ( multirent_unit_detail_labels() as $key => $label ) {
 		$value = multirent_unit_detail( $post_id, $key );
 		if ( $value ) {
-			$items[] = array( 'label' => $label, 'value' => $value );
+			$items[ $key ] = array( 'label' => $label, 'value' => $value );
 		}
 	}
 
@@ -285,13 +285,148 @@ function multirent_render_unit_details( $post_id, $compact = false ) {
 		return;
 	}
 
-	$items = $compact ? array_slice( $items, 0, 3 ) : $items;
+	if ( $compact ) {
+		$items = array_slice( $items, 0, 3 );
+		?>
+		<ul class="detail-list">
+			<?php foreach ( $items as $item ) : ?>
+				<li><span><?php echo esc_html( $item['label'] ); ?></span><strong><?php echo esc_html( $item['value'] ); ?></strong></li>
+			<?php endforeach; ?>
+		</ul>
+		<?php
+		return;
+	}
+
+	$summary_keys = array( 'capacity', 'bedrooms', 'bathrooms' );
+	$fact_keys    = array( 'size' );
 	?>
-	<ul class="detail-list">
-		<?php foreach ( $items as $item ) : ?>
-			<li><span><?php echo esc_html( $item['label'] ); ?></span><strong><?php echo esc_html( $item['value'] ); ?></strong></li>
+	<div class="unit-detail-panel">
+		<?php if ( ! empty( $items['price_note'] ) ) : ?>
+			<div class="unit-price-callout">
+				<span><?php echo esc_html( $items['price_note']['label'] ); ?></span>
+				<strong><?php echo esc_html( $items['price_note']['value'] ); ?></strong>
+			</div>
+		<?php endif; ?>
+
+		<div class="unit-summary-grid">
+			<?php foreach ( $summary_keys as $key ) : ?>
+				<?php if ( ! empty( $items[ $key ] ) ) : ?>
+					<div class="unit-summary-item">
+						<span><?php echo esc_html( $items[ $key ]['label'] ); ?></span>
+						<strong><?php echo esc_html( multirent_unit_summary_value( $key, $items[ $key ]['value'] ) ); ?></strong>
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</div>
+
+		<ul class="detail-list detail-list-secondary">
+			<?php foreach ( $fact_keys as $key ) : ?>
+				<?php if ( ! empty( $items[ $key ] ) ) : ?>
+					<li><span><?php echo esc_html( $items[ $key ]['label'] ); ?></span><strong><?php echo esc_html( $items[ $key ]['value'] ); ?></strong></li>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+	<?php
+}
+
+function multirent_unit_summary_value( $key, $value ) {
+	$clean_value = trim( (string) $value );
+
+	if ( in_array( $key, array( 'capacity', 'bedrooms', 'bathrooms' ), true ) ) {
+		$clean_value = preg_replace( '/\s+(guests?|bedrooms?|bathrooms?)\b/i', '', $clean_value );
+	}
+
+	return trim( $clean_value );
+}
+
+function multirent_amenity_icons() {
+	return array(
+		'parking'          => '&#x1F17F;&#xFE0F;',
+		'wifi'             => '&#x1F4F6;',
+		'wi-fi'            => '&#x1F4F6;',
+		'balcony'          => '&#x1FA91;',
+		'bathroom'         => '&#x1F6BF;',
+		'air-condition'    => '&#x2744;&#xFE0F;',
+		'air-conditioning' => '&#x2744;&#xFE0F;',
+		'tv'               => '&#x1F4FA;',
+		'bbq'              => '&#x1F525;',
+		'terrace'          => '&#x2600;&#xFE0F;',
+		'terace'           => '&#x2600;&#xFE0F;',
+		'no-smoking'       => '&#x1F6AD;',
+		'kitchen'          => '&#x1F373;',
+		'pets-allowed'     => '&#x1F43E;',
+		'pets-not-allowed' => '&#x1F6AB;',
+	);
+}
+
+function multirent_render_unit_amenities( $post_id, $compact = false ) {
+	if ( ! taxonomy_exists( 'rental_amenity' ) ) {
+		return;
+	}
+
+	$terms = get_the_terms( $post_id, 'rental_amenity' );
+	if ( empty( $terms ) || is_wp_error( $terms ) ) {
+		return;
+	}
+
+	$icons = multirent_amenity_icons();
+	$terms = $compact ? array_slice( $terms, 0, 6 ) : $terms;
+	?>
+	<ul class="amenity-list<?php echo $compact ? ' amenity-list-compact' : ''; ?>" aria-label="<?php esc_attr_e( 'Amenities', 'multirent' ); ?>">
+		<?php foreach ( $terms as $term ) : ?>
+			<?php $icon = isset( $icons[ $term->slug ] ) ? $icons[ $term->slug ] : '&#x2713;'; ?>
+			<li class="amenity-chip amenity-<?php echo esc_attr( $term->slug ); ?>">
+				<span class="amenity-icon" aria-hidden="true"><?php echo wp_kses_post( $icon ); ?></span>
+				<span><?php echo esc_html( $term->name ); ?></span>
+			</li>
 		<?php endforeach; ?>
 	</ul>
+	<?php
+}
+
+function multirent_unit_gallery_images( $post_id ) {
+	$thumbnail_id = get_post_thumbnail_id( $post_id );
+	$attachments = get_posts(
+		array(
+			'post_type'      => 'attachment',
+			'post_mime_type' => 'image',
+			'post_parent'    => $post_id,
+			'post_status'    => 'inherit',
+			'posts_per_page' => -1,
+			'orderby'        => 'menu_order ID',
+			'order'          => 'ASC',
+		)
+	);
+
+	$image_ids = array();
+	foreach ( $attachments as $attachment ) {
+		if ( (int) $attachment->ID === (int) $thumbnail_id ) {
+			continue;
+		}
+
+		$image_ids[] = (int) $attachment->ID;
+	}
+
+	return $image_ids;
+}
+
+function multirent_render_unit_gallery( $post_id ) {
+	$image_ids = multirent_unit_gallery_images( $post_id );
+	if ( ! $image_ids ) {
+		return;
+	}
+	?>
+	<aside class="unit-gallery-card" aria-label="<?php esc_attr_e( 'Apartment gallery', 'multirent' ); ?>">
+		<p class="eyebrow"><?php esc_html_e( 'Gallery', 'multirent' ); ?></p>
+		<div class="unit-gallery-grid">
+			<?php foreach ( $image_ids as $image_id ) : ?>
+				<a href="<?php echo esc_url( wp_get_attachment_url( $image_id ) ); ?>" class="unit-gallery-link">
+					<?php echo wp_get_attachment_image( $image_id, 'medium_large', false, array( 'class' => 'unit-gallery-image' ) ); ?>
+				</a>
+			<?php endforeach; ?>
+		</div>
+	</aside>
 	<?php
 }
 

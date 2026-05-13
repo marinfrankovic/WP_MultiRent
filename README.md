@@ -13,25 +13,33 @@ The project is designed for apartment, room, villa, and multi-unit rental websit
 
 ## Latest Packages
 
-- `release-assets/multirent-theme-upload-0.1.18.zip`: theme upload ZIP.
-- `release-assets/multirent-companion-plugin-upload-0.1.18.zip`: companion plugin upload ZIP.
-- `release-assets/multirent-complete-package-extract-first-0.1.18.zip`: extract-first package containing both upload ZIPs.
+- `release-assets/multirent-theme-upload-0.1.20.zip`: theme upload ZIP.
+- `release-assets/multirent-companion-plugin-upload-0.1.20.zip`: companion plugin upload ZIP.
+- `release-assets/multirent-complete-package-extract-first-0.1.20.zip`: extract-first package containing both upload ZIPs.
 
-Important: upload only `multirent-theme-upload-0.1.18.zip` in **Appearance > Themes > Upload Theme**. Do not upload `multirent-complete-package-extract-first-0.1.18.zip` or GitHub's automatic source-code ZIP as a theme, because WordPress will report that the package is missing `style.css`.
+Important: upload only `multirent-theme-upload-0.1.20.zip` in **Appearance > Themes > Upload Theme**. Do not upload `multirent-complete-package-extract-first-0.1.20.zip` or GitHub's automatic source-code ZIP as a theme, because WordPress will report that the package is missing `style.css`.
 
 ## Install Order
 
 1. In WordPress admin, open **Appearance > Themes > Add New > Upload Theme**.
-2. Upload and activate `multirent-theme-upload-0.1.18.zip`.
+2. Upload and activate `multirent-theme-upload-0.1.20.zip`.
 3. Open **Plugins > Add New > Upload Plugin**.
-4. Upload and activate `multirent-companion-plugin-upload-0.1.18.zip`.
+4. Upload and activate `multirent-companion-plugin-upload-0.1.20.zip`.
 5. Open **MultiRent Setup** from the WordPress left admin menu.
 6. Use **Create Starter Pages, Menu, and Amenities** on a fresh site.
 7. Add or edit rental units under **MultiRent Setup > Rental Units**.
 
+## Optional Demo Content
+
+MultiRent Companion includes a public-release admin option for optional demo content. Open **MultiRent Setup > Demo Content** and use **Create Demo Content** to enable it or **Remove Demo Content** to disable and clean it up. This is useful when you want to preview the theme before adding real property content.
+
+The demo action creates four example apartments, generated demo hero/featured/gallery images, demo Home/Apartments/Contact/Local pages, selected amenity checkboxes, menu links, and sample contact/local-guide settings. Demo pages, apartments, and generated images are marked internally with `_multirent_demo_content=multirent-demo-content-v1`, so **Remove Demo Content** can delete only those generated examples and restore the previous homepage and MultiRent settings when available. Selected amenities appear on each apartment detail page.
+
+Do not edit demo content into real production content. Remove the demo set first, then create or import the real apartments and pages.
+
 ## Update Safety
 
-Updating MultiRent or MultiRent Companion does not delete existing WordPress content. Always create a backup before updating. Starter content actions are intended for new sites and should not be used to reset a live site unless you understand the result.
+Updating MultiRent or MultiRent Companion does not delete existing WordPress content. Always create a backup before updating. Starter content actions are intended for new sites and should not be used to reset a live site unless you understand the result. Demo content is optional and can be removed from the same setup screen.
 
 ## Detailed Setup Guides
 

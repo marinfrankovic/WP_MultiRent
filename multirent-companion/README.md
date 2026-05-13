@@ -6,17 +6,17 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate `multirent-theme-upload-0.1.18.zip` in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate `multirent-companion-plugin-upload-0.1.18.zip` in **Plugins > Add New > Upload Plugin**.
+1. Install and activate `multirent-theme-upload-0.1.20.zip` in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate `multirent-companion-plugin-upload-0.1.20.zip` in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, and Amenities** if this is a fresh site.
 5. Create the required number of rental units from the **Starter Content** section.
 6. Edit each rental unit under **MultiRent Setup > Rental Units**.
 7. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, `multirent-complete-package-extract-first-0.1.18.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, `multirent-complete-package-extract-first-0.1.20.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
-Do not upload `multirent-complete-package-extract-first-0.1.18.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.18.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.18.zip` for **Upload Plugin**.
+Do not upload `multirent-complete-package-extract-first-0.1.20.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.20.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.20.zip` for **Upload Plugin**.
 
 ## What This Plugin Adds
 
@@ -307,6 +307,22 @@ The plugin can create starter pages, a starter menu, starter amenities, and a ch
 
 Use this on a new site to get a working structure quickly, then replace the placeholder text and images with real property content.
 
+### Optional Demo Content
+
+The plugin can also create a complete optional demo site from **MultiRent Setup > Demo Content**. This admin option is included in public releases so a site owner can enable the demo to preview the theme and disable it later from the same screen. This is different from starter content: demo content is intended for previewing how the theme looks before entering real property data.
+
+**Create Demo Content** creates:
+
+- Four demo apartments.
+- Generated demo hero, apartment featured, and apartment gallery images.
+- Demo Home, Apartments, Contact, and Local pages.
+- Selected amenity checkbox values for each demo apartment, shown on the apartment detail page.
+- Sample contact details, map note, booking-help text, local guide cards, local highlights, activity cards, useful links, and top menu links.
+
+**Remove Demo Content** deletes the generated demo pages, apartments, and images and restores the previous homepage and MultiRent settings when the saved previous values are available.
+
+Generated demo pages, apartments, and images are marked with `_multirent_demo_content=multirent-demo-content-v1`. This marker is used only for cleanup; it is not displayed publicly.
+
 ### Rental Units
 
 Rental Units are stored as a custom post type. Keeping rental data in the plugin means apartment content remains available even if the theme is changed later.
@@ -321,8 +337,7 @@ Each rental unit supports:
 - Bedrooms
 - Bathrooms
 - Size
-- Distance or location note
-- Price note
+- Optional price note
 - Booking URL
 - Amenities
 
@@ -337,8 +352,8 @@ Use this workflow whenever you want to add one complete apartment from the WordP
 5. Add a short summary in the **Excerpt** field if it is visible. This text is used on apartment cards. If Excerpt is not visible, open **Screen Options** at the top of the editor and enable **Excerpt**.
 6. In the right sidebar, click **Set featured image** and select the main apartment photo from the Media Library or upload a new one. This is the apartment tile image used on cards and apartment pages.
 7. Add extra apartment photos in the main editor with **Image** or **Gallery** blocks. These photos appear inside that apartment page only.
-8. In the right sidebar, open **Apartment Details** and fill in **Guest capacity**, **Bedrooms**, **Bathrooms**, **Size**, **Location note**, **Price note**, and **Booking or inquiry URL**.
-9. In the **Amenities** box, select existing amenities such as parking, Wi-Fi, air conditioning, sea view, or pet friendly. If you need a new amenity, open **MultiRent Setup > Amenities** in another tab, add it, then return to the apartment and select it.
+8. In the right sidebar, open **Apartment Details** and fill in **Guest capacity**, **Bedrooms**, **Bathrooms**, **Size**, optional **Price note**, and **Booking or inquiry URL**. Guest capacity is free text, so use one consistent value such as `2 guests`, `2-4 guests`, or `up to 6 guests`; the same value appears on apartment cards and detail pages. Leave price note empty to hide the price tile.
+9. In the **Amenities** checkbox list, select the amenities for that apartment. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
 10. Click **Publish** to make the apartment live, or **Save Draft** if it is not ready yet.
 11. Open the public apartment page from the **View** link and check the image, description, details, amenities, and booking button.
 12. Open the Apartments page on the public site and confirm the new apartment card appears in the list.
@@ -351,7 +366,7 @@ Recommended content checklist for each apartment:
 - Extra apartment photos added as Image or Gallery blocks in the main editor.
 - A short card summary in the Excerpt field.
 - A complete main description.
-- Capacity, bedrooms, bathrooms, size, location note, and price note.
+- Capacity, bedrooms, bathrooms, size, and optional price note.
 - A booking or inquiry URL, usually `/contact/` or a direct booking link.
 - Relevant amenities selected.
 - Alt text on uploaded photos so the site is easier to use and better for SEO.
@@ -366,6 +381,8 @@ There are two image areas for each apartment:
 
 - **Set featured image**: the main apartment image. It appears on apartment cards, previews, and the top of the single apartment page.
 - **Image or Gallery blocks in the main editor**: extra photos shown inside that apartment page only, such as bedroom, bathroom, kitchen, balcony, view, parking, or floor-plan photos.
+- **Attached apartment images**: extra uploaded images appear in the modern gallery panel beside the narrower Details tile on the apartment detail page. The gallery is not limited to four images; it displays all attached apartment images except the featured image.
+- **Apartment Details**: the single apartment page organizes details as a booking-style panel with optional price first, guests/bedrooms/bathrooms as clean quick facts, then size, amenities, and the inquiry button. If the price note is empty, the price tile is hidden.
 
 To add extra photos to one apartment page:
 
@@ -390,17 +407,18 @@ The apartment tile image is the normal WordPress **Featured image**. Click **Set
 #### Apartment Field Reference
 
 - **Featured image / apartment tile image**: main image used on apartment cards, previews, and the top of the apartment page. In the block editor, set it with **Set featured image** in the right sidebar.
-- **Guest capacity**: guest count shown on cards and detail pages, such as `2-4 guests`.
+- **Guest capacity**: guest count or range shown consistently on cards and detail pages, such as `2 guests`, `2-4 guests`, or `up to 6 guests`.
 - **Bedrooms**: number or description of bedrooms, such as `2` or `Studio`.
 - **Bathrooms**: number or description of bathrooms.
 - **Size**: apartment size, such as `45 m2`.
-- **Location note**: short location note, such as `100 m from beach` or `City center`.
-- **Price note**: short price message, such as `On request`, `From 90 EUR`, or `Seasonal rates`.
+- **Price note**: optional short price message, such as `On request`, `From 90 EUR`, or `Seasonal rates`. Leave empty to hide the price tile on the apartment detail page.
 - **Booking or inquiry URL**: link for the apartment booking/inquiry button. Use a full URL or a site page path.
 
 ### Amenities
 
-Amenities are grouped under **MultiRent Setup > Amenities**. They can be assigned to rental units and displayed on rental pages.
+Amenities are grouped under **MultiRent Setup > Amenities** and appear as checkboxes on each rental unit. The companion plugin creates the standard amenity choices automatically: Parking, WiFi, Balcony, Bathroom, Air Condition, TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
+
+When an amenity checkbox is selected for an apartment, the theme displays that amenity as an icon badge on the single apartment detail page. Apartment listing cards stay compact and show only core apartment details. Older starter terms such as `Wi-Fi` and `Air conditioning` are migrated to the newer checkbox terms when possible, and unused old starter terms are cleaned up.
 
 ## Recommended Plugins
 
