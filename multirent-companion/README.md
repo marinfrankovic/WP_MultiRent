@@ -49,6 +49,7 @@ The **Help / README** screen shows this README file inside WordPress admin so si
 The **Website Setup** screen controls homepage and brand content:
 
 - Property name
+- Optional page logo shown left of the property name
 - Homepage section visibility checkboxes
 - Hero title and hero text
 - Hero button label and link
@@ -63,6 +64,7 @@ The landing page is the only mandatory page. Apartments, Contact, and Local page
 #### Website Setup Field Reference
 
 - **Property name**: public property or rental-business name shown in the header and key theme areas.
+- **Page logo**: optional image shown to the left of the property name in the site header. Leave empty to show the property name without any logo.
 - **Homepage section visibility**: checkboxes that show or hide full homepage blocks: Hero, Intro, Stats, Apartment cards, Reviews, admin-only SEO reminder, admin-only backup reminder, and Contact call-to-action. Hidden blocks keep their saved text and image settings so they can be turned back on later.
 - **Hero title**: main landing-page headline. Use a short phrase that explains the stay you offer.
 - **Hero text**: short landing-page introduction below the headline.

@@ -24,11 +24,12 @@ Do not upload `multirent-complete-package-extract-first-0.1.31.zip` or GitHub's 
 
 The theme is designed to work with the MultiRent Companion plugin so non-technical users can configure the site from WordPress admin.
 
-The bundled MultiRent logo appears in the site header by default until a site owner chooses a custom logo in WordPress.
+The site header shows a logo only when **MultiRent Setup > Website Setup > Page logo** has an image selected. When that field is empty, the header shows the property name without any logo.
 
 Users can manage:
 
 - Property name and homepage text
+- Optional page logo shown left of the property name
 - Hero image
 - GUI hero image picker through MultiRent Companion
 - Rental units
@@ -115,7 +116,7 @@ To edit text on an existing page:
 4. Use the **+** button to add more blocks.
 5. Click **Update**.
 
-Homepage fields, including the intro eyebrow above the property intro heading, are edited from **MultiRent Setup > Website Setup**. That screen also has homepage section visibility checkboxes for Hero, Intro, Stats, Apartment cards, Reviews, admin-only reminders, and the Contact call-to-action, so sections can be hidden without deleting their saved text or images. Contact page fields are edited from **MultiRent Setup > Contact Page**. Local page fields are edited from **MultiRent Setup > Local Page**.
+Homepage fields, including the optional page logo and the intro eyebrow above the property intro heading, are edited from **MultiRent Setup > Website Setup**. That screen also has homepage section visibility checkboxes for Hero, Intro, Stats, Apartment cards, Reviews, admin-only reminders, and the Contact call-to-action, so sections can be hidden without deleting their saved text or images. Contact page fields are edited from **MultiRent Setup > Contact Page**. Local page fields are edited from **MultiRent Setup > Local Page**.
 
 ### Separate Page Administration
 

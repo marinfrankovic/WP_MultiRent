@@ -199,6 +199,8 @@ function multirent_customize_register( $wp_customize ) {
 
 	$wp_customize->add_setting( 'hero_image', array( 'sanitize_callback' => 'absint' ) );
 	$wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'hero_image', array( 'label' => esc_html__( 'Hero image', 'multirent' ), 'section' => 'multirent_home', 'mime_type' => 'image' ) ) );
+	$wp_customize->add_setting( 'page_logo', array( 'sanitize_callback' => 'absint' ) );
+	$wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'page_logo', array( 'label' => esc_html__( 'Page logo', 'multirent' ), 'section' => 'multirent_home', 'mime_type' => 'image' ) ) );
 }
 add_action( 'customize_register', 'multirent_customize_register' );
 

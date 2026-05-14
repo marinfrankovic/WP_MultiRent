@@ -19,15 +19,15 @@
 	<header id="masthead" class="site-header">
 		<div class="container header-inner">
 			<div class="site-branding">
-				<?php if ( has_custom_logo() ) : ?>
-					<?php the_custom_logo(); ?>
-				<?php else : ?>
-					<a class="multirent-default-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" aria-label="<?php echo esc_attr( multirent_display_option( 'property_name', get_bloginfo( 'name' ) ) ); ?>">
-						<img class="multirent-default-logo" src="<?php echo esc_url( MULTIRENT_URI . '/assets/images/multirent-logo.png' ); ?>" alt="<?php esc_attr_e( 'MultiRent logo', 'multirent' ); ?>">
+				<?php $page_logo_id = absint( multirent_display_option( 'page_logo', 0 ) ); ?>
+				<?php $property_name = multirent_display_option( 'property_name', get_bloginfo( 'name' ) ); ?>
+				<?php if ( $page_logo_id ) : ?>
+					<a class="multirent-page-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" aria-label="<?php echo esc_attr( $property_name ); ?>">
+						<?php echo wp_get_attachment_image( $page_logo_id, 'medium', false, array( 'class' => 'multirent-page-logo' ) ); ?>
 					</a>
 				<?php endif; ?>
 				<div>
-					<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php echo esc_html( multirent_display_option( 'property_name', get_bloginfo( 'name' ) ) ); ?></a></p>
+					<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php echo esc_html( $property_name ); ?></a></p>
 					<?php $description = get_bloginfo( 'description', 'display' ); ?>
 					<?php if ( $description ) : ?>
 						<p class="site-description"><?php echo esc_html( $description ); ?></p>

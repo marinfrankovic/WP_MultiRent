@@ -256,6 +256,7 @@ function multirent_companion_unit_sidebar_fields() {
 function multirent_companion_field_descriptions() {
 	return array(
 		'property_name'       => esc_html__( 'Public property or rental-business name shown in the header and key theme areas.', 'multirent-companion' ),
+		'page_logo'           => esc_html__( 'Optional logo image shown to the left of the property name in the site header. Leave empty to show the property name without any logo.', 'multirent-companion' ),
 		'hero_title'          => esc_html__( 'Main landing-page headline. Use a short phrase that explains the stay you offer.', 'multirent-companion' ),
 		'hero_text'           => esc_html__( 'Short landing-page introduction below the headline.', 'multirent-companion' ),
 		'hero_button_text'    => esc_html__( 'Text shown on the main landing-page call-to-action button.', 'multirent-companion' ),
@@ -391,6 +392,7 @@ add_action( 'save_post_rental_unit', 'multirent_companion_save_unit_details' );
 function multirent_companion_default_settings() {
 	return array(
 		'property_name'       => 'Your Rental Property',
+		'page_logo'           => '',
 		'hero_title'          => 'Flexible stays for every guest',
 		'hero_text'           => 'Showcase apartments, rooms, villas, or holiday homes with clear details and easy inquiry paths.',
 		'hero_image'          => '',
@@ -835,7 +837,7 @@ function multirent_companion_sanitize_settings( $input, $scope = null ) {
 			$output[ $key ] = (string) min( 50, max( 1, absint( $value ) ) );
 		} elseif ( in_array( $key, array( 'apartments_page_id', 'contact_page_id', 'local_page_id', 'contact_qr_code_image_id' ), true ) ) {
 			$output[ $key ] = (string) absint( $value );
-		} elseif ( 'hero_image' === $key ) {
+		} elseif ( in_array( $key, array( 'hero_image', 'page_logo' ), true ) ) {
 			$output[ $key ] = absint( $value );
 		} elseif ( 'contact_email' === $key ) {
 			$output[ $key ] = sanitize_email( $value );
@@ -1962,7 +1964,7 @@ function multirent_companion_render_setup_page() {
 		<form method="post" action="">
 			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
 			<input type="hidden" name="multirent_action" value="save_settings">
-			<input type="hidden" name="multirent_settings_scope" value="property_name,show_hero_section,hero_title,hero_text,hero_image,hero_button_text,hero_button_url,show_intro_section,intro_eyebrow,intro_title,intro_text,show_stats_section,stats_lines,show_front_page_rentals,front_page_rental_count,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,show_contact_cta,contact_title,contact_text,contact_button_text,contact_button_url,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
+			<input type="hidden" name="multirent_settings_scope" value="property_name,page_logo,show_hero_section,hero_title,hero_text,hero_image,hero_button_text,hero_button_url,show_intro_section,intro_eyebrow,intro_title,intro_text,show_stats_section,stats_lines,show_front_page_rentals,front_page_rental_count,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,show_contact_cta,contact_title,contact_text,contact_button_text,contact_button_url,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
 			<h2><?php esc_html_e( 'Homepage and Brand', 'multirent-companion' ); ?></h2>
 			<table class="form-table" role="presentation">
 				<tr>
@@ -1994,6 +1996,13 @@ function multirent_companion_render_setup_page() {
 						</td>
 					</tr>
 				<?php endforeach; ?>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Page logo', 'multirent-companion' ); ?></th>
+					<td>
+						<?php multirent_companion_media_field( 'multirent_settings[page_logo]', absint( $settings['page_logo'] ), __( 'Choose page logo', 'multirent-companion' ), __( 'Remove page logo', 'multirent-companion' ) ); ?>
+						<?php multirent_companion_description( 'page_logo' ); ?>
+					</td>
+				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Hero image', 'multirent-companion' ); ?></th>
 					<td>
