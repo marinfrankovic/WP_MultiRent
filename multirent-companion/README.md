@@ -1,7 +1,3 @@
-<p align="center">
-	<img src="assets/images/multirent-admin-icon.svg" alt="MultiRent WordPress admin icon" width="120">
-</p>
-
 # MultiRent Companion
 
 MultiRent Companion is the setup and content-management plugin for the **Multi Apartment Rental** WordPress theme.
@@ -49,6 +45,7 @@ The **Help / README** screen shows this README file inside WordPress admin so si
 The **Website Setup** screen controls homepage and brand content:
 
 - Property name
+- Property tagline
 - Optional page logo shown left of the property name
 - Homepage section visibility checkboxes
 - Hero title and hero text
@@ -63,7 +60,8 @@ The landing page is the only mandatory page. Apartments, Contact, and Local page
 
 #### Website Setup Field Reference
 
-- **Property name**: public property or rental-business name shown in the header and key theme areas.
+- **Property name**: public property or rental-business name shown in the header and key theme areas. It takes precedence over the default WordPress Site Title in theme output.
+- **Property tagline**: optional short tagline shown under the property name in the site header. It takes precedence over the default WordPress Tagline in the theme header.
 - **Page logo**: optional image shown to the left of the property name in the site header. Leave empty to show the property name without any logo.
 - **Homepage section visibility**: checkboxes that show or hide full homepage blocks: Hero, Intro, Stats, Apartment cards, Reviews, admin-only SEO reminder, admin-only backup reminder, and Contact call-to-action. Hidden blocks keep their saved text and image settings so they can be turned back on later.
 - **Hero title**: main landing-page headline. Use a short phrase that explains the stay you offer.

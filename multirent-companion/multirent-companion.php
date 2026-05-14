@@ -256,6 +256,7 @@ function multirent_companion_unit_sidebar_fields() {
 function multirent_companion_field_descriptions() {
 	return array(
 		'property_name'       => esc_html__( 'Public property or rental-business name shown in the header and key theme areas.', 'multirent-companion' ),
+		'property_tagline'    => esc_html__( 'Optional short tagline shown under the property name in the site header. This overrides the default WordPress tagline for the theme header.', 'multirent-companion' ),
 		'page_logo'           => esc_html__( 'Optional logo image shown to the left of the property name in the site header. Leave empty to show the property name without any logo.', 'multirent-companion' ),
 		'hero_title'          => esc_html__( 'Main landing-page headline. Use a short phrase that explains the stay you offer.', 'multirent-companion' ),
 		'hero_text'           => esc_html__( 'Short landing-page introduction below the headline.', 'multirent-companion' ),
@@ -392,6 +393,7 @@ add_action( 'save_post_rental_unit', 'multirent_companion_save_unit_details' );
 function multirent_companion_default_settings() {
 	return array(
 		'property_name'       => 'Your Rental Property',
+		'property_tagline'    => '',
 		'page_logo'           => '',
 		'hero_title'          => 'Flexible stays for every guest',
 		'hero_text'           => 'Showcase apartments, rooms, villas, or holiday homes with clear details and easy inquiry paths.',
@@ -1625,6 +1627,7 @@ function multirent_companion_upsert_demo_post( $args, $meta = array(), $amenity_
 function multirent_companion_demo_settings() {
 	return array(
 		'property_name'            => 'MultiRent Demo Seaside House',
+		'property_tagline'         => 'Demo apartments with flexible guest-ready details',
 		'hero_title'               => 'Demo apartments ready to explore',
 		'hero_text'                => 'Four example apartments with realistic details, selected amenities, contact information, and local guide content.',
 		'show_hero_section'        => '1',
@@ -1964,7 +1967,7 @@ function multirent_companion_render_setup_page() {
 		<form method="post" action="">
 			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
 			<input type="hidden" name="multirent_action" value="save_settings">
-			<input type="hidden" name="multirent_settings_scope" value="property_name,page_logo,show_hero_section,hero_title,hero_text,hero_image,hero_button_text,hero_button_url,show_intro_section,intro_eyebrow,intro_title,intro_text,show_stats_section,stats_lines,show_front_page_rentals,front_page_rental_count,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,show_contact_cta,contact_title,contact_text,contact_button_text,contact_button_url,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
+			<input type="hidden" name="multirent_settings_scope" value="property_name,property_tagline,page_logo,show_hero_section,hero_title,hero_text,hero_image,hero_button_text,hero_button_url,show_intro_section,intro_eyebrow,intro_title,intro_text,show_stats_section,stats_lines,show_front_page_rentals,front_page_rental_count,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,show_contact_cta,contact_title,contact_text,contact_button_text,contact_button_url,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
 			<h2><?php esc_html_e( 'Homepage and Brand', 'multirent-companion' ); ?></h2>
 			<table class="form-table" role="presentation">
 				<tr>
@@ -1983,7 +1986,7 @@ function multirent_companion_render_setup_page() {
 				</tr>
 			</table>
 			<table class="form-table" role="presentation">
-				<?php foreach ( array( 'property_name', 'hero_title', 'hero_text', 'hero_button_text', 'hero_button_url', 'intro_eyebrow', 'intro_title', 'intro_text', 'stats_lines', 'reviews_shortcode', 'contact_title', 'contact_text', 'contact_button_text', 'contact_button_url' ) as $key ) : ?>
+				<?php foreach ( array( 'property_name', 'property_tagline', 'hero_title', 'hero_text', 'hero_button_text', 'hero_button_url', 'intro_eyebrow', 'intro_title', 'intro_text', 'stats_lines', 'reviews_shortcode', 'contact_title', 'contact_text', 'contact_button_text', 'contact_button_url' ) as $key ) : ?>
 					<tr>
 						<th scope="row"><label for="multirent-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( ucwords( str_replace( '_', ' ', $key ) ) ); ?></label></th>
 						<td>

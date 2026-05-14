@@ -50,6 +50,127 @@ function multirent_default_menu() {
 	<?php
 }
 
+function multirent_menu_url( $url ) {
+	$url = trim( (string) $url );
+	if ( '' === $url ) {
+		return home_url( '/' );
+	}
+
+	if ( str_starts_with( $url, '#' ) || preg_match( '#^https?://#i', $url ) || str_starts_with( $url, 'mailto:' ) || str_starts_with( $url, 'tel:' ) ) {
+		return $url;
+	}
+
+	return home_url( '/' . ltrim( $url, '/' ) );
+}
+
+function multirent_menu_items() {
+	$menu_items_text = multirent_display_option( 'menu_items', '' );
+	$items           = array();
+	$lines           = preg_split( '/\r\n|\r|\n/', (string) $menu_items_text );
+	$hidden_paths    = multirent_hidden_menu_paths();
+
+	foreach ( $lines as $line ) {
+		$line = trim( $line );
+		if ( '' === $line || ! str_contains( $line, '|' ) ) {
+			continue;
+		}
+
+		$parts = array_map( 'trim', explode( '|', $line, 2 ) );
+		if ( '' === $parts[0] ) {
+			continue;
+		}
+
+		$url = multirent_menu_url( $parts[1] );
+		if ( multirent_is_hidden_menu_url( $url, $hidden_paths ) ) {
+			continue;
+		}
+
+		$items[] = array(
+			'label' => sanitize_text_field( $parts[0] ),
+			'url'   => $url,
+		);
+	}
+
+	return $items;
+}
+
+function multirent_hidden_menu_paths() {
+	$settings = multirent_plugin_settings();
+	$roles    = array(
+		array( 'show_key' => 'show_apartments_page', 'page_id_key' => 'apartments_page_id', 'path' => '/apartments/' ),
+		array( 'show_key' => 'show_contact_page', 'page_id_key' => 'contact_page_id', 'path' => '/contact/' ),
+		array( 'show_key' => 'show_local_page', 'page_id_key' => 'local_page_id', 'path' => '/local/' ),
+	);
+
+	$hidden_paths = array();
+	foreach ( $roles as $role ) {
+		if ( isset( $settings[ $role['show_key'] ] ) && '1' === (string) $settings[ $role['show_key'] ] ) {
+			continue;
+		}
+
+		$hidden_paths[] = $role['path'];
+		$page_id        = isset( $settings[ $role['page_id_key'] ] ) ? absint( $settings[ $role['page_id_key'] ] ) : 0;
+		if ( $page_id ) {
+			$path = wp_parse_url( get_permalink( $page_id ), PHP_URL_PATH );
+			if ( $path ) {
+				$hidden_paths[] = '/' . trim( (string) $path, '/' ) . '/';
+			}
+		}
+	}
+
+	return array_values( array_unique( $hidden_paths ) );
+}
+
+function multirent_is_hidden_menu_url( $url, $hidden_paths ) {
+	$path = wp_parse_url( $url, PHP_URL_PATH );
+	if ( ! $path ) {
+		return false;
+	}
+
+	$path = '/' . trim( (string) $path, '/' ) . '/';
+	return in_array( $path, $hidden_paths, true );
+}
+
+function multirent_primary_menu() {
+	$items = multirent_menu_items();
+	if ( $items ) {
+		?>
+		<ul id="primary-menu" class="menu">
+			<?php foreach ( $items as $item ) : ?>
+				<li><a href="<?php echo esc_url( $item['url'] ); ?>"><?php echo esc_html( $item['label'] ); ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+		<?php
+		return;
+	}
+
+	wp_nav_menu(
+		array(
+			'theme_location' => 'primary',
+			'menu_id'        => 'primary-menu',
+			'container'      => false,
+			'fallback_cb'    => 'multirent_default_menu',
+		)
+	);
+}
+
+function multirent_document_title_parts( $parts ) {
+	$property_name = multirent_display_option( 'property_name', '' );
+	if ( $property_name ) {
+		$parts['site'] = $property_name;
+	}
+
+	$property_tagline = multirent_display_option( 'property_tagline', '' );
+	if ( $property_tagline ) {
+		$parts['tagline'] = $property_tagline;
+	} elseif ( isset( $parts['tagline'] ) ) {
+		unset( $parts['tagline'] );
+	}
+
+	return $parts;
+}
+add_filter( 'document_title_parts', 'multirent_document_title_parts' );
+
 function multirent_plugin_settings() {
 	$settings = get_option( 'multirent_settings', array() );
 	return is_array( $settings ) ? $settings : array();
@@ -148,6 +269,7 @@ function multirent_customize_register( $wp_customize ) {
 
 	$settings = array(
 		'property_name'       => array( 'label' => esc_html__( 'Property name', 'multirent' ), 'default' => esc_html__( 'Your Rental Property', 'multirent' ), 'type' => 'text' ),
+		'property_tagline'    => array( 'label' => esc_html__( 'Property tagline', 'multirent' ), 'default' => '', 'type' => 'text' ),
 		'hero_title'          => array( 'label' => esc_html__( 'Hero title', 'multirent' ), 'default' => esc_html__( 'Flexible stays for every guest', 'multirent' ), 'type' => 'text' ),
 		'hero_text'           => array( 'label' => esc_html__( 'Hero text', 'multirent' ), 'default' => esc_html__( 'Showcase apartments, rooms, villas, or holiday homes with clear details and easy inquiry paths.', 'multirent' ), 'type' => 'textarea' ),
 		'hero_button_text'    => array( 'label' => esc_html__( 'Hero button text', 'multirent' ), 'default' => esc_html__( 'View rentals', 'multirent' ), 'type' => 'text' ),
