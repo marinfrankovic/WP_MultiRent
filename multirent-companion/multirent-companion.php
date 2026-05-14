@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.26
+ * Version: 0.1.27
  * Requires at least: 6.5
  * Requires PHP: 8.4
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.26' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.27' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -1105,12 +1105,53 @@ function multirent_companion_apply_role_page_templates() {
 	}
 }
 
+function multirent_companion_content_author_id() {
+	$user = get_user_by( 'login', 'multirent' );
+	if ( ! $user ) {
+		$user = get_user_by( 'email', 'multirent-content-author@example.invalid' );
+	}
+
+	if ( $user ) {
+		wp_update_user(
+			array(
+				'ID'           => $user->ID,
+				'display_name' => 'MultiRent',
+				'nickname'     => 'MultiRent',
+			)
+		);
+		return (int) $user->ID;
+	}
+
+	$user_id = wp_insert_user(
+		array(
+			'user_login'   => 'multirent',
+			'user_pass'    => wp_generate_password( 32, true, true ),
+			'user_email'   => 'multirent-content-author@example.invalid',
+			'user_nicename' => 'multirent',
+			'display_name' => 'MultiRent',
+			'nickname'     => 'MultiRent',
+			'role'         => 'author',
+		)
+	);
+
+	if ( is_wp_error( $user_id ) ) {
+		return get_current_user_id();
+	}
+
+	update_user_meta( $user_id, 'show_admin_bar_front', 'false' );
+
+	return (int) $user_id;
+}
+
 function multirent_companion_create_units( $count ) {
+	$author_id = multirent_companion_content_author_id();
+
 	for ( $index = 1; $index <= $count; $index++ ) {
 		$post_id = wp_insert_post(
 			array(
 				'post_type'    => 'rental_unit',
 				'post_status'  => 'publish',
+				'post_author'  => $author_id,
 				'post_title'   => sprintf( 'Rental Unit %d', $index ),
 				'post_excerpt' => 'A configurable rental unit. Replace this text with your own guest-facing summary.',
 				'post_content' => 'Describe the sleeping layout, kitchen, outdoor space, nearby attractions, house rules, and anything guests should know before booking.',
@@ -1128,6 +1169,7 @@ function multirent_companion_create_units( $count ) {
 }
 
 function multirent_companion_create_starter_site() {
+	$author_id = multirent_companion_content_author_id();
 	$pages = array(
 		'Home'       => array( 'content' => '', 'template' => '' ),
 		'Apartments' => array( 'content' => 'This page uses a ready-made MultiRent apartment listing template. Edit this text if you use the Featured Guide template.', 'template' => 'template-apartments-grid.php' ),
@@ -1139,7 +1181,7 @@ function multirent_companion_create_starter_site() {
 	foreach ( $pages as $title => $page_data ) {
 		$page = multirent_companion_get_page_by_title( $title );
 		if ( ! $page ) {
-			$page_id = wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => $title, 'post_content' => $page_data['content'] ) );
+			$page_id = wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_author' => $author_id, 'post_title' => $title, 'post_content' => $page_data['content'] ) );
 		} else {
 			$page_id = $page->ID;
 		}
@@ -1419,9 +1461,13 @@ function multirent_companion_create_demo_image_attachment( $key, $parent_id = 0 
 	$spec = $specs[ $key ];
 	$existing_id = multirent_companion_demo_attachment_by_filename( $spec['filename'] );
 	if ( $existing_id ) {
-		if ( $parent_id ) {
-			wp_update_post( array( 'ID' => $existing_id, 'post_parent' => $parent_id ) );
-		}
+		wp_update_post(
+			array(
+				'ID'          => $existing_id,
+				'post_author' => multirent_companion_content_author_id(),
+				'post_parent' => $parent_id,
+			)
+		);
 		return $existing_id;
 	}
 
@@ -1465,12 +1511,14 @@ function multirent_companion_create_demo_image_attachment( $key, $parent_id = 0 
 	imagedestroy( $image );
 
 	$filetype = wp_check_filetype( $path );
+	$author_id = multirent_companion_content_author_id();
 	$attachment_id = wp_insert_attachment(
 		array(
 			'post_mime_type' => $filetype['type'],
 			'post_title'     => $spec['title'],
 			'post_content'   => '',
 			'post_status'    => 'inherit',
+			'post_author'    => $author_id,
 			'post_parent'    => $parent_id,
 		),
 		$path
@@ -1492,6 +1540,8 @@ function multirent_companion_create_demo_image_attachment( $key, $parent_id = 0 
 }
 
 function multirent_companion_upsert_demo_post( $args, $meta = array(), $amenity_slugs = array() ) {
+	$args['post_author'] = multirent_companion_content_author_id();
+
 	$existing = get_page_by_path( $args['post_name'], OBJECT, $args['post_type'] );
 	if ( $existing && multirent_companion_demo_marker() === get_post_meta( $existing->ID, '_multirent_demo_content', true ) ) {
 		$args['ID'] = $existing->ID;

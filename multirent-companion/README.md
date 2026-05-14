@@ -6,17 +6,17 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate `multirent-theme-upload-0.1.26.zip` in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate `multirent-companion-plugin-upload-0.1.26.zip` in **Plugins > Add New > Upload Plugin**.
+1. Install and activate `multirent-theme-upload-0.1.27.zip` in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate `multirent-companion-plugin-upload-0.1.27.zip` in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, and Amenities** if this is a fresh site.
 5. Create the required number of rental units from the **Starter Content** section.
 6. Edit each rental unit under **MultiRent Setup > Rental Units**.
 7. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, `multirent-complete-package-extract-first-0.1.26.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, `multirent-complete-package-extract-first-0.1.27.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
-Do not upload `multirent-complete-package-extract-first-0.1.26.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.26.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.26.zip` for **Upload Plugin**.
+Do not upload `multirent-complete-package-extract-first-0.1.27.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.27.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.27.zip` for **Upload Plugin**.
 
 ## What This Plugin Adds
 
@@ -90,7 +90,7 @@ When an optional page is hidden, MultiRent changes that page to draft and remove
 
 ### Page Templates Created By Starter Content
 
-The starter-content button creates sample pages and assigns useful templates:
+The starter-content button creates sample pages under the **MultiRent** WordPress author and assigns useful templates:
 
 - **Apartments** uses the **Apartments - Grid** template.
 - **Contact** uses the **Contact / Booking Inquiry** template.
@@ -324,6 +324,8 @@ The plugin can also create a complete optional demo site from the **Demo Content
 **Remove Demo Content** deletes the generated demo pages, apartments, and images and restores the previous homepage and MultiRent settings when the saved previous values are available.
 
 Generated demo pages, apartments, and images are marked with `_multirent_demo_content=multirent-demo-content-v1`. This marker is used only for cleanup; it is not displayed publicly.
+
+Starter and demo pages, generated demo apartments, generated demo images, and starter rental units are assigned to the **MultiRent** WordPress author so packaged example content is clearly separated from real site-owner content.
 
 ### Rental Units
 
