@@ -164,7 +164,7 @@ Apartment images work in three places:
 7. In the auto-expanded **Apartment Images** box below the editor, use **Apartment Gallery Images** to choose the gallery photos for the apartment detail page, reorder them with **Move up** and **Move down**, and remove any images you do not want.
 8. Add optional extra photos in the main editor with **Image** or **Gallery** blocks only when they should appear inside the written description.
 9. In the right sidebar, open **Apartment Details** and fill in guest capacity, bedrooms, bathrooms, size, optional price note, and booking or inquiry URL. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile.
-10. Select amenities in the **Amenities** checkbox list. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
+10. Select amenities in the **Amenities** checkbox list. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
 11. Click **Publish**.
 12. View the apartment page and the Apartments listing page to confirm the card, image, gallery order, details, amenities, and booking link are correct.
 

@@ -355,7 +355,7 @@ Use this workflow whenever you want to add one complete apartment from the WordP
 7. In the **Apartment Gallery Images** box below the editor, choose the detail-page gallery photos, reorder them with **Move up** and **Move down**, and remove any images you do not want.
 8. Add optional extra apartment photos in the main editor with **Image** or **Gallery** blocks only when those photos should appear inside the written apartment description.
 9. In the right sidebar, open **Apartment Details** and fill in **Guest capacity**, **Bedrooms**, **Bathrooms**, **Size**, optional **Price note**, and **Booking or inquiry URL**. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile.
-10. In the **Amenities** checkbox list, select the amenities for that apartment. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
+10. In the **Amenities** checkbox list, select the amenities for that apartment. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
 11. Click **Publish** to make the apartment live, or **Save Draft** if it is not ready yet.
 12. Open the public apartment page from the **View** link and check the image, gallery order, description, details, amenities, and booking button.
 13. Open the Apartments page on the public site and confirm the new apartment card appears in the list.
