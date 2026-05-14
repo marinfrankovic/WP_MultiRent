@@ -10,17 +10,17 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate `multirent-theme-upload-0.1.30.zip` in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate `multirent-companion-plugin-upload-0.1.30.zip` in **Plugins > Add New > Upload Plugin**.
+1. Install and activate `multirent-theme-upload-0.1.31.zip` in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate `multirent-companion-plugin-upload-0.1.31.zip` in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, and Amenities** if this is a fresh site.
 5. Create the required number of rental units from the **Starter Content** section.
 6. Edit each rental unit under **MultiRent Setup > Rental Units**.
 7. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, `multirent-complete-package-extract-first-0.1.30.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, `multirent-complete-package-extract-first-0.1.31.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
-Do not upload `multirent-complete-package-extract-first-0.1.30.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.30.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.30.zip` for **Upload Plugin**.
+Do not upload `multirent-complete-package-extract-first-0.1.31.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.31.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.31.zip` for **Upload Plugin**.
 
 ## What This Plugin Adds
 
@@ -368,7 +368,7 @@ Use this workflow whenever you want to add one complete apartment from the WordP
 6. In the auto-expanded **Apartment Images** box below the editor, use **Apartment Tile Image** to select the main apartment photo from the Media Library or upload a new one. This is the apartment tile image used on cards and apartment pages.
 7. In the **Apartment Gallery Images** box below the editor, choose the detail-page gallery photos, reorder them with **Move up** and **Move down**, and remove any images you do not want.
 8. Add optional extra apartment photos in the main editor with **Image** or **Gallery** blocks only when those photos should appear inside the written apartment description.
-9. In the right sidebar, open **Apartment Details** and fill in **Guest capacity**, **Bedrooms**, **Bathrooms**, **Size**, optional **Price note**, **Booking or inquiry URL**, optional **YouTube video URL**, optional **Apartment map address/coordinates**, and optional **QR code image**. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile. If a YouTube URL is set, it appears as part of the apartment gallery and opens in the lightbox player. If QR or map fields are set, an Arrival details tile appears; when all QR/map fields are empty, that tile is hidden.
+9. In the right sidebar, open **Apartment Details** and fill in **Guest capacity**, **Bedrooms**, **Bathrooms**, **Size**, optional **Price note**, **Booking or inquiry URL**, optional **YouTube video URL**, optional **Apartment map address/coordinates**, and optional **QR code image**. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile. If a YouTube URL is set, it appears as part of the apartment gallery and opens in the lightbox player. If QR or map fields are set, a compact QR/map tile appears under the details tile; when all QR/map fields are empty, that tile is hidden.
 10. In the **Amenities** checkbox list, select the amenities for that apartment. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
 11. Click **Publish** to make the apartment live, or **Save Draft** if it is not ready yet.
 12. Open the public apartment page from the **View** link and check the image, gallery order, description, details, amenities, and booking button.
@@ -386,7 +386,7 @@ Recommended content checklist for each apartment:
 - Capacity, bedrooms, bathrooms, size, and optional price note.
 - A booking or inquiry URL, usually `/contact/` or a direct booking link.
 - Optional YouTube video URL when you want the apartment gallery to include a playable video.
-- Optional QR code image and apartment-specific map address or coordinates when that apartment needs its own arrival tile.
+- Optional QR code image and apartment-specific map address or coordinates when that apartment needs its own compact QR/map tile.
 - Relevant amenities selected.
 - Alt text on uploaded photos so the site is easier to use and better for SEO.
 
@@ -401,8 +401,8 @@ There are three image areas for each apartment:
 - **Apartment Tile Image**: the main apartment image. It appears on apartment cards, previews, and the top of the single apartment page.
 - **Apartment Gallery Images**: the managed gallery shown beside the Details tile on the apartment detail page. Choose multiple images, reorder them with **Move up** and **Move down**, and remove images without deleting them from the Media Library.
 - **YouTube video URL**: optional video link stored in Apartment Details. When present, the video appears in the same gallery as the photos and opens in the lightbox player.
-- **QR code image**: optional image shown in the apartment Arrival details tile. Leave empty to hide the QR section.
-- **Apartment map address/coordinates**: optional map fields shown in the Arrival details tile. Coordinates such as `43.2039, 17.1364` take priority over the address. If no QR image, address, or coordinates are set, the entire tile is hidden.
+- **QR code image**: optional image shown in the apartment QR/map tile. Leave empty to hide the QR section.
+- **Apartment map address/coordinates**: optional map fields shown in the apartment QR/map tile. Coordinates such as `43.2039, 17.1364` take priority over the address. If no QR image, address, or coordinates are set, the entire tile is hidden.
 - **Image or Gallery blocks in the main editor**: optional photos shown inside the written apartment description only, such as a floor plan or a captioned detail.
 - **Attached apartment images fallback**: older apartments still show attached images in the gallery if no Apartment Gallery Images have been selected.
 - **Apartment Details**: the single apartment page organizes details as a booking-style panel with optional price first, guests/bedrooms/bathrooms as clean quick facts, then size, amenities, and the inquiry button. If the price note is empty, the price tile is hidden.
@@ -439,7 +439,7 @@ The apartment tile image is stored as the normal WordPress featured image intern
 - **Price note**: optional short price message, such as `On request`, `From 90 EUR`, or `Seasonal rates`. Leave empty to hide the price tile on the apartment detail page.
 - **Booking or inquiry URL**: link for the apartment booking/inquiry button. Use a full URL or a site page path.
 - **YouTube video URL**: optional YouTube link. Supported formats include normal YouTube watch links, short `youtu.be` links, embed links, Shorts, and live links. If valid, the video is added to the public apartment gallery and plays in the lightbox.
-- **QR code image**: optional attachment ID stored internally and selected from the right-sidebar **Apartment Details** UI. It appears in the Arrival details tile only when present and is excluded from the apartment gallery.
+- **QR code image**: optional attachment ID stored internally and selected from the right-sidebar **Apartment Details** UI. It appears in the compact QR/map tile only when present and is excluded from the apartment gallery.
 - **Apartment map address**: optional address for the apartment-specific map.
 - **Apartment map coordinates**: optional `latitude, longitude` pair for the apartment-specific map. Coordinates override the address when both are set.
 

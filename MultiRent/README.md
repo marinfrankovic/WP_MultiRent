@@ -9,16 +9,16 @@ Multi Apartment Rental is a clean, PII-free WordPress theme for apartment, room,
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload `multirent-theme-upload-0.1.30.zip`.
+2. Upload `multirent-theme-upload-0.1.31.zip`.
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload `multirent-companion-plugin-upload-0.1.30.zip`.
+5. Upload `multirent-companion-plugin-upload-0.1.31.zip`.
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received `multirent-complete-package-extract-first-0.1.30.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
+If you received `multirent-complete-package-extract-first-0.1.31.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
 
-Do not upload `multirent-complete-package-extract-first-0.1.30.zip` or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in `multirent-theme-upload-0.1.30.zip`.
+Do not upload `multirent-complete-package-extract-first-0.1.31.zip` or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in `multirent-theme-upload-0.1.31.zip`.
 
 ## Intended Use
 
@@ -169,14 +169,14 @@ The standard WordPress method also works: open **Appearance > Menus**, add pages
 
 ### Single Apartment Pages
 
-Each rental unit has its own page. The theme displays the unit image, gallery, optional YouTube video, details, amenities, optional QR/map arrival tile, description, and booking link using the image fields from **Apartment Images** and the text fields from the right-sidebar **Apartment Details** panel.
+Each rental unit has its own page. The theme displays the unit image, gallery, optional YouTube video, details, amenities, optional compact QR/map tile, description, and booking link using the image fields from **Apartment Images** and the text fields from the right-sidebar **Apartment Details** panel.
 
 Apartment images work in three places:
 
 - **Apartment Tile Image** is the main apartment/card image and appears at the top of the apartment page. It is managed from the auto-expanded **Apartment Images** box below the editor.
 - **Apartment Gallery Images** in the auto-expanded Apartment Images box is the managed photo gallery shown beside the Details tile on the apartment detail page. Choose multiple images, use **Move up** and **Move down** to reorder them, remove any image you do not want, and then click **Update**.
 - **YouTube video URL** in **Apartment Details** adds a video thumbnail to the apartment gallery. Clicking it opens the gallery lightbox and plays the video.
-- **QR code image** and **Apartment map address/coordinates** add an Arrival details tile on the right side of the apartment detail page. If none of those fields is set, the tile is hidden.
+- **QR code image** and **Apartment map address/coordinates** add a compact QR/map tile under the apartment details tile. If none of those fields is set, the tile is hidden.
 - **Image** or **Gallery** blocks in the main editor are optional extra photos that appear inside the written apartment description only.
 - Existing attached apartment images are still used as a fallback gallery when no Apartment Gallery Images have been selected, so older apartments keep showing their photos.
 - **Apartment Details** are organized as a booking-style panel: optional price first, then clean quick facts for guests/bedrooms/bathrooms, then size, amenities, and the inquiry button. If the price note is empty, the price tile is hidden.
@@ -191,7 +191,7 @@ Apartment images work in three places:
 6. In the auto-expanded **Apartment Images** box below the editor, use **Apartment Tile Image** to choose the apartment tile image.
 7. In the auto-expanded **Apartment Images** box below the editor, use **Apartment Gallery Images** to choose the gallery photos for the apartment detail page, reorder them with **Move up** and **Move down**, and remove any images you do not want.
 8. Add optional extra photos in the main editor with **Image** or **Gallery** blocks only when they should appear inside the written description.
-9. In the right sidebar, open **Apartment Details** and fill in guest capacity, bedrooms, bathrooms, size, optional price note, booking or inquiry URL, optional YouTube video URL, optional map address/coordinates, and optional QR code image. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile, and leave QR/map fields empty to hide the Arrival details tile.
+9. In the right sidebar, open **Apartment Details** and fill in guest capacity, bedrooms, bathrooms, size, optional price note, booking or inquiry URL, optional YouTube video URL, optional map address/coordinates, and optional QR code image. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile, and leave QR/map fields empty to hide the compact QR/map tile.
 10. Select amenities in the **Amenities** checkbox list. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
 11. Click **Publish**.
 12. View the apartment page and the Apartments listing page to confirm the card, image, gallery order, optional video lightbox, optional QR/map tile, details, amenities, and booking link are correct.

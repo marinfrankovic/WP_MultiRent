@@ -83,10 +83,11 @@ img { display: block; max-width: 100%; height: auto; }
 .unit-hero-image { justify-self: end; width: min(100%, 680px); border-radius: var(--radius); box-shadow: var(--shadow); }
 .unit-detail-layout { display: grid; grid-template-columns: minmax(0, 0.72fr) minmax(620px, 1.28fr); gap: 32px; align-items: start; }
 .unit-detail-layout-no-description { grid-template-columns: 1fr; }
-.unit-side-layout { display: grid; grid-template-columns: minmax(190px, 1fr) minmax(280px, 350px); gap: 18px; justify-self: end; align-items: start; width: min(100%, 720px); }
+.unit-side-layout { display: grid; grid-template-columns: minmax(190px, 1fr) minmax(280px, 350px); column-gap: 18px; row-gap: 10px; justify-self: end; align-items: start; width: min(100%, 720px); }
 .unit-detail-layout-no-description .unit-side-layout { grid-template-columns: minmax(0, 1fr) minmax(280px, 350px); width: min(100%, 980px); }
-.single-rental_unit .unit-details-card { justify-self: end; width: 100%; max-width: 350px; }
-.unit-extra-card { grid-column: 2; justify-self: end; width: 100%; max-width: 350px; }
+.unit-detail-stack { display: grid; gap: 10px; justify-self: end; width: 100%; max-width: 350px; }
+.single-rental_unit .unit-details-card { width: 100%; }
+.unit-extra-card { width: 100%; }
 .unit-gallery-card { overflow: hidden; }
 .unit-gallery-card .eyebrow { margin-bottom: 14px; }
 .unit-gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(118px, 28vw, 190px), 1fr)); gap: 10px; }

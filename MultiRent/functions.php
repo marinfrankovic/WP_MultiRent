@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.1.30' );
+define( 'MULTIRENT_VERSION', '0.1.31' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -542,23 +542,30 @@ function multirent_render_qr_map_tile( $args = array() ) {
 
 	$qr_image_id = absint( $args['qr_image_id'] );
 	$map_query   = trim( (string) $args['map_query'] );
+	$map_title   = $args['map_label'] ? $args['map_label'] : __( 'Apartment map', 'multirent' );
 
 	if ( ! $qr_image_id && ! $map_query ) {
 		return;
 	}
 	?>
 	<aside class="qr-map-card <?php echo esc_attr( $args['class'] ); ?>">
-		<h2><?php echo esc_html( $args['title'] ); ?></h2>
+		<?php if ( $args['title'] ) : ?>
+			<h2><?php echo esc_html( $args['title'] ); ?></h2>
+		<?php endif; ?>
 		<?php if ( $qr_image_id ) : ?>
 			<div class="qr-map-block qr-map-block-code">
-				<p class="eyebrow"><?php echo esc_html( $args['qr_label'] ); ?></p>
+				<?php if ( $args['qr_label'] ) : ?>
+					<p class="eyebrow"><?php echo esc_html( $args['qr_label'] ); ?></p>
+				<?php endif; ?>
 				<?php echo wp_get_attachment_image( $qr_image_id, 'medium', false, array( 'class' => 'qr-code-image' ) ); ?>
 			</div>
 		<?php endif; ?>
 		<?php if ( $map_query ) : ?>
 			<div class="qr-map-block qr-map-block-map">
-				<p class="eyebrow"><?php echo esc_html( $args['map_label'] ); ?></p>
-				<iframe title="<?php echo esc_attr( $args['map_label'] ); ?>" src="<?php echo esc_url( 'https://www.google.com/maps?q=' . rawurlencode( $map_query ) . '&output=embed' ); ?>" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+				<?php if ( $args['map_label'] ) : ?>
+					<p class="eyebrow"><?php echo esc_html( $args['map_label'] ); ?></p>
+				<?php endif; ?>
+				<iframe title="<?php echo esc_attr( $map_title ); ?>" src="<?php echo esc_url( 'https://www.google.com/maps?q=' . rawurlencode( $map_query ) . '&output=embed' ); ?>" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 			</div>
 		<?php endif; ?>
 	</aside>
@@ -571,9 +578,9 @@ function multirent_render_unit_guest_info( $post_id ) {
 		array(
 			'qr_image_id' => get_post_meta( $post_id, '_qr_code_image_id', true ),
 			'map_query'   => $map_query,
-			'title'       => __( 'Arrival details', 'multirent' ),
-			'qr_label'    => __( 'Apartment QR code', 'multirent' ),
-			'map_label'   => __( 'Apartment map', 'multirent' ),
+			'title'       => '',
+			'qr_label'    => '',
+			'map_label'   => '',
 			'class'       => 'unit-extra-card',
 		)
 	);

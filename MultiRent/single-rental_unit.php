@@ -32,16 +32,18 @@ get_header();
 					<?php endif; ?>
 					<div class="unit-side-layout">
 						<?php multirent_render_unit_gallery( get_the_ID() ); ?>
-						<aside class="unit-details-card">
-							<h2><?php esc_html_e( 'Details', 'multirent' ); ?></h2>
-							<?php multirent_render_unit_details( get_the_ID() ); ?>
-							<?php multirent_render_unit_amenities( get_the_ID() ); ?>
-							<?php $booking_url = multirent_unit_detail( get_the_ID(), 'booking_url' ); ?>
-							<?php if ( $booking_url ) : ?>
-								<a class="button" href="<?php echo esc_url( $booking_url ); ?>"><?php esc_html_e( 'Request this unit', 'multirent' ); ?></a>
-							<?php endif; ?>
-						</aside>
-						<?php multirent_render_unit_guest_info( get_the_ID() ); ?>
+						<div class="unit-detail-stack">
+							<aside class="unit-details-card">
+								<h2><?php esc_html_e( 'Details', 'multirent' ); ?></h2>
+								<?php multirent_render_unit_details( get_the_ID() ); ?>
+								<?php multirent_render_unit_amenities( get_the_ID() ); ?>
+								<?php $booking_url = multirent_unit_detail( get_the_ID(), 'booking_url' ); ?>
+								<?php if ( $booking_url ) : ?>
+									<a class="button" href="<?php echo esc_url( $booking_url ); ?>"><?php esc_html_e( 'Request this unit', 'multirent' ); ?></a>
+								<?php endif; ?>
+							</aside>
+							<?php multirent_render_unit_guest_info( get_the_ID() ); ?>
+						</div>
 					</div>
 				</div>
 			</section>
