@@ -12,8 +12,13 @@ The project is designed for apartment, room, villa, and multi-unit rental websit
 
 - `MultiRent/`: installable WordPress theme source.
 - `multirent-companion/`: companion plugin source for setup screens, rental units, amenities, top menu builder, color controls, recommended plugins, and in-admin README help.
+- `docs/`: static GitHub Pages promo site for the theme and companion plugin.
 - `local-wordpress/`: local Docker WordPress setup for testing this repository's theme and companion plugin source folders.
 - `release-assets/`: latest packaged ZIP files for WordPress upload and the extract-first complete package.
+
+## Promo Page
+
+The one-page promotional site is in `docs/index.html` and is ready to publish with GitHub Pages using the repository's `docs/` folder. It links to the live demo site, latest GitHub release, source repository, and install workflow.
 
 ## Latest Packages
 

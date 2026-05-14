@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MultiRent - Free WordPress Theme for Rental Properties</title>
+  <meta name="description" content="MultiRent is a free private-use WordPress theme and companion plugin for apartments, villas, rooms, and multi-unit rental websites.">
+  <meta property="og:title" content="MultiRent WordPress Theme">
+  <meta property="og:description" content="A no-code WordPress rental website theme with apartment pages, galleries, amenities, QR codes, maps, local guide pages, and companion setup tools.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/multirent-logo.png">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #102033;
+      --muted: #5b6675;
+      --line: #d9e2ea;
+      --surface: #f5f8fb;
+      --white: #ffffff;
+      --blue: #0b6fa4;
+      --blue-dark: #084d75;
+      --green: #277a58;
+      --gold: #bd7d16;
+      --shadow: 0 18px 45px rgba(16, 32, 51, 0.12);
+      --radius: 8px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 11px 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: var(--white);
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .button:hover {
+      text-decoration: none;
+      border-color: var(--blue);
+    }
+
+    .button.primary {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: var(--white);
+    }
+
+    .button.primary:hover {
+      background: var(--blue-dark);
+    }
+
+    .hero {
+      background: linear-gradient(180deg, #eef6fb 0%, #ffffff 82%);
+    }
+
+    .hero-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 72px 22px 44px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--green);
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      margin: 22px 0 0;
+      max-width: 650px;
+      color: var(--muted);
+      font-size: 1.18rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .hero-media {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-media img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .quick-facts {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 22px 54px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .fact {
+      background: var(--white);
+      padding: 18px;
+    }
+
+    .fact strong {
+      display: block;
+      color: var(--ink);
+      font-size: 1.02rem;
+    }
+
+    .fact span {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    main section {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 64px 22px;
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.75rem, 3vw, 2.65rem);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .section-heading p,
+    .install p,
+    .license-note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.06rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .feature {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      background: var(--white);
+    }
+
+    .feature h3,
+    .install-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.08rem;
+      letter-spacing: 0;
+    }
+
+    .feature p,
+    .install-step p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .showcase {
+      background: var(--surface);
+      max-width: none;
+      padding: 0;
+    }
+
+    .showcase-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 64px 22px;
+    }
+
+    .screens {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .screen {
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 10px 30px rgba(16, 32, 51, 0.08);
+    }
+
+    .screen img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .screen figcaption {
+      padding: 14px 16px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .install-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .install-step {
+      position: relative;
+      min-height: 170px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 54px 18px 18px;
+      background: var(--white);
+    }
+
+    .install-step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .license-note {
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 20px;
+      background: #fffaf1;
+    }
+
+    .cta-band {
+      max-width: none;
+      background: var(--ink);
+      color: var(--white);
+      padding: 0;
+    }
+
+    .cta-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 56px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .cta-inner h2 {
+      color: var(--white);
+    }
+
+    .cta-inner p {
+      margin: 0;
+      color: #c7d3df;
+    }
+
+    .cta-inner .button {
+      border-color: rgba(255, 255, 255, 0.26);
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 26px 22px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner,
+      .screens,
+      .install-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-facts,
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-inner {
+        padding-top: 48px;
+      }
+
+      .cta-inner,
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      .quick-facts,
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      main section,
+      .showcase-inner {
+        padding: 46px 18px;
+      }
+
+      .hero-inner,
+      .quick-facts,
+      .nav,
+      .cta-inner,
+      .footer-inner {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="MultiRent home">
+        <img src="assets/multirent-logo.png" alt="">
+        <span>MultiRent</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#install">Install</a>
+        <a href="https://github.com/marinfrankovic/WP_MultiRent">GitHub</a>
+        <a class="button primary" href="http://demo.multirent.online/">View Demo</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">WordPress theme and companion plugin</p>
+          <h1>Build a rental property website without editing theme files.</h1>
+          <p class="hero-copy">MultiRent is a private-use, no-code WordPress package for apartments, rooms, villas, and multi-unit holiday rentals. Manage listings, galleries, amenities, maps, QR codes, contact details, local guides, branding, colors, and menus from WordPress admin.</p>
+          <div class="actions" aria-label="Primary links">
+            <a class="button primary" href="http://demo.multirent.online/">View Live Demo</a>
+            <a class="button" href="https://github.com/marinfrankovic/WP_MultiRent/releases/latest">Download Latest Release</a>
+            <a class="button" href="https://github.com/marinfrankovic/WP_MultiRent">View Source on GitHub</a>
+          </div>
+        </div>
+        <div class="hero-media" aria-label="MultiRent homepage screenshot">
+          <img src="assets/theme-homepage.png" alt="MultiRent homepage preview with rental cards">
+        </div>
+      </div>
+      <div class="quick-facts" aria-label="Project highlights">
+        <div class="fact"><strong>No-code setup</strong><span>Companion admin screens for content and layout.</span></div>
+        <div class="fact"><strong>Rental units</strong><span>Apartment pages, amenities, galleries, maps, and QR images.</span></div>
+        <div class="fact"><strong>Demo content</strong><span>Generate sample pages and apartments for quick previews.</span></div>
+        <div class="fact"><strong>Private-use free</strong><span>Free for private, non-commercial use with credit.</span></div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="section-heading">
+        <h2>Everything a small rental site needs in one focused package.</h2>
+        <p>MultiRent keeps the public site clean while giving owners practical controls inside WordPress admin.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature">
+          <h3>Rental unit management</h3>
+          <p>Create apartments or rooms with capacity, bedrooms, bathrooms, size, price note, booking link, amenities, gallery images, QR code, map, and optional video.</p>
+        </article>
+        <article class="feature">
+          <h3>Website setup screens</h3>
+          <p>Edit property name, tagline, page logo, homepage hero, intro text, stats, reviews shortcode, colors, contact call-to-action, and header menu links.</p>
+        </article>
+        <article class="feature">
+          <h3>Ready page roles</h3>
+          <p>Assign and configure Apartments, Contact, and Local Guide pages with templates, preview buttons, and visibility controls.</p>
+        </article>
+        <article class="feature">
+          <h3>Guest-ready details</h3>
+          <p>Show booking instructions, local highlights, activity cards, useful links, contact QR code, maps, and clear inquiry paths.</p>
+        </article>
+        <article class="feature">
+          <h3>Starter and demo content</h3>
+          <p>Generate starter pages, amenities, rental units, or a complete demo site that can be removed later without deleting real content.</p>
+        </article>
+        <article class="feature">
+          <h3>Simple packaging</h3>
+          <p>Install the theme ZIP first, then the companion plugin ZIP. The release also includes an extract-first package containing both.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="showcase" aria-labelledby="screenshots-title">
+      <div class="showcase-inner">
+        <div class="section-heading">
+          <h2 id="screenshots-title">Preview the public experience.</h2>
+          <p>The theme is built for compact rental information, fast scanning, and clear paths from apartment details to inquiry.</p>
+        </div>
+        <div class="screens">
+          <figure class="screen">
+            <img src="assets/theme-homepage.png" alt="MultiRent homepage with hero content and apartment cards">
+            <figcaption>Homepage with configurable hero, intro, stats, rental cards, and contact call-to-action.</figcaption>
+          </figure>
+          <figure class="screen">
+            <img src="assets/theme-apartment.png" alt="MultiRent apartment detail page with gallery and details">
+            <figcaption>Apartment detail pages support galleries, amenities, booking links, QR images, maps, and video.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" class="install">
+      <div class="section-heading">
+        <h2>Quick install workflow.</h2>
+        <p>Use the packaged ZIP files from the latest GitHub release. Upload the theme and plugin separately in WordPress admin.</p>
+      </div>
+      <div class="install-grid">
+        <article class="install-step">
+          <h3>Download release ZIPs</h3>
+          <p>Get the theme upload ZIP and companion plugin upload ZIP from the latest release.</p>
+        </article>
+        <article class="install-step">
+          <h3>Install the theme</h3>
+          <p>Open Appearance, upload the MultiRent theme ZIP, then activate Multi Apartment Rental.</p>
+        </article>
+        <article class="install-step">
+          <h3>Install the plugin</h3>
+          <p>Open Plugins, upload and activate MultiRent Companion, then go to MultiRent Setup.</p>
+        </article>
+        <article class="install-step">
+          <h3>Create content</h3>
+          <p>Create starter pages or optional demo content, then replace examples with real rental details.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="license-title">
+      <div class="license-note">
+        <h2 id="license-title">Free for private, non-commercial use.</h2>
+        <p>MultiRent is free to use and modify for private, non-commercial websites with original project credit. Commercial use, client work, marketplace resale, paid services, hosted services, or revenue-generating use requires prior written permission. See the repository license for the full terms.</p>
+      </div>
+    </section>
+
+    <section class="cta-band" aria-labelledby="cta-title">
+      <div class="cta-inner">
+        <div>
+          <h2 id="cta-title">Try MultiRent with the live demo.</h2>
+          <p>Explore the public pages first, then download the theme and companion plugin from GitHub.</p>
+        </div>
+        <div class="actions">
+          <a class="button primary" href="http://demo.multirent.online/">Open Demo Site</a>
+          <a class="button" href="https://github.com/marinfrankovic/WP_MultiRent/releases/latest">Latest Release</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>MultiRent WordPress theme and companion plugin.</span>
+      <span><a href="https://github.com/marinfrankovic/WP_MultiRent">GitHub repository</a></span>
+    </div>
+  </footer>
+</body>
+</html>
