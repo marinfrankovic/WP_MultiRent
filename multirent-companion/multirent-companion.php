@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.25
+ * Version: 0.1.26
  * Requires at least: 6.5
  * Requires PHP: 8.4
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.25' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.26' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -2016,7 +2016,6 @@ function multirent_companion_render_apartments_page() {
 	$apartments_page   = multirent_companion_role_page( 'apartments', $settings );
 	$current_template  = multirent_companion_apartments_page_template();
 	$templates         = multirent_companion_apartments_page_templates();
-	$current_template_data = $templates[ $current_template ];
 	settings_errors( 'multirent_messages' );
 	?>
 	<div class="wrap">
@@ -2041,30 +2040,20 @@ function multirent_companion_render_apartments_page() {
 				<tr>
 					<th scope="row"><label for="multirent-apartments-template"><?php esc_html_e( 'Apartments template', 'multirent-companion' ); ?></label></th>
 					<td>
-						<select id="multirent-apartments-template" name="multirent_apartments_template" data-multirent-template-select>
+						<select id="multirent-apartments-template" name="multirent_apartments_template">
 							<?php foreach ( $templates as $template_file => $template_data ) : ?>
-								<option value="<?php echo esc_attr( $template_file ); ?>" data-preview-title="<?php echo esc_attr( $template_data['label'] ); ?>" data-preview-description="<?php echo esc_attr( $template_data['description'] ); ?>" data-preview-layout="<?php echo esc_attr( $template_data['layout'] ); ?>" <?php selected( $current_template, $template_file ); ?>><?php echo esc_html( $template_data['label'] ); ?></option>
+								<option value="<?php echo esc_attr( $template_file ); ?>" <?php selected( $current_template, $template_file ); ?>><?php echo esc_html( $template_data['label'] ); ?></option>
 							<?php endforeach; ?>
 						</select>
 						<p class="description"><?php esc_html_e( 'Choose the template here instead of opening Pages > All Pages > Apartments.', 'multirent-companion' ); ?></p>
+						<?php if ( $apartments_page ) : ?>
+							<p><a class="button button-secondary" href="<?php echo esc_url( get_permalink( $apartments_page ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open Apartments Page Preview', 'multirent-companion' ); ?></a></p>
+						<?php else : ?>
+							<p class="description"><?php esc_html_e( 'Create the starter pages first to enable the live Apartments page preview link.', 'multirent-companion' ); ?></p>
+						<?php endif; ?>
 					</td>
 				</tr>
 			</table>
-			<div class="multirent-template-preview" data-multirent-template-preview>
-				<h2 data-multirent-template-preview-title><?php echo esc_html( $current_template_data['label'] ); ?></h2>
-				<p data-multirent-template-preview-description><?php echo esc_html( $current_template_data['description'] ); ?></p>
-				<div class="multirent-template-preview-frame" aria-hidden="true">
-					<div></div>
-					<div></div>
-					<div></div>
-				</div>
-				<p class="description" data-multirent-template-preview-layout><?php echo esc_html( $current_template_data['layout'] ); ?></p>
-			</div>
-			<?php if ( $apartments_page ) : ?>
-				<p><a class="button button-secondary" href="<?php echo esc_url( get_permalink( $apartments_page ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open Apartments Page Preview', 'multirent-companion' ); ?></a></p>
-			<?php else : ?>
-				<p class="description"><?php esc_html_e( 'Create the starter pages first to enable the live Apartments page preview link.', 'multirent-companion' ); ?></p>
-			<?php endif; ?>
 			<?php submit_button( esc_html__( 'Save Apartments Page Settings', 'multirent-companion' ) ); ?>
 		</form>
 	</div>
@@ -2076,7 +2065,6 @@ function multirent_companion_render_contact_page() {
 	$contact_page          = multirent_companion_role_page( 'contact', $settings );
 	$current_template      = multirent_companion_role_page_template( 'contact' );
 	$templates             = multirent_companion_contact_page_templates();
-	$current_template_data = $templates[ $current_template ];
 	settings_errors( 'multirent_messages' );
 	?>
 	<div class="wrap">
@@ -2097,12 +2085,15 @@ function multirent_companion_render_contact_page() {
 				<tr>
 					<th scope="row"><label for="multirent-contact-template"><?php esc_html_e( 'Contact template', 'multirent-companion' ); ?></label></th>
 					<td>
-						<select id="multirent-contact-template" name="multirent_contact_template" data-multirent-template-select>
+						<select id="multirent-contact-template" name="multirent_contact_template">
 							<?php foreach ( $templates as $template_file => $template_data ) : ?>
-								<option value="<?php echo esc_attr( $template_file ); ?>" data-preview-title="<?php echo esc_attr( $template_data['label'] ); ?>" data-preview-description="<?php echo esc_attr( $template_data['description'] ); ?>" data-preview-layout="<?php echo esc_attr( $template_data['layout'] ); ?>" <?php selected( $current_template, $template_file ); ?>><?php echo esc_html( $template_data['label'] ); ?></option>
+								<option value="<?php echo esc_attr( $template_file ); ?>" <?php selected( $current_template, $template_file ); ?>><?php echo esc_html( $template_data['label'] ); ?></option>
 							<?php endforeach; ?>
 						</select>
-						<p class="description"><?php esc_html_e( 'Choose the Contact page layout and preview the selected structure before saving.', 'multirent-companion' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Choose the Contact page layout.', 'multirent-companion' ); ?></p>
+						<?php if ( $contact_page ) : ?>
+							<p><a class="button button-secondary" href="<?php echo esc_url( get_permalink( $contact_page ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open Contact Page Preview', 'multirent-companion' ); ?></a></p>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<tr>
@@ -2132,19 +2123,6 @@ function multirent_companion_render_contact_page() {
 					</tr>
 				<?php endforeach; ?>
 			</table>
-			<div class="multirent-template-preview" data-multirent-template-preview>
-				<h2 data-multirent-template-preview-title><?php echo esc_html( $current_template_data['label'] ); ?></h2>
-				<p data-multirent-template-preview-description><?php echo esc_html( $current_template_data['description'] ); ?></p>
-				<div class="multirent-template-preview-frame" aria-hidden="true">
-					<div></div>
-					<div></div>
-					<div></div>
-				</div>
-				<p class="description" data-multirent-template-preview-layout><?php echo esc_html( $current_template_data['layout'] ); ?></p>
-			</div>
-			<?php if ( $contact_page ) : ?>
-				<p><a class="button button-secondary" href="<?php echo esc_url( get_permalink( $contact_page ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open Contact Page Preview', 'multirent-companion' ); ?></a></p>
-			<?php endif; ?>
 			<?php submit_button( esc_html__( 'Save Contact Page Settings', 'multirent-companion' ) ); ?>
 		</form>
 	</div>
@@ -2156,7 +2134,6 @@ function multirent_companion_render_local_page() {
 	$local_page            = multirent_companion_role_page( 'local', $settings );
 	$current_template      = multirent_companion_role_page_template( 'local' );
 	$templates             = multirent_companion_local_page_templates();
-	$current_template_data = $templates[ $current_template ];
 	settings_errors( 'multirent_messages' );
 	?>
 	<div class="wrap">
@@ -2177,12 +2154,15 @@ function multirent_companion_render_local_page() {
 				<tr>
 					<th scope="row"><label for="multirent-local-template"><?php esc_html_e( 'Local template', 'multirent-companion' ); ?></label></th>
 					<td>
-						<select id="multirent-local-template" name="multirent_local_template" data-multirent-template-select>
+						<select id="multirent-local-template" name="multirent_local_template">
 							<?php foreach ( $templates as $template_file => $template_data ) : ?>
-								<option value="<?php echo esc_attr( $template_file ); ?>" data-preview-title="<?php echo esc_attr( $template_data['label'] ); ?>" data-preview-description="<?php echo esc_attr( $template_data['description'] ); ?>" data-preview-layout="<?php echo esc_attr( $template_data['layout'] ); ?>" <?php selected( $current_template, $template_file ); ?>><?php echo esc_html( $template_data['label'] ); ?></option>
+								<option value="<?php echo esc_attr( $template_file ); ?>" <?php selected( $current_template, $template_file ); ?>><?php echo esc_html( $template_data['label'] ); ?></option>
 							<?php endforeach; ?>
 						</select>
-						<p class="description"><?php esc_html_e( 'Choose the Local page layout and preview the selected structure before saving.', 'multirent-companion' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Choose the Local page layout.', 'multirent-companion' ); ?></p>
+						<?php if ( $local_page ) : ?>
+							<p><a class="button button-secondary" href="<?php echo esc_url( get_permalink( $local_page ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open Local Page Preview', 'multirent-companion' ); ?></a></p>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<tr>
@@ -2211,19 +2191,6 @@ function multirent_companion_render_local_page() {
 					</tr>
 				<?php endforeach; ?>
 			</table>
-			<div class="multirent-template-preview" data-multirent-template-preview>
-				<h2 data-multirent-template-preview-title><?php echo esc_html( $current_template_data['label'] ); ?></h2>
-				<p data-multirent-template-preview-description><?php echo esc_html( $current_template_data['description'] ); ?></p>
-				<div class="multirent-template-preview-frame" aria-hidden="true">
-					<div></div>
-					<div></div>
-					<div></div>
-				</div>
-				<p class="description" data-multirent-template-preview-layout><?php echo esc_html( $current_template_data['layout'] ); ?></p>
-			</div>
-			<?php if ( $local_page ) : ?>
-				<p><a class="button button-secondary" href="<?php echo esc_url( get_permalink( $local_page ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open Local Page Preview', 'multirent-companion' ); ?></a></p>
-			<?php endif; ?>
 			<?php submit_button( esc_html__( 'Save Local Page Settings', 'multirent-companion' ) ); ?>
 		</form>
 	</div>

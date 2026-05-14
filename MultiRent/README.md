@@ -5,16 +5,16 @@ Multi Apartment Rental is a clean, PII-free WordPress theme for apartment, room,
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload `multirent-theme-upload-0.1.25.zip`.
+2. Upload `multirent-theme-upload-0.1.26.zip`.
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload `multirent-companion-plugin-upload-0.1.25.zip`.
+5. Upload `multirent-companion-plugin-upload-0.1.26.zip`.
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received `multirent-complete-package-extract-first-0.1.25.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
+If you received `multirent-complete-package-extract-first-0.1.26.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
 
-Do not upload `multirent-complete-package-extract-first-0.1.25.zip` or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in `multirent-theme-upload-0.1.25.zip`.
+Do not upload `multirent-complete-package-extract-first-0.1.26.zip` or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in `multirent-theme-upload-0.1.26.zip`.
 
 ## Intended Use
 
@@ -61,7 +61,7 @@ Rental cards are generated from **Rental Units**, which are managed by the compa
 
 ### Apartments Page Templates
 
-The theme includes ready-made page templates for Apartments, Contact, and Local pages. Choose the assigned WordPress page and template from the matching MultiRent Setup admin screen, then use the inline preview to compare layouts before saving.
+The theme includes ready-made page templates for Apartments, Contact, and Local pages. Choose the assigned WordPress page and template from the matching MultiRent Setup admin screen, then use the preview button under the template dropdown to open the selected page.
 
 ### Apartments Page Templates
 
@@ -115,7 +115,7 @@ Homepage fields, including the intro eyebrow above the property intro heading, a
 
 The landing page is the only mandatory page. Optional pages have their own admin screens under **MultiRent Setup**:
 
-- **Apartments Page**: choose which WordPress page is the Apartments page, show/hide it, choose the visual template, and preview the selected layout before saving.
+- **Apartments Page**: choose which WordPress page is the Apartments page, show/hide it, choose the visual template, and open the assigned page preview from the template section.
 - **Contact Page**: choose which WordPress page is the Contact page, show/hide it, choose the visual template, and control contact details, booking checklist, map, content, form, and map note.
 - **Local Page**: choose which WordPress page is the Local page, show/hide it, choose the visual template, and control guide cards, highlights, activities, useful links, and page content.
 

@@ -6,17 +6,17 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate `multirent-theme-upload-0.1.25.zip` in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate `multirent-companion-plugin-upload-0.1.25.zip` in **Plugins > Add New > Upload Plugin**.
+1. Install and activate `multirent-theme-upload-0.1.26.zip` in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate `multirent-companion-plugin-upload-0.1.26.zip` in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, and Amenities** if this is a fresh site.
 5. Create the required number of rental units from the **Starter Content** section.
 6. Edit each rental unit under **MultiRent Setup > Rental Units**.
 7. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, `multirent-complete-package-extract-first-0.1.25.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, `multirent-complete-package-extract-first-0.1.26.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
-Do not upload `multirent-complete-package-extract-first-0.1.25.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.25.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.25.zip` for **Upload Plugin**.
+Do not upload `multirent-complete-package-extract-first-0.1.26.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.26.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.26.zip` for **Upload Plugin**.
 
 ## What This Plugin Adds
 
@@ -82,9 +82,9 @@ The landing page is the only mandatory page. Apartments, Contact, and Local page
 
 Optional pages are managed from separate left-menu screens under **MultiRent Setup**:
 
-- **Apartments Page**: choose which WordPress page is the Apartments page, show or hide it, choose an Apartments template, and preview the selected layout before saving.
-- **Contact Page**: choose which WordPress page is the Contact page, show or hide it, choose a Contact template, preview the selected layout, and control contact details, booking checklist, map, page content, form shortcode, and map note.
-- **Local Page**: choose which WordPress page is the Local page, show or hide it, choose a Local template, preview the selected layout, and control guide cards, highlights, activities, useful links, and page content.
+- **Apartments Page**: choose which WordPress page is the Apartments page, show or hide it, choose an Apartments template, and open the assigned page preview from the template section.
+- **Contact Page**: choose which WordPress page is the Contact page, show or hide it, choose a Contact template, open the assigned page preview from the template section, and control contact details, booking checklist, map, page content, form shortcode, and map note.
+- **Local Page**: choose which WordPress page is the Local page, show or hide it, choose a Local template, open the assigned page preview from the template section, and control guide cards, highlights, activities, useful links, and page content.
 
 When an optional page is hidden, MultiRent changes that page to draft and removes it from the generated top menu. The Home/Landing page remains mandatory.
 
@@ -108,7 +108,7 @@ To add a new page:
 1. Open **Pages > Add New**.
 2. Enter the page title.
 3. Add text, headings, lists, images, buttons, or other blocks in the editor.
-4. For Apartments, Contact, and Local pages, choose the assigned WordPress page and template from the matching MultiRent Setup admin screen and use the inline preview before saving.
+4. For Apartments, Contact, and Local pages, choose the assigned WordPress page and template from the matching MultiRent Setup admin screen and use the preview button under the template dropdown when you want to open the assigned page.
 5. Click **Publish**.
 
 To edit text on any page:
@@ -199,7 +199,7 @@ Click **Save and Apply Top Menu** to create or update the **MultiRent Top Menu**
 
 ### Contact Page Builder
 
-The Contact Page Builder is available from **MultiRent Setup > Contact Page**. It lets users choose which WordPress page is the Contact page, choose between Contact templates, and preview the selected layout before saving.
+The Contact Page Builder is available from **MultiRent Setup > Contact Page**. It lets users choose which WordPress page is the Contact page, choose between Contact templates, and open the assigned page preview from the template section.
 
 Editable fields include:
 
@@ -243,7 +243,7 @@ The Contact page visibility checkboxes are grouped at the top of the screen. The
 
 ### Local Page Builder
 
-The Local Page Builder is available from **MultiRent Setup > Local Page**. It lets users choose which WordPress page is the Local page, choose between Local templates, and preview the selected layout before saving.
+The Local Page Builder is available from **MultiRent Setup > Local Page**. It lets users choose which WordPress page is the Local page, choose between Local templates, and open the assigned page preview from the template section.
 
 Editable fields include:
 
