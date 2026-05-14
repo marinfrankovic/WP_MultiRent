@@ -41,6 +41,7 @@ get_header();
 								<a class="button" href="<?php echo esc_url( $booking_url ); ?>"><?php esc_html_e( 'Request this unit', 'multirent' ); ?></a>
 							<?php endif; ?>
 						</aside>
+						<?php multirent_render_unit_guest_info( get_the_ID() ); ?>
 					</div>
 				</div>
 			</section>

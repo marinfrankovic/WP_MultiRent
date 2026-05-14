@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.1.29' );
+define( 'MULTIRENT_VERSION', '0.1.30' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -399,14 +399,15 @@ function multirent_render_unit_amenities( $post_id, $compact = false ) {
 
 function multirent_unit_gallery_images( $post_id ) {
 	$thumbnail_id = get_post_thumbnail_id( $post_id );
+	$qr_image_id  = absint( get_post_meta( $post_id, '_qr_code_image_id', true ) );
 	$stored_ids    = get_post_meta( $post_id, '_gallery_image_ids', true );
 	if ( $stored_ids ) {
 		$image_ids = array_filter( array_map( 'absint', explode( ',', $stored_ids ) ) );
 		$image_ids = array_values(
 			array_filter(
 				array_unique( $image_ids ),
-				function( $image_id ) use ( $thumbnail_id ) {
-					return $image_id && (int) $image_id !== (int) $thumbnail_id && wp_attachment_is_image( $image_id );
+				function( $image_id ) use ( $thumbnail_id, $qr_image_id ) {
+					return $image_id && (int) $image_id !== (int) $thumbnail_id && (int) $image_id !== $qr_image_id && wp_attachment_is_image( $image_id );
 				}
 			)
 		);
@@ -430,7 +431,7 @@ function multirent_unit_gallery_images( $post_id ) {
 
 	$image_ids = array();
 	foreach ( $attachments as $attachment ) {
-		if ( (int) $attachment->ID === (int) $thumbnail_id ) {
+		if ( (int) $attachment->ID === (int) $thumbnail_id || (int) $attachment->ID === $qr_image_id ) {
 			continue;
 		}
 
@@ -440,9 +441,59 @@ function multirent_unit_gallery_images( $post_id ) {
 	return $image_ids;
 }
 
+function multirent_youtube_video_id( $url ) {
+	$parts = wp_parse_url( trim( (string) $url ) );
+	if ( empty( $parts['host'] ) ) {
+		return '';
+	}
+
+	$host = strtolower( preg_replace( '/^www\./', '', $parts['host'] ) );
+	$path = isset( $parts['path'] ) ? trim( $parts['path'], '/' ) : '';
+
+	if ( 'youtu.be' === $host && $path ) {
+		$segments = explode( '/', $path );
+		return preg_match( '/^[A-Za-z0-9_-]{6,}$/', $segments[0] ) ? $segments[0] : '';
+	}
+
+	if ( ! in_array( $host, array( 'youtube.com', 'm.youtube.com', 'music.youtube.com', 'youtube-nocookie.com' ), true ) ) {
+		return '';
+	}
+
+	if ( ! empty( $parts['query'] ) ) {
+		parse_str( $parts['query'], $query );
+		if ( ! empty( $query['v'] ) && preg_match( '/^[A-Za-z0-9_-]{6,}$/', $query['v'] ) ) {
+			return $query['v'];
+		}
+	}
+
+	$segments = $path ? explode( '/', $path ) : array();
+	foreach ( array( 'embed', 'shorts', 'live' ) as $prefix ) {
+		$index = array_search( $prefix, $segments, true );
+		if ( false !== $index && ! empty( $segments[ $index + 1 ] ) && preg_match( '/^[A-Za-z0-9_-]{6,}$/', $segments[ $index + 1 ] ) ) {
+			return $segments[ $index + 1 ];
+		}
+	}
+
+	return '';
+}
+
+function multirent_youtube_embed_url( $url ) {
+	$video_id = multirent_youtube_video_id( $url );
+	return $video_id ? 'https://www.youtube-nocookie.com/embed/' . rawurlencode( $video_id ) . '?rel=0' : '';
+}
+
+function multirent_youtube_thumbnail_url( $url ) {
+	$video_id = multirent_youtube_video_id( $url );
+	return $video_id ? 'https://img.youtube.com/vi/' . rawurlencode( $video_id ) . '/hqdefault.jpg' : '';
+}
+
 function multirent_render_unit_gallery( $post_id ) {
 	$image_ids = multirent_unit_gallery_images( $post_id );
-	if ( ! $image_ids ) {
+	$video_url = multirent_unit_detail( $post_id, 'video_url' );
+	$video_embed_url = multirent_youtube_embed_url( $video_url );
+	$video_thumbnail_url = multirent_youtube_thumbnail_url( $video_url );
+
+	if ( ! $image_ids && ! $video_embed_url ) {
 		return;
 	}
 	?>
@@ -450,13 +501,82 @@ function multirent_render_unit_gallery( $post_id ) {
 		<p class="eyebrow"><?php esc_html_e( 'Gallery', 'multirent' ); ?></p>
 		<div class="unit-gallery-grid">
 			<?php foreach ( $image_ids as $image_id ) : ?>
-				<a href="<?php echo esc_url( wp_get_attachment_url( $image_id ) ); ?>" class="unit-gallery-link">
+				<a href="<?php echo esc_url( wp_get_attachment_url( $image_id ) ); ?>" class="unit-gallery-link" data-gallery-type="image">
 					<?php echo wp_get_attachment_image( $image_id, 'medium_large', false, array( 'class' => 'unit-gallery-image' ) ); ?>
 				</a>
 			<?php endforeach; ?>
+			<?php if ( $video_embed_url ) : ?>
+				<a href="<?php echo esc_url( $video_url ); ?>" class="unit-gallery-link unit-gallery-video-link" data-gallery-type="video" data-video-src="<?php echo esc_url( $video_embed_url ); ?>" aria-label="<?php esc_attr_e( 'Play apartment video', 'multirent' ); ?>">
+					<img src="<?php echo esc_url( $video_thumbnail_url ); ?>" class="unit-gallery-image" alt="<?php esc_attr_e( 'Apartment video thumbnail', 'multirent' ); ?>">
+					<span class="unit-gallery-play" aria-hidden="true"></span>
+				</a>
+			<?php endif; ?>
 		</div>
 	</aside>
 	<?php
+}
+
+function multirent_map_query( $address = '', $coordinates = '' ) {
+	$coordinates = trim( (string) $coordinates );
+	$address     = trim( (string) $address );
+
+	if ( $coordinates && preg_match( '/^-?\d{1,3}(?:\.\d+)?\s*,\s*-?\d{1,3}(?:\.\d+)?$/', $coordinates ) ) {
+		return preg_replace( '/\s+/', '', $coordinates );
+	}
+
+	return $address;
+}
+
+function multirent_render_qr_map_tile( $args = array() ) {
+	$args = wp_parse_args(
+		$args,
+		array(
+			'qr_image_id' => 0,
+			'map_query'   => '',
+			'title'       => __( 'Guest information', 'multirent' ),
+			'qr_label'    => __( 'QR code', 'multirent' ),
+			'map_label'   => __( 'Apartment map', 'multirent' ),
+			'class'       => '',
+		)
+	);
+
+	$qr_image_id = absint( $args['qr_image_id'] );
+	$map_query   = trim( (string) $args['map_query'] );
+
+	if ( ! $qr_image_id && ! $map_query ) {
+		return;
+	}
+	?>
+	<aside class="qr-map-card <?php echo esc_attr( $args['class'] ); ?>">
+		<h2><?php echo esc_html( $args['title'] ); ?></h2>
+		<?php if ( $qr_image_id ) : ?>
+			<div class="qr-map-block qr-map-block-code">
+				<p class="eyebrow"><?php echo esc_html( $args['qr_label'] ); ?></p>
+				<?php echo wp_get_attachment_image( $qr_image_id, 'medium', false, array( 'class' => 'qr-code-image' ) ); ?>
+			</div>
+		<?php endif; ?>
+		<?php if ( $map_query ) : ?>
+			<div class="qr-map-block qr-map-block-map">
+				<p class="eyebrow"><?php echo esc_html( $args['map_label'] ); ?></p>
+				<iframe title="<?php echo esc_attr( $args['map_label'] ); ?>" src="<?php echo esc_url( 'https://www.google.com/maps?q=' . rawurlencode( $map_query ) . '&output=embed' ); ?>" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+			</div>
+		<?php endif; ?>
+	</aside>
+	<?php
+}
+
+function multirent_render_unit_guest_info( $post_id ) {
+	$map_query = multirent_map_query( multirent_unit_detail( $post_id, 'map_address' ), multirent_unit_detail( $post_id, 'map_coordinates' ) );
+	multirent_render_qr_map_tile(
+		array(
+			'qr_image_id' => get_post_meta( $post_id, '_qr_code_image_id', true ),
+			'map_query'   => $map_query,
+			'title'       => __( 'Arrival details', 'multirent' ),
+			'qr_label'    => __( 'Apartment QR code', 'multirent' ),
+			'map_label'   => __( 'Apartment map', 'multirent' ),
+			'class'       => 'unit-extra-card',
+		)
+	);
 }
 
 function multirent_button_url( $url ) {

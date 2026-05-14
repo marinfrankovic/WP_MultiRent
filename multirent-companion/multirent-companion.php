@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.29
+ * Version: 0.1.30
  * Requires at least: 6.5
  * Requires PHP: 8.4
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.29' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.30' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -147,6 +147,9 @@ function multirent_companion_unit_fields() {
 		'size'       => esc_html__( 'Size', 'multirent-companion' ),
 		'price_note' => esc_html__( 'Price note', 'multirent-companion' ),
 		'booking_url'=> esc_html__( 'Booking or inquiry URL', 'multirent-companion' ),
+		'video_url'  => esc_html__( 'YouTube video URL', 'multirent-companion' ),
+		'map_address' => esc_html__( 'Apartment map address', 'multirent-companion' ),
+		'map_coordinates' => esc_html__( 'Apartment map coordinates', 'multirent-companion' ),
 	);
 }
 
@@ -159,7 +162,7 @@ function multirent_companion_register_unit_meta() {
 				'single'            => true,
 				'type'              => 'string',
 				'show_in_rest'      => true,
-				'sanitize_callback' => 'booking_url' === $key ? 'esc_url_raw' : 'sanitize_text_field',
+				'sanitize_callback' => in_array( $key, array( 'booking_url', 'video_url' ), true ) ? 'esc_url_raw' : 'sanitize_text_field',
 				'auth_callback'     => function() {
 					return current_user_can( 'edit_posts' );
 				},
@@ -175,6 +178,20 @@ function multirent_companion_register_unit_meta() {
 			'type'              => 'string',
 			'show_in_rest'      => true,
 			'sanitize_callback' => 'multirent_companion_sanitize_gallery_image_ids',
+			'auth_callback'     => function() {
+				return current_user_can( 'edit_posts' );
+			},
+		)
+	);
+
+	register_post_meta(
+		'rental_unit',
+		'_qr_code_image_id',
+		array(
+			'single'            => true,
+			'type'              => 'integer',
+			'show_in_rest'      => true,
+			'sanitize_callback' => 'absint',
 			'auth_callback'     => function() {
 				return current_user_can( 'edit_posts' );
 			},
@@ -229,7 +246,7 @@ function multirent_companion_unit_sidebar_fields() {
 		$fields[] = array(
 			'key'         => '_' . $key,
 			'label'       => $label,
-			'type'        => 'booking_url' === $key ? 'url' : 'text',
+			'type'        => in_array( $key, array( 'booking_url', 'video_url' ), true ) ? 'url' : 'text',
 			'description' => multirent_companion_field_description( $key ),
 		);
 	}
@@ -277,6 +294,7 @@ function multirent_companion_field_descriptions() {
 		'contact_form_shortcode' => esc_html__( 'Shortcode from a contact-form plugin, for example [contact-form-7 id="123"]. Leave empty if no form is used.', 'multirent-companion' ),
 		'contact_map_query'   => esc_html__( 'Search text used to build the embedded Google map, such as a property name, street address, city, and country. It is not a special code.', 'multirent-companion' ),
 		'contact_map_note'    => esc_html__( 'Short note below the map, useful for parking, arrival instructions, or map corrections.', 'multirent-companion' ),
+		'contact_qr_code_image_id' => esc_html__( 'Optional QR code image for the Contact page. When empty, the QR tile is hidden.', 'multirent-companion' ),
 		'booking_help_lines'  => esc_html__( 'Checklist shown to guests before they send an inquiry. Add one requested detail per line.', 'multirent-companion' ),
 		'local_page_title'    => esc_html__( 'Main heading shown at the top of the Local page.', 'multirent-companion' ),
 		'local_page_intro'    => esc_html__( 'Intro text shown under the Local page heading.', 'multirent-companion' ),
@@ -290,6 +308,9 @@ function multirent_companion_field_descriptions() {
 		'size'                => esc_html__( 'Apartment size, such as 45 m2.', 'multirent-companion' ),
 		'price_note'          => esc_html__( 'Optional short price message, such as On request, From 90 EUR, or Seasonal rates. Leave empty to hide the price tile on the apartment detail page.', 'multirent-companion' ),
 		'booking_url'         => esc_html__( 'Link for booking or inquiry button for this apartment. Use a full URL or a site page path.', 'multirent-companion' ),
+		'video_url'           => esc_html__( 'Optional YouTube video link. When set, the video appears as part of the apartment gallery and opens in the gallery lightbox.', 'multirent-companion' ),
+		'map_address'         => esc_html__( 'Optional address for a map specific to this apartment. Leave empty when the property-wide contact map is enough.', 'multirent-companion' ),
+		'map_coordinates'     => esc_html__( 'Optional latitude and longitude for this apartment map, such as 43.2039, 17.1364. Coordinates override the address when both are set.', 'multirent-companion' ),
 	);
 }
 
@@ -344,7 +365,7 @@ function multirent_companion_save_unit_details( $post_id ) {
 		$values = wp_unslash( $_POST['multirent_unit'] );
 		foreach ( multirent_companion_unit_fields() as $key => $label ) {
 			$value = isset( $values[ $key ] ) ? sanitize_text_field( $values[ $key ] ) : '';
-			if ( 'booking_url' === $key ) {
+			if ( in_array( $key, array( 'booking_url', 'video_url' ), true ) ) {
 				$value = esc_url_raw( $value );
 			}
 			update_post_meta( $post_id, '_' . $key, $value );
@@ -363,6 +384,7 @@ function multirent_companion_save_unit_details( $post_id ) {
 	if ( isset( $_POST['multirent_gallery_image_ids'] ) ) {
 		update_post_meta( $post_id, '_gallery_image_ids', multirent_companion_sanitize_gallery_image_ids( wp_unslash( $_POST['multirent_gallery_image_ids'] ) ) );
 	}
+
 }
 add_action( 'save_post_rental_unit', 'multirent_companion_save_unit_details' );
 
@@ -407,6 +429,7 @@ function multirent_companion_default_settings() {
 		'contact_form_shortcode' => '',
 		'contact_map_query'   => '',
 		'contact_map_note'    => 'Add arrival notes, parking instructions, or map corrections here.',
+		'contact_qr_code_image_id' => '',
 		'booking_help_lines'  => "Preferred arrival and departure dates\nNumber of adults and children\nPreferred apartment or flexible choice\nParking, arrival, or mobility questions",
 		'show_contact_details' => '1',
 		'show_booking_help'   => '1',
@@ -646,7 +669,7 @@ function multirent_companion_admin_assets( $hook_suffix ) {
 		wp_enqueue_script(
 			'multirent-companion-unit-sidebar',
 			plugins_url( 'assets/js/unit-sidebar.js', __FILE__ ),
-			array( 'wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-i18n' ),
+			array( 'wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-i18n', 'wp-block-editor' ),
 			MULTIRENT_COMPANION_VERSION,
 			true
 		);
@@ -655,8 +678,13 @@ function multirent_companion_admin_assets( $hook_suffix ) {
 			'MultiRentUnitSidebar',
 			array(
 				'fields'       => multirent_companion_unit_sidebar_fields(),
+				'qrImageKey'   => '_qr_code_image_id',
+				'qrImageLabel' => esc_html__( 'QR code image', 'multirent-companion' ),
+				'qrImageHelp'  => esc_html__( 'Optional QR code image shown in an extra tile on the apartment detail page.', 'multirent-companion' ),
+				'qrImageButton'=> esc_html__( 'Choose QR code image', 'multirent-companion' ),
+				'qrImageRemove'=> esc_html__( 'Remove QR code image', 'multirent-companion' ),
 				'panelTitle'   => esc_html__( 'Apartment Details', 'multirent-companion' ),
-				'imageHelp'    => esc_html__( 'Use the Apartment Images box below the editor for the main apartment photo and extra rental-page gallery photos. Gallery images can be reordered before saving.', 'multirent-companion' ),
+				'imageHelp'    => esc_html__( 'Use the Apartment Images box below the editor for the main apartment photo and extra gallery photos. The QR code image, video link, and apartment map fields are in Apartment Details. Gallery images can be reordered before saving.', 'multirent-companion' ),
 				'publishHelp'  => esc_html__( 'After filling these fields, click Publish or Update.', 'multirent-companion' ),
 			)
 		);
@@ -805,7 +833,7 @@ function multirent_companion_sanitize_settings( $input, $scope = null ) {
 			$output[ $key ] = ! empty( $input[ $key ] ) ? '1' : '0';
 		} elseif ( 'front_page_rental_count' === $key ) {
 			$output[ $key ] = (string) min( 50, max( 1, absint( $value ) ) );
-		} elseif ( in_array( $key, array( 'apartments_page_id', 'contact_page_id', 'local_page_id' ), true ) ) {
+		} elseif ( in_array( $key, array( 'apartments_page_id', 'contact_page_id', 'local_page_id', 'contact_qr_code_image_id' ), true ) ) {
 			$output[ $key ] = (string) absint( $value );
 		} elseif ( 'hero_image' === $key ) {
 			$output[ $key ] = absint( $value );
@@ -1234,6 +1262,27 @@ function multirent_companion_demo_image_specs() {
 			'subtitle' => 'Preview hero image',
 			'colors'   => array( array( 6, 54, 77 ), array( 8, 126, 164 ), array( 223, 243, 251 ) ),
 		),
+		'demo-contact-qr' => array(
+			'title'    => 'MultiRent Demo Contact QR Code',
+			'filename' => 'multirent-demo-contact-qr.jpg',
+			'label'    => 'Contact QR',
+			'subtitle' => 'Demo booking code',
+			'colors'   => array( array( 16, 32, 51 ), array( 8, 126, 164 ), array( 255, 255, 255 ) ),
+		),
+		'demo-sea-view-studio-qr' => array(
+			'title'    => 'MultiRent Demo Sea View Studio QR Code',
+			'filename' => 'multirent-demo-sea-view-studio-qr.jpg',
+			'label'    => 'Studio QR',
+			'subtitle' => 'Demo unit code',
+			'colors'   => array( array( 16, 32, 51 ), array( 32, 158, 181 ), array( 255, 255, 255 ) ),
+		),
+		'demo-family-apartment-qr' => array(
+			'title'    => 'MultiRent Demo Family Apartment QR Code',
+			'filename' => 'multirent-demo-family-apartment-qr.jpg',
+			'label'    => 'Family QR',
+			'subtitle' => 'Demo unit code',
+			'colors'   => array( array( 16, 32, 51 ), array( 76, 143, 105 ), array( 255, 255, 255 ) ),
+		),
 		'demo-sea-view-studio' => array(
 			'title'    => 'MultiRent Demo Sea View Studio Image',
 			'filename' => 'multirent-demo-sea-view-studio.jpg',
@@ -1627,7 +1676,8 @@ function multirent_companion_demo_rentals() {
 			'slug'      => 'demo-sea-view-studio',
 			'excerpt'   => 'Compact studio for two with balcony, WiFi, TV, and sea-view breakfast seating.',
 			'content'   => '',
-			'meta'      => array( '_capacity' => '2 guests', '_bedrooms' => 'Studio', '_bathrooms' => '1 bathroom', '_size' => '28 m2', '_price_note' => 'From 75 EUR / night', '_booking_url' => '/demo-contact/?unit=demo-sea-view-studio' ),
+			'meta'      => array( '_capacity' => '2 guests', '_bedrooms' => 'Studio', '_bathrooms' => '1 bathroom', '_size' => '28 m2', '_price_note' => 'From 75 EUR / night', '_booking_url' => '/demo-contact/?unit=demo-sea-view-studio', '_video_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_map_coordinates' => '43.5081, 16.4402', '_map_address' => 'Split Croatia waterfront' ),
+			'qr_image_key' => 'demo-sea-view-studio-qr',
 			'amenities' => array( 'wifi', 'balcony', 'bathroom', 'air-condition', 'tv', 'kitchen', 'no-smoking' ),
 		),
 		array(
@@ -1635,7 +1685,8 @@ function multirent_companion_demo_rentals() {
 			'slug'      => 'demo-family-apartment',
 			'excerpt'   => 'Two-bedroom family apartment with parking, kitchen, balcony, and no-smoking setup.',
 			'content'   => '',
-			'meta'      => array( '_capacity' => '2-5 guests', '_bedrooms' => '2 bedrooms', '_bathrooms' => '1 bathroom', '_size' => '62 m2', '_price_note' => 'From 130 EUR / night', '_booking_url' => '/demo-contact/?unit=demo-family-apartment' ),
+			'meta'      => array( '_capacity' => '2-5 guests', '_bedrooms' => '2 bedrooms', '_bathrooms' => '1 bathroom', '_size' => '62 m2', '_price_note' => 'From 130 EUR / night', '_booking_url' => '/demo-contact/?unit=demo-family-apartment', '_map_address' => 'Bacvice Beach Split Croatia' ),
+			'qr_image_key' => 'demo-family-apartment-qr',
 			'amenities' => array( 'parking', 'wifi', 'balcony', 'bathroom', 'air-condition', 'tv', 'kitchen', 'no-smoking' ),
 		),
 		array(
@@ -1643,7 +1694,7 @@ function multirent_companion_demo_rentals() {
 			'slug'      => 'demo-garden-terrace-suite',
 			'excerpt'   => 'Ground-floor suite with terrace, BBQ area, parking, and outdoor dining space.',
 			'content'   => '',
-			'meta'      => array( '_capacity' => '2-4 guests', '_bedrooms' => '1 bedroom', '_bathrooms' => '1 bathroom', '_size' => '48 m2', '_price_note' => 'From 110 EUR / night', '_booking_url' => '/demo-contact/?unit=demo-garden-terrace-suite' ),
+			'meta'      => array( '_capacity' => '2-4 guests', '_bedrooms' => '1 bedroom', '_bathrooms' => '1 bathroom', '_size' => '48 m2', '_price_note' => 'From 110 EUR / night', '_booking_url' => '/demo-contact/?unit=demo-garden-terrace-suite', '_video_url' => 'https://youtu.be/dQw4w9WgXcQ' ),
 			'amenities' => array( 'parking', 'wifi', 'bathroom', 'air-condition', 'bbq', 'terrace', 'kitchen', 'pets-not-allowed' ),
 		),
 		array(
@@ -1691,9 +1742,13 @@ function multirent_companion_create_demo_content() {
 	update_option( 'page_on_front', $pages['home'] );
 
 	$hero_image_id = multirent_companion_create_demo_image_attachment( 'hero' );
+	$contact_qr_image_id = multirent_companion_create_demo_image_attachment( 'demo-contact-qr', $pages['contact'] );
 	$settings = array_merge( multirent_companion_settings(), multirent_companion_demo_settings() );
 	if ( $hero_image_id ) {
 		$settings['hero_image'] = $hero_image_id;
+	}
+	if ( $contact_qr_image_id ) {
+		$settings['contact_qr_code_image_id'] = (string) $contact_qr_image_id;
 	}
 	update_option( 'multirent_settings', $settings );
 
@@ -1725,6 +1780,13 @@ function multirent_companion_create_demo_content() {
 
 		foreach ( multirent_companion_demo_gallery_image_keys( $rental['slug'] ) as $gallery_image_key ) {
 			multirent_companion_create_demo_image_attachment( $gallery_image_key, $post_id );
+		}
+
+		if ( ! empty( $rental['qr_image_key'] ) ) {
+			$qr_image_id = multirent_companion_create_demo_image_attachment( $rental['qr_image_key'], $post_id );
+			if ( $qr_image_id ) {
+				update_post_meta( $post_id, '_qr_code_image_id', $qr_image_id );
+			}
 		}
 	}
 
@@ -2123,7 +2185,7 @@ function multirent_companion_render_contact_page() {
 		<form method="post" action="">
 			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
 			<input type="hidden" name="multirent_action" value="save_contact_page">
-			<input type="hidden" name="multirent_settings_scope" value="show_contact_page,contact_page_id,contact_page_title,contact_page_intro,contact_address,contact_phone,contact_mobile,contact_email,contact_form_shortcode,contact_map_query,contact_map_note,booking_help_lines,show_contact_details,show_booking_help,show_contact_map,show_contact_content,show_contact_form,show_contact_map_note">
+			<input type="hidden" name="multirent_settings_scope" value="show_contact_page,contact_page_id,contact_page_title,contact_page_intro,contact_address,contact_phone,contact_mobile,contact_email,contact_form_shortcode,contact_map_query,contact_map_note,contact_qr_code_image_id,booking_help_lines,show_contact_details,show_booking_help,show_contact_map,show_contact_content,show_contact_form,show_contact_map_note">
 			<table class="form-table" role="presentation">
 				<tr>
 					<th scope="row"><label for="multirent-contact-page-id"><?php esc_html_e( 'Assigned Contact page', 'multirent-companion' ); ?></label></th>
@@ -2172,6 +2234,13 @@ function multirent_companion_render_contact_page() {
 						</td>
 					</tr>
 				<?php endforeach; ?>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Contact QR code image', 'multirent-companion' ); ?></th>
+					<td>
+						<?php multirent_companion_media_field( 'multirent_settings[contact_qr_code_image_id]', absint( $settings['contact_qr_code_image_id'] ), __( 'Choose Contact QR code image', 'multirent-companion' ), __( 'Remove Contact QR code image', 'multirent-companion' ) ); ?>
+						<?php multirent_companion_description( 'contact_qr_code_image_id' ); ?>
+					</td>
+				</tr>
 			</table>
 			<?php submit_button( esc_html__( 'Save Contact Page Settings', 'multirent-companion' ) ); ?>
 		</form>

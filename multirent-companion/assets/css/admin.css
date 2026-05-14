@@ -134,3 +134,20 @@
 	background: transparent;
 	color: inherit;
 }
+
+.multirent-sidebar-media-field {
+	display: grid;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.multirent-sidebar-media-field .components-base-control__label {
+	margin-bottom: 0;
+	font-weight: 500;
+}
+
+.multirent-sidebar-media-value {
+	margin: 0;
+	color: #646970;
+	font-size: 12px;
+}

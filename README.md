@@ -17,18 +17,18 @@ The project is designed for apartment, room, villa, and multi-unit rental websit
 
 ## Latest Packages
 
-- `release-assets/multirent-theme-upload-0.1.29.zip`: theme upload ZIP.
-- `release-assets/multirent-companion-plugin-upload-0.1.29.zip`: companion plugin upload ZIP.
-- `release-assets/multirent-complete-package-extract-first-0.1.29.zip`: extract-first package containing both upload ZIPs.
+- `release-assets/multirent-theme-upload-0.1.30.zip`: theme upload ZIP.
+- `release-assets/multirent-companion-plugin-upload-0.1.30.zip`: companion plugin upload ZIP.
+- `release-assets/multirent-complete-package-extract-first-0.1.30.zip`: extract-first package containing both upload ZIPs.
 
-Important: upload only `multirent-theme-upload-0.1.29.zip` in **Appearance > Themes > Upload Theme**. Do not upload `multirent-complete-package-extract-first-0.1.29.zip` or GitHub's automatic source-code ZIP as a theme, because WordPress will report that the package is missing `style.css`.
+Important: upload only `multirent-theme-upload-0.1.30.zip` in **Appearance > Themes > Upload Theme**. Do not upload `multirent-complete-package-extract-first-0.1.30.zip` or GitHub's automatic source-code ZIP as a theme, because WordPress will report that the package is missing `style.css`.
 
 ## Install Order
 
 1. In WordPress admin, open **Appearance > Themes > Add New > Upload Theme**.
-2. Upload and activate `multirent-theme-upload-0.1.29.zip`.
+2. Upload and activate `multirent-theme-upload-0.1.30.zip`.
 3. Open **Plugins > Add New > Upload Plugin**.
-4. Upload and activate `multirent-companion-plugin-upload-0.1.29.zip`.
+4. Upload and activate `multirent-companion-plugin-upload-0.1.30.zip`.
 5. Open **MultiRent Setup** from the WordPress left admin menu.
 6. Use **Create Starter Pages, Menu, and Amenities** on a fresh site.
 7. Add or edit rental units under **MultiRent Setup > Rental Units**.
@@ -37,9 +37,11 @@ Important: upload only `multirent-theme-upload-0.1.29.zip` in **Appearance > The
 
 MultiRent Companion includes a public-release admin option for optional demo content. Open **MultiRent Setup > Website Setup**, find the **Demo Content** section, and use **Create Demo Content** to enable it or **Remove Demo Content** to disable and clean it up. This is useful when you want to preview the theme before adding real property content.
 
-The demo action creates four example apartments, generated demo hero/featured/gallery images, demo Home/Apartments/Contact/Local pages, selected amenity checkboxes, menu links, and sample contact/local-guide settings. Starter and demo pages, demo apartments, generated demo images, and starter rental units are assigned to the **MultiRent** WordPress author. Demo pages, apartments, and generated images are marked internally with `_multirent_demo_content=multirent-demo-content-v1`, so **Remove Demo Content** can delete only those generated examples and restore the previous homepage and MultiRent settings when available. Selected amenities appear on each apartment detail page.
+The demo action creates four example apartments, generated demo hero/featured/gallery/QR images, demo Home/Apartments/Contact/Local pages, selected amenity checkboxes, menu links, and sample contact/local-guide settings. Some demo apartments include YouTube video, apartment-specific map, and QR examples so users can compare richer detail-page states. Starter and demo pages, demo apartments, generated demo images, and starter rental units are assigned to the **MultiRent** WordPress author. Demo pages, apartments, and generated images are marked internally with `_multirent_demo_content=multirent-demo-content-v1`, so **Remove Demo Content** can delete only those generated examples and restore the previous homepage and MultiRent settings when available. Selected amenities appear on each apartment detail page.
 
 The theme ships with the MultiRent logo as its default header logo, and the companion plugin uses a bundled MultiRent SVG icon in the WordPress left admin menu.
+
+Apartment units can include an optional YouTube video URL, QR code image, and apartment-specific map address or coordinates. The video appears as an item in the apartment gallery and opens in the lightbox player; the QR/map tile appears on the apartment detail page only when at least one of those fields is set. Contact pages can also include an optional QR code tile that stays hidden when no image is configured.
 
 Apartments, Contact, and Local admin screens each include an assigned-page selector, template selector, and a preview button under the template dropdown. Users can keep multiple versions of these pages and switch which page is active for each role.
 

@@ -16,6 +16,7 @@ $email         = multirent_display_option( 'contact_email', '' );
 $form_shortcode = trim( multirent_display_option( 'contact_form_shortcode', '' ) );
 $map_query     = trim( multirent_display_option( 'contact_map_query', '' ) );
 $map_note      = multirent_display_option( 'contact_map_note', '' );
+$contact_qr_code_image_id = absint( multirent_display_option( 'contact_qr_code_image_id', '' ) );
 $booking_lines = multirent_lines_to_items( multirent_display_option( 'booking_help_lines', '' ) );
 ?>
 
@@ -34,24 +35,29 @@ $booking_lines = multirent_lines_to_items( multirent_display_option( 'booking_he
 
 		<section class="section contact-section">
 			<div class="container contact-layout">
-				<?php if ( '1' === (string) multirent_display_option( 'show_contact_details', '1' ) ) : ?>
-					<aside class="contact-card">
-						<h2><?php esc_html_e( 'Contact details', 'multirent' ); ?></h2>
-						<?php if ( $address ) : ?>
-							<address><?php echo nl2br( esc_html( $address ) ); ?></address>
+				<?php if ( '1' === (string) multirent_display_option( 'show_contact_details', '1' ) || $contact_qr_code_image_id ) : ?>
+					<div class="contact-side-stack">
+						<?php if ( '1' === (string) multirent_display_option( 'show_contact_details', '1' ) ) : ?>
+							<aside class="contact-card">
+								<h2><?php esc_html_e( 'Contact details', 'multirent' ); ?></h2>
+								<?php if ( $address ) : ?>
+									<address><?php echo nl2br( esc_html( $address ) ); ?></address>
+								<?php endif; ?>
+								<ul class="contact-list">
+									<?php if ( $phone ) : ?>
+										<li><span><?php esc_html_e( 'Phone', 'multirent' ); ?></span><a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a></li>
+									<?php endif; ?>
+									<?php if ( $mobile ) : ?>
+										<li><span><?php esc_html_e( 'Mobile', 'multirent' ); ?></span><a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $mobile ) ); ?>"><?php echo esc_html( $mobile ); ?></a></li>
+									<?php endif; ?>
+									<?php if ( $email ) : ?>
+										<li><span><?php esc_html_e( 'Email', 'multirent' ); ?></span><a href="mailto:<?php echo esc_attr( antispambot( $email ) ); ?>"><?php echo esc_html( antispambot( $email ) ); ?></a></li>
+									<?php endif; ?>
+								</ul>
+							</aside>
 						<?php endif; ?>
-						<ul class="contact-list">
-							<?php if ( $phone ) : ?>
-								<li><span><?php esc_html_e( 'Phone', 'multirent' ); ?></span><a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a></li>
-							<?php endif; ?>
-							<?php if ( $mobile ) : ?>
-								<li><span><?php esc_html_e( 'Mobile', 'multirent' ); ?></span><a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $mobile ) ); ?>"><?php echo esc_html( $mobile ); ?></a></li>
-							<?php endif; ?>
-							<?php if ( $email ) : ?>
-								<li><span><?php esc_html_e( 'Email', 'multirent' ); ?></span><a href="mailto:<?php echo esc_attr( antispambot( $email ) ); ?>"><?php echo esc_html( antispambot( $email ) ); ?></a></li>
-							<?php endif; ?>
-						</ul>
-					</aside>
+						<?php multirent_render_qr_map_tile( array( 'qr_image_id' => $contact_qr_code_image_id, 'title' => __( 'Quick booking QR', 'multirent' ), 'qr_label' => __( 'Contact QR code', 'multirent' ), 'class' => 'contact-qr-card' ) ); ?>
+					</div>
 				<?php endif; ?>
 
 				<div class="contact-form-area">
