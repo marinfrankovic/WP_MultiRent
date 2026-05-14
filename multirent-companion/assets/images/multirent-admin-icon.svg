@@ -1,0 +1,23 @@
+<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7fd3ff"/>
+      <stop offset="100%" stop-color="#f47b3b"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0b6fd8"/>
+      <stop offset="100%" stop-color="#27a9ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="20" height="20" fill="url(#sky)"/>
+  <circle cx="14" cy="6" r="3" fill="#ffdd66"/>
+  <path d="M0 12 C3 11, 6 13, 9 12 C12 11, 15 13, 20 12 V20 H0 Z" fill="url(#wave)"/>
+  <path d="M0 14 C3 13, 6 15, 9 14 C12 13, 15 15, 20 14 V20 H0 Z" fill="#0a5bb5" opacity="0.9"/>
+  <rect x="5" y="8" width="5" height="4" fill="#ffffff"/>
+  <polygon points="4.5,8 7.5,6 10.5,8" fill="#f47b3b"/>
+  <rect x="7" y="9" width="2" height="3" fill="#f2f2f2"/>
+  <path d="M14 8 C13.5 10, 13.3 12, 13.2 14" stroke="#8b5a2b" stroke-width="0.6" stroke-linecap="round" fill="none"/>
+  <path d="M14 8 C15.5 7.5, 17 7.5, 18 8" stroke="#1f9b4a" stroke-width="0.6" stroke-linecap="round" fill="none"/>
+  <path d="M14 8 C15 7, 16 6.5, 17 6.3" stroke="#27b85a" stroke-width="0.6" stroke-linecap="round" fill="none"/>
+  <path d="M14 8 C13 7, 12 6.5, 11 6.7" stroke="#1f9b4a" stroke-width="0.6" stroke-linecap="round" fill="none"/>
+</svg>
