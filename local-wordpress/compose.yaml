@@ -37,7 +37,7 @@ services:
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
 
   wpcli:
-    image: wordpress:cli
+    image: wordpress:cli-php8.4
     depends_on:
       db:
         condition: service_healthy

@@ -11,8 +11,8 @@ You will create a private WordPress site on your own computer:
 - Local website: `http://localhost:8082`
 - Local WordPress admin: `http://localhost:8082/wp-admin`
 - Database: stored inside Docker on your computer
-- Theme ZIP: `multirent-theme-upload-0.1.21.zip`
-- Plugin ZIP: `multirent-companion-plugin-upload-0.1.21.zip`
+- Theme ZIP: `multirent-theme-upload-0.1.22.zip`
+- Plugin ZIP: `multirent-companion-plugin-upload-0.1.22.zip`
 
 At the end, you will export the local site to one backup file and import that file into the live WordPress site.
 
@@ -174,19 +174,19 @@ http://localhost:8082/wp-admin
 
 Use the packaged ZIP files from the release assets:
 
-- `multirent-theme-upload-0.1.21.zip`
-- `multirent-companion-plugin-upload-0.1.21.zip`
+- `multirent-theme-upload-0.1.22.zip`
+- `multirent-companion-plugin-upload-0.1.22.zip`
 
-If you received `multirent-complete-package-extract-first-0.1.21.zip`, unzip it first. It contains the separate theme and plugin ZIP files.
+If you received `multirent-complete-package-extract-first-0.1.22.zip`, unzip it first. It contains the separate theme and plugin ZIP files.
 
-Important: do not upload `multirent-complete-package-extract-first-0.1.21.zip` or GitHub's automatic source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.21.zip` for the theme installer.
+Important: do not upload `multirent-complete-package-extract-first-0.1.22.zip` or GitHub's automatic source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.22.zip` for the theme installer.
 
 ### Install The Theme
 
 1. In WordPress admin, open **Appearance > Themes**.
 2. Click **Add New**.
 3. Click **Upload Theme**.
-4. Choose `multirent-theme-upload-0.1.21.zip`.
+4. Choose `multirent-theme-upload-0.1.22.zip`.
 5. Click **Install Now**.
 6. Click **Activate**.
 
@@ -194,7 +194,7 @@ Important: do not upload `multirent-complete-package-extract-first-0.1.21.zip` o
 
 1. In WordPress admin, open **Plugins > Add New**.
 2. Click **Upload Plugin**.
-3. Choose `multirent-companion-plugin-upload-0.1.21.zip`.
+3. Choose `multirent-companion-plugin-upload-0.1.22.zip`.
 4. Click **Install Now**.
 5. Click **Activate Plugin**.
 
@@ -273,7 +273,7 @@ Before restoring the local backup, prepare the live site.
 2. Create a full backup of the current live site with your hosting provider or an existing backup plugin.
 3. Confirm you know how to restore that live backup if something goes wrong.
 4. Update WordPress core if needed.
-5. Make sure the live site uses a compatible PHP version. PHP 8.2, 8.3, or 8.4 is recommended.
+5. Make sure the live site uses PHP 8.4 or newer.
 6. Check the live site's upload limit. The backup import file must be smaller than the allowed upload size.
 7. Install and activate **All-in-One WP Migration and Backup** on the live site.
 
