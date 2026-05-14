@@ -11,6 +11,27 @@
 	const useSelect = wp.data.useSelect;
 	const useDispatch = wp.data.useDispatch;
 
+	function hideDuplicateFeaturedImagePanel() {
+		let unsubscribe = null;
+		unsubscribe = wp.data.subscribe(function () {
+			const postType = wp.data.select('core/editor').getCurrentPostType();
+			if (postType !== 'rental_unit') {
+				return;
+			}
+
+			const editPostStore = wp.data.dispatch('core/edit-post');
+			if (editPostStore && editPostStore.removeEditorPanel) {
+				editPostStore.removeEditorPanel('featured-image');
+			}
+
+			if (unsubscribe) {
+				unsubscribe();
+			}
+		});
+	}
+
+	hideDuplicateFeaturedImagePanel();
+
 	function ApartmentDetailsPanel() {
 		const postType = useSelect(function (select) {
 			return select('core/editor').getCurrentPostType();

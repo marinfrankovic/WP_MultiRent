@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.1.20' );
+define( 'MULTIRENT_VERSION', '0.1.21' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -286,11 +286,14 @@ function multirent_render_unit_details( $post_id, $compact = false ) {
 	}
 
 	if ( $compact ) {
-		$items = array_slice( $items, 0, 3 );
+		$items = ! empty( $items['capacity'] ) ? array( 'capacity' => $items['capacity'] ) : array();
+		if ( ! $items ) {
+			return;
+		}
 		?>
 		<ul class="detail-list">
-			<?php foreach ( $items as $item ) : ?>
-				<li><span><?php echo esc_html( $item['label'] ); ?></span><strong><?php echo esc_html( $item['value'] ); ?></strong></li>
+			<?php foreach ( $items as $key => $item ) : ?>
+				<li><span><?php echo esc_html( $item['label'] ); ?></span><strong><?php echo esc_html( multirent_unit_summary_value( $key, $item['value'] ) ); ?></strong></li>
 			<?php endforeach; ?>
 		</ul>
 		<?php
@@ -333,6 +336,14 @@ function multirent_render_unit_details( $post_id, $compact = false ) {
 function multirent_unit_summary_value( $key, $value ) {
 	$clean_value = trim( (string) $value );
 
+	if ( 'capacity' === $key ) {
+		$clean_value = str_replace( array( html_entity_decode( '&ndash;', ENT_QUOTES, 'UTF-8' ), html_entity_decode( '&mdash;', ENT_QUOTES, 'UTF-8' ) ), '-', $clean_value );
+	}
+
+	if ( 'capacity' === $key && preg_match( '/\d+\s*(?:-\s*\d+)?/', $clean_value, $matches ) ) {
+		return preg_replace( '/\s+/', '', $matches[0] );
+	}
+
 	if ( in_array( $key, array( 'capacity', 'bedrooms', 'bathrooms' ), true ) ) {
 		$clean_value = preg_replace( '/\s+(guests?|bedrooms?|bathrooms?)\b/i', '', $clean_value );
 	}
@@ -350,6 +361,7 @@ function multirent_amenity_icons() {
 		'air-condition'    => '&#x2744;&#xFE0F;',
 		'air-conditioning' => '&#x2744;&#xFE0F;',
 		'tv'               => '&#x1F4FA;',
+		'sat-tv'           => '&#x1F4E1;',
 		'bbq'              => '&#x1F525;',
 		'terrace'          => '&#x2600;&#xFE0F;',
 		'terace'           => '&#x2600;&#xFE0F;',
@@ -387,6 +399,23 @@ function multirent_render_unit_amenities( $post_id, $compact = false ) {
 
 function multirent_unit_gallery_images( $post_id ) {
 	$thumbnail_id = get_post_thumbnail_id( $post_id );
+	$stored_ids    = get_post_meta( $post_id, '_gallery_image_ids', true );
+	if ( $stored_ids ) {
+		$image_ids = array_filter( array_map( 'absint', explode( ',', $stored_ids ) ) );
+		$image_ids = array_values(
+			array_filter(
+				array_unique( $image_ids ),
+				function( $image_id ) use ( $thumbnail_id ) {
+					return $image_id && (int) $image_id !== (int) $thumbnail_id && wp_attachment_is_image( $image_id );
+				}
+			)
+		);
+
+		if ( $image_ids ) {
+			return $image_ids;
+		}
+	}
+
 	$attachments = get_posts(
 		array(
 			'post_type'      => 'attachment',

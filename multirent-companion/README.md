@@ -6,17 +6,17 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate `multirent-theme-upload-0.1.20.zip` in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate `multirent-companion-plugin-upload-0.1.20.zip` in **Plugins > Add New > Upload Plugin**.
+1. Install and activate `multirent-theme-upload-0.1.21.zip` in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate `multirent-companion-plugin-upload-0.1.21.zip` in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, and Amenities** if this is a fresh site.
 5. Create the required number of rental units from the **Starter Content** section.
 6. Edit each rental unit under **MultiRent Setup > Rental Units**.
 7. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, `multirent-complete-package-extract-first-0.1.20.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, `multirent-complete-package-extract-first-0.1.21.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
-Do not upload `multirent-complete-package-extract-first-0.1.20.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.20.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.20.zip` for **Upload Plugin**.
+Do not upload `multirent-complete-package-extract-first-0.1.21.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.21.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.21.zip` for **Upload Plugin**.
 
 ## What This Plugin Adds
 
@@ -43,11 +43,12 @@ The **Help / README** screen shows this README file inside WordPress admin so si
 The **Website Setup** screen controls homepage and brand content:
 
 - Property name
+- Homepage section visibility checkboxes
 - Hero title and hero text
 - Hero button label and link
 - Homepage intro eyebrow, title, and text
 - Stats lines, such as unit count, distance, or service notes
-- Homepage apartment-card visibility and number of apartments to show
+- Homepage apartment-card number of apartments to show
 - Reviews shortcode field
 - Contact call-to-action title, text, button label, and button link
 
@@ -56,6 +57,7 @@ The landing page is the only mandatory page. Apartments, Contact, and Local page
 #### Website Setup Field Reference
 
 - **Property name**: public property or rental-business name shown in the header and key theme areas.
+- **Homepage section visibility**: checkboxes that show or hide full homepage blocks: Hero, Intro, Stats, Apartment cards, Reviews, admin-only SEO reminder, admin-only backup reminder, and Contact call-to-action. Hidden blocks keep their saved text and image settings so they can be turned back on later.
 - **Hero title**: main landing-page headline. Use a short phrase that explains the stay you offer.
 - **Hero text**: short landing-page introduction below the headline.
 - **Hero image**: large visual image used on the landing page hero.
@@ -65,13 +67,12 @@ The landing page is the only mandatory page. Apartments, Contact, and Local page
 - **Intro title**: heading for the landing-page intro section below the hero.
 - **Intro text**: text for the landing-page intro section.
 - **Stats lines**: landing-page facts, one per line, using `value | label`, for example `4 | Apartments`.
-- **Homepage apartments checkbox**: shows or hides rental-unit cards on the front page.
+- **Apartment cards checkbox**: shows or hides rental-unit cards on the front page.
 - **Number of apartments to show**: limits the homepage rental cards from 1 to 50. Use the Apartments page for the complete list.
-- **Reviews shortcode**: shortcode from a reviews plugin. The reviews section also needs the Google Reviews checkbox enabled.
-- **Google Reviews checkbox**: shows or hides the reviews section.
+- **Reviews shortcode**: shortcode from a reviews plugin. The Reviews section checkbox must also be enabled in Homepage section visibility.
 - **SEO reminder checkbox**: shows a private admin-only reminder to configure SEO metadata.
 - **Backup reminder checkbox**: shows a private admin-only reminder to create backups before major changes.
-- **Contact title/text/button fields**: content for the landing-page contact call-to-action band, not the full Contact page.
+- **Contact title/text/button fields**: content for the landing-page contact call-to-action band, not the full Contact page. The Contact call-to-action checkbox controls whether this band appears.
 - **Header menu links**: top menu links, one per line, using `Label | URL`.
 - **Color scheme**: preset color palette used by the theme.
 - **Use custom colors**: enables the custom color pickers.
@@ -132,7 +133,7 @@ To add an image inside any page:
 6. Adjust alignment, size, or caption if needed.
 7. Click **Update**.
 
-For apartment card images, use **MultiRent Setup > Rental Units**, open the apartment, and click **Set featured image** in the right sidebar. In the classic editor, this may also appear as **Apartment Tile Image** in the **Apartment Page Editor** box.
+For apartment card images, use **MultiRent Setup > Rental Units**, open the apartment, and use **Apartment Images > Apartment Tile Image** below the editor. The duplicate WordPress **Featured image** sidebar panel is hidden for rental units to avoid confusion.
 
 For the homepage hero image, use **MultiRent Setup > Website Setup > Hero image**.
 
@@ -210,7 +211,7 @@ Editable fields include:
 - Map or arrival note
 - Booking-help checklist lines
 
-The user can show or hide each contact page area with checkboxes:
+The Contact page visibility checkboxes are grouped at the top of the screen. The user can show or hide each contact page area with checkboxes:
 
 - Contact details card
 - Booking inquiry checklist
@@ -265,7 +266,7 @@ Nearest airport | https://example.com
 Local tourism board | https://example.com
 ```
 
-The user can show or hide each local page area with checkboxes:
+The Local page visibility checkboxes are grouped at the top of the screen. The user can show or hide each local page area with checkboxes:
 
 - Guest guide cards
 - Local highlights
@@ -350,20 +351,22 @@ Use this workflow whenever you want to add one complete apartment from the WordP
 3. Enter the apartment name in the title field, for example `Apartment A1` or `Sea View Studio`.
 4. Add the full apartment description in the main editor. Include room layout, balcony/terrace notes, kitchen details, accessibility notes, house rules, or anything guests should know before booking.
 5. Add a short summary in the **Excerpt** field if it is visible. This text is used on apartment cards. If Excerpt is not visible, open **Screen Options** at the top of the editor and enable **Excerpt**.
-6. In the right sidebar, click **Set featured image** and select the main apartment photo from the Media Library or upload a new one. This is the apartment tile image used on cards and apartment pages.
-7. Add extra apartment photos in the main editor with **Image** or **Gallery** blocks. These photos appear inside that apartment page only.
-8. In the right sidebar, open **Apartment Details** and fill in **Guest capacity**, **Bedrooms**, **Bathrooms**, **Size**, optional **Price note**, and **Booking or inquiry URL**. Guest capacity is free text, so use one consistent value such as `2 guests`, `2-4 guests`, or `up to 6 guests`; the same value appears on apartment cards and detail pages. Leave price note empty to hide the price tile.
-9. In the **Amenities** checkbox list, select the amenities for that apartment. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
-10. Click **Publish** to make the apartment live, or **Save Draft** if it is not ready yet.
-11. Open the public apartment page from the **View** link and check the image, description, details, amenities, and booking button.
-12. Open the Apartments page on the public site and confirm the new apartment card appears in the list.
-13. If the apartment page returns a 404 error, open **Settings > Permalinks** and click **Save Changes** once, then test again.
+6. In the auto-expanded **Apartment Images** box below the editor, use **Apartment Tile Image** to select the main apartment photo from the Media Library or upload a new one. This is the apartment tile image used on cards and apartment pages.
+7. In the **Apartment Gallery Images** box below the editor, choose the detail-page gallery photos, reorder them with **Move up** and **Move down**, and remove any images you do not want.
+8. Add optional extra apartment photos in the main editor with **Image** or **Gallery** blocks only when those photos should appear inside the written apartment description.
+9. In the right sidebar, open **Apartment Details** and fill in **Guest capacity**, **Bedrooms**, **Bathrooms**, **Size**, optional **Price note**, and **Booking or inquiry URL**. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile.
+10. In the **Amenities** checkbox list, select the amenities for that apartment. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
+11. Click **Publish** to make the apartment live, or **Save Draft** if it is not ready yet.
+12. Open the public apartment page from the **View** link and check the image, gallery order, description, details, amenities, and booking button.
+13. Open the Apartments page on the public site and confirm the new apartment card appears in the list.
+14. If the apartment page returns a 404 error, open **Settings > Permalinks** and click **Save Changes** once, then test again.
 
 Recommended content checklist for each apartment:
 
 - One clear apartment title.
 - One strong tile image in landscape orientation.
-- Extra apartment photos added as Image or Gallery blocks in the main editor.
+- Detail-page gallery photos selected in Apartment Gallery Images and ordered correctly.
+- Optional extra photos added as Image or Gallery blocks in the main editor only when they belong inside the written description.
 - A short card summary in the Excerpt field.
 - A complete main description.
 - Capacity, bedrooms, bathrooms, size, and optional price note.
@@ -377,37 +380,40 @@ To hide an apartment without deleting it, open the apartment editor and change i
 
 #### Add Images To An Apartment Page
 
-There are two image areas for each apartment:
+There are three image areas for each apartment:
 
-- **Set featured image**: the main apartment image. It appears on apartment cards, previews, and the top of the single apartment page.
-- **Image or Gallery blocks in the main editor**: extra photos shown inside that apartment page only, such as bedroom, bathroom, kitchen, balcony, view, parking, or floor-plan photos.
-- **Attached apartment images**: extra uploaded images appear in the modern gallery panel beside the narrower Details tile on the apartment detail page. The gallery is not limited to four images; it displays all attached apartment images except the featured image.
+- **Apartment Tile Image**: the main apartment image. It appears on apartment cards, previews, and the top of the single apartment page.
+- **Apartment Gallery Images**: the managed gallery shown beside the Details tile on the apartment detail page. Choose multiple images, reorder them with **Move up** and **Move down**, and remove images without deleting them from the Media Library.
+- **Image or Gallery blocks in the main editor**: optional photos shown inside the written apartment description only, such as a floor plan or a captioned detail.
+- **Attached apartment images fallback**: older apartments still show attached images in the gallery if no Apartment Gallery Images have been selected.
 - **Apartment Details**: the single apartment page organizes details as a booking-style panel with optional price first, guests/bedrooms/bathrooms as clean quick facts, then size, amenities, and the inquiry button. If the price note is empty, the price tile is hidden.
 
 To add extra photos to one apartment page:
 
 1. Open **MultiRent Setup > Rental Units**.
 2. Click the apartment you want to edit.
-3. Click in the main editor area where the photos should appear.
-4. Click the blue **+** button and choose **Image** for one photo or **Gallery** for several photos.
-5. Choose **Upload** for new photos or **Media Library** for existing photos.
-6. Add helpful alt text for each photo, for example `Apartment A1 balcony sea view`.
-7. Add captions if they help guests understand the photo.
-8. Click **Update**.
-9. Open the public apartment page and confirm the photos appear in the right place.
+3. Find the auto-expanded **Apartment Images** box below the main editor, then use its **Apartment Gallery Images** section.
+4. Click **Choose gallery images**.
+5. Choose **Upload** for new photos or **Media Library** for existing photos, select all gallery photos, and click **Use selected images**.
+6. Use **Move up** and **Move down** on each thumbnail until the public gallery order is correct.
+7. Use **Remove** on a thumbnail to remove it from this apartment gallery without deleting the file from the Media Library.
+8. Add helpful alt text in the Media Library for each photo, for example `Apartment A1 balcony sea view`.
+9. Click **Update**.
+10. Open the public apartment page and confirm the photos appear in the right order.
 
-Use **Set featured image** only for the main apartment/card image. Use **Image** or **Gallery** blocks for all additional apartment-page photos.
+Use **Apartment Tile Image** only for the main apartment/card image. Use **Apartment Gallery Images** for the detail-page gallery. Use **Image** or **Gallery** blocks only for photos that should appear inside the written apartment description.
 
 ### Apartment Details And Images
 
-Each rental unit edit screen includes apartment detail controls. In the modern WordPress block editor, these fields appear in the right sidebar under **Apartment Details**. In the classic editor, they appear in an **Apartment Page Editor** box below the main editor.
+Each rental unit edit screen keeps image controls and text/detail controls separate. The auto-expanded **Apartment Images** box below the main editor is only for the apartment tile image and ordered gallery photos. Capacity, bedrooms, bathrooms, size, price note, and booking URL are edited in the right sidebar under **Apartment Details**.
 
-The apartment tile image is the normal WordPress **Featured image**. Click **Set featured image** in the right sidebar. It appears in rental cards and single rental pages.
+The apartment tile image is stored as the normal WordPress featured image internally, but site owners manage it from **Apartment Images > Apartment Tile Image** below the editor. It appears in rental cards and single rental pages. The detail-page gallery is controlled by the **Apartment Gallery Images** section in the same box.
 
 #### Apartment Field Reference
 
-- **Featured image / apartment tile image**: main image used on apartment cards, previews, and the top of the apartment page. In the block editor, set it with **Set featured image** in the right sidebar.
-- **Guest capacity**: guest count or range shown consistently on cards and detail pages, such as `2 guests`, `2-4 guests`, or `up to 6 guests`.
+- **Apartment Tile Image**: main image used on apartment cards, previews, and the top of the apartment page. It is stored as the WordPress featured image internally, but rental editors manage it from the **Apartment Images** box.
+- **Apartment Gallery Images**: comma-separated image IDs are stored internally for the ordered detail-page gallery. Site owners manage this with the gallery picker and **Move up** / **Move down** controls, not by editing IDs manually.
+- **Guest capacity**: guest count or range for apartment cards and detail pages, such as `2 guests`, `2-4 guests`, or `up to 6 guests`. Public summary badges display only the number or range.
 - **Bedrooms**: number or description of bedrooms, such as `2` or `Studio`.
 - **Bathrooms**: number or description of bathrooms.
 - **Size**: apartment size, such as `45 m2`.
@@ -416,9 +422,9 @@ The apartment tile image is the normal WordPress **Featured image**. Click **Set
 
 ### Amenities
 
-Amenities are grouped under **MultiRent Setup > Amenities** and appear as checkboxes on each rental unit. The companion plugin creates the standard amenity choices automatically: Parking, WiFi, Balcony, Bathroom, Air Condition, TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
+Amenities are grouped under **MultiRent Setup > Amenities** and appear as checkboxes on each rental unit. The companion plugin creates the standard amenity choices automatically: Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
 
-When an amenity checkbox is selected for an apartment, the theme displays that amenity as an icon badge on the single apartment detail page. Apartment listing cards stay compact and show only core apartment details. Older starter terms such as `Wi-Fi` and `Air conditioning` are migrated to the newer checkbox terms when possible, and unused old starter terms are cleaned up.
+When an amenity checkbox is selected for an apartment, the theme displays that amenity as an icon badge on the single apartment detail page. Apartment listing cards stay compact and show the apartment image, title, excerpt, guest capacity, and details link. Older starter terms such as `Wi-Fi` and `Air conditioning` are migrated to the newer checkbox terms when possible, and unused old starter terms are cleaned up.
 
 ## Recommended Plugins
 

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.20
+ * Version: 0.1.21
  * Requires at least: 6.5
  * Requires PHP: 8.1
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.20' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.21' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -27,6 +27,7 @@ function multirent_companion_default_amenities() {
 		'bathroom'         => 'Bathroom',
 		'air-condition'    => 'Air Condition',
 		'tv'               => 'TV',
+		'sat-tv'           => 'Sat TV',
 		'bbq'              => 'BBQ',
 		'terrace'          => 'Terrace',
 		'no-smoking'       => 'No-Smoking',
@@ -110,7 +111,7 @@ function multirent_companion_register_content_types() {
 			),
 			'public'       => true,
 			'show_in_menu' => 'multirent-setup',
-			'supports'     => array( 'title', 'editor', 'excerpt', 'thumbnail', 'page-attributes' ),
+			'supports'     => array( 'title', 'editor', 'excerpt', 'page-attributes' ),
 			'has_archive'  => true,
 			'rewrite'      => array( 'slug' => 'rentals' ),
 			'show_in_rest' => true,
@@ -165,8 +166,62 @@ function multirent_companion_register_unit_meta() {
 			)
 		);
 	}
+
+	register_post_meta(
+		'rental_unit',
+		'_gallery_image_ids',
+		array(
+			'single'            => true,
+			'type'              => 'string',
+			'show_in_rest'      => true,
+			'sanitize_callback' => 'multirent_companion_sanitize_gallery_image_ids',
+			'auth_callback'     => function() {
+				return current_user_can( 'edit_posts' );
+			},
+		)
+	);
 }
 add_action( 'init', 'multirent_companion_register_unit_meta' );
+
+function multirent_companion_sanitize_gallery_image_ids( $value ) {
+	$ids = is_array( $value ) ? $value : explode( ',', (string) $value );
+	$ids = array_filter( array_map( 'absint', $ids ) );
+	$ids = array_values( array_unique( $ids ) );
+
+	return implode( ',', $ids );
+}
+
+function multirent_companion_gallery_image_ids_for_editor( $post_id ) {
+	$stored_ids = multirent_companion_sanitize_gallery_image_ids( get_post_meta( $post_id, '_gallery_image_ids', true ) );
+	if ( $stored_ids ) {
+		return $stored_ids;
+	}
+
+	$thumbnail_id = get_post_thumbnail_id( $post_id );
+	$attachments  = get_posts(
+		array(
+			'post_type'      => 'attachment',
+			'post_mime_type' => 'image',
+			'post_parent'    => $post_id,
+			'post_status'    => 'inherit',
+			'posts_per_page' => -1,
+			'orderby'        => 'menu_order ID',
+			'order'          => 'ASC',
+			'fields'         => 'ids',
+		)
+	);
+
+	$image_ids = array();
+	foreach ( $attachments as $attachment_id ) {
+		if ( (int) $attachment_id === (int) $thumbnail_id ) {
+			continue;
+		}
+
+		$image_ids[] = (int) $attachment_id;
+	}
+
+	return implode( ',', $image_ids );
+}
 
 function multirent_companion_unit_sidebar_fields() {
 	$fields = array();
@@ -194,7 +249,7 @@ function multirent_companion_field_descriptions() {
 		'stats_lines'         => esc_html__( 'Landing-page facts, one per line, using value | label. Example: 4 | Apartments.', 'multirent-companion' ),
 		'show_front_page_rentals' => esc_html__( 'When enabled, rental-unit cards appear on the homepage below the intro and stats.', 'multirent-companion' ),
 		'front_page_rental_count' => esc_html__( 'Maximum number of rental units shown on the homepage. Use the Apartments page for the full list.', 'multirent-companion' ),
-		'reviews_shortcode'   => esc_html__( 'Shortcode from a reviews plugin. The reviews section also needs the Google Reviews checkbox enabled.', 'multirent-companion' ),
+		'reviews_shortcode'   => esc_html__( 'Shortcode from a reviews plugin. The Reviews section checkbox must also be enabled in Homepage section visibility.', 'multirent-companion' ),
 		'contact_title'       => esc_html__( 'Heading for the landing-page contact call-to-action band.', 'multirent-companion' ),
 		'contact_text'        => esc_html__( 'Short text in the landing-page contact call-to-action band.', 'multirent-companion' ),
 		'contact_button_text' => esc_html__( 'Button text for the landing-page contact call to action.', 'multirent-companion' ),
@@ -206,9 +261,13 @@ function multirent_companion_field_descriptions() {
 		'color_dark'          => esc_html__( 'Dark brand color used for headers, footers, and dark sections.', 'multirent-companion' ),
 		'color_surface'       => esc_html__( 'Light page background color.', 'multirent-companion' ),
 		'color_accent'        => esc_html__( 'Soft accent background color used for highlighted navigation and panels.', 'multirent-companion' ),
+		'show_hero_section'   => esc_html__( 'Show or hide the large homepage hero section.', 'multirent-companion' ),
+		'show_intro_section'  => esc_html__( 'Show or hide the homepage introduction section.', 'multirent-companion' ),
+		'show_stats_section'  => esc_html__( 'Show or hide the homepage facts strip.', 'multirent-companion' ),
 		'show_apartments_page' => esc_html__( 'When enabled, the Apartments page is published and kept in the generated top menu.', 'multirent-companion' ),
 		'show_contact_page'   => esc_html__( 'When enabled, the Contact page is published and kept in the generated top menu.', 'multirent-companion' ),
 		'show_local_page'     => esc_html__( 'When enabled, the Local page is published and kept in the generated top menu.', 'multirent-companion' ),
+		'show_contact_cta'    => esc_html__( 'Show or hide the homepage contact call-to-action band.', 'multirent-companion' ),
 		'contact_page_title'  => esc_html__( 'Main heading shown at the top of the Contact page.', 'multirent-companion' ),
 		'contact_page_intro'  => esc_html__( 'Intro text shown under the Contact page heading.', 'multirent-companion' ),
 		'contact_address'     => esc_html__( 'Address block shown in the contact details card. Use one line per address line.', 'multirent-companion' ),
@@ -247,7 +306,7 @@ function multirent_companion_description( $key ) {
 }
 
 function multirent_companion_add_unit_meta_box() {
-	add_meta_box( 'multirent_unit_details', esc_html__( 'Apartment Page Editor', 'multirent-companion' ), 'multirent_companion_render_unit_meta_box', 'rental_unit', 'normal', 'high' );
+	add_meta_box( 'multirent_unit_details', esc_html__( 'Apartment Images', 'multirent-companion' ), 'multirent_companion_render_unit_meta_box', 'rental_unit', 'normal', 'high' );
 }
 add_action( 'add_meta_boxes', 'multirent_companion_add_unit_meta_box' );
 
@@ -261,21 +320,9 @@ function multirent_companion_render_unit_meta_box( $post ) {
 		<?php multirent_companion_media_field( 'multirent_featured_image_id', $tile_image_id, __( 'Choose apartment image', 'multirent-companion' ), __( 'Remove image', 'multirent-companion' ) ); ?>
 	</div>
 	<div class="multirent-editor-panel">
-		<h3><?php esc_html_e( 'Apartment Details', 'multirent-companion' ); ?></h3>
-		<p><?php esc_html_e( 'Fill these fields once. The theme will show them on cards and apartment detail pages.', 'multirent-companion' ); ?></p>
-	<?php
-	foreach ( multirent_companion_unit_fields() as $key => $label ) {
-		$value = get_post_meta( $post->ID, '_' . $key, true );
-		$type  = 'booking_url' === $key ? 'url' : 'text';
-		?>
-		<p>
-			<label for="multirent-<?php echo esc_attr( $key ); ?>"><strong><?php echo esc_html( $label ); ?></strong></label>
-			<input class="widefat" id="multirent-<?php echo esc_attr( $key ); ?>" name="multirent_unit[<?php echo esc_attr( $key ); ?>]" type="<?php echo esc_attr( $type ); ?>" value="<?php echo esc_attr( $value ); ?>">
-			<?php multirent_companion_description( $key ); ?>
-		</p>
-		<?php
-	}
-	?>
+		<h3><?php esc_html_e( 'Apartment Gallery Images', 'multirent-companion' ); ?></h3>
+		<p><?php esc_html_e( 'Choose extra apartment photos for the gallery on the rental detail page. Use Move up and Move down to control the public gallery order.', 'multirent-companion' ); ?></p>
+		<?php multirent_companion_gallery_media_field( 'multirent_gallery_image_ids', multirent_companion_gallery_image_ids_for_editor( $post->ID ) ); ?>
 	</div>
 	<?php
 }
@@ -293,13 +340,15 @@ function multirent_companion_save_unit_details( $post_id ) {
 		return;
 	}
 
-	$values = isset( $_POST['multirent_unit'] ) && is_array( $_POST['multirent_unit'] ) ? wp_unslash( $_POST['multirent_unit'] ) : array();
-	foreach ( multirent_companion_unit_fields() as $key => $label ) {
-		$value = isset( $values[ $key ] ) ? sanitize_text_field( $values[ $key ] ) : '';
-		if ( 'booking_url' === $key ) {
-			$value = esc_url_raw( $value );
+	if ( isset( $_POST['multirent_unit'] ) && is_array( $_POST['multirent_unit'] ) ) {
+		$values = wp_unslash( $_POST['multirent_unit'] );
+		foreach ( multirent_companion_unit_fields() as $key => $label ) {
+			$value = isset( $values[ $key ] ) ? sanitize_text_field( $values[ $key ] ) : '';
+			if ( 'booking_url' === $key ) {
+				$value = esc_url_raw( $value );
+			}
+			update_post_meta( $post_id, '_' . $key, $value );
 		}
-		update_post_meta( $post_id, '_' . $key, $value );
 	}
 
 	if ( isset( $_POST['multirent_featured_image_id'] ) ) {
@@ -310,6 +359,10 @@ function multirent_companion_save_unit_details( $post_id ) {
 			delete_post_thumbnail( $post_id );
 		}
 	}
+
+	if ( isset( $_POST['multirent_gallery_image_ids'] ) ) {
+		update_post_meta( $post_id, '_gallery_image_ids', multirent_companion_sanitize_gallery_image_ids( wp_unslash( $_POST['multirent_gallery_image_ids'] ) ) );
+	}
 }
 add_action( 'save_post_rental_unit', 'multirent_companion_save_unit_details' );
 
@@ -319,11 +372,14 @@ function multirent_companion_default_settings() {
 		'hero_title'          => 'Flexible stays for every guest',
 		'hero_text'           => 'Showcase apartments, rooms, villas, or holiday homes with clear details and easy inquiry paths.',
 		'hero_image'          => '',
+		'show_hero_section'   => '1',
 		'hero_button_text'    => 'View rentals',
 		'hero_button_url'     => '#rentals',
+		'show_intro_section'  => '1',
 		'intro_eyebrow'       => 'About the property',
 		'intro_title'         => 'Manage every unit from WordPress',
 		'intro_text'          => 'Add rental units, amenities, photos, capacity, booking links, and guest-facing details from the WordPress dashboard.',
+		'show_stats_section'  => '1',
 		'stats_lines'         => "4 | Rental units\n100 m | Example distance\n24/7 | Self-managed content",
 		'show_front_page_rentals' => '1',
 		'front_page_rental_count' => '12',
@@ -335,6 +391,7 @@ function multirent_companion_default_settings() {
 		'contact_text'        => 'Connect this section to your contact page, booking form, or external reservation system.',
 		'contact_button_text' => 'Contact us',
 		'contact_button_url'  => '#contact',
+		'show_contact_cta'    => '1',
 		'show_apartments_page' => '1',
 		'show_contact_page'   => '1',
 		'show_local_page'     => '1',
@@ -568,7 +625,7 @@ function multirent_companion_admin_assets( $hook_suffix ) {
 			array(
 				'fields'       => multirent_companion_unit_sidebar_fields(),
 				'panelTitle'   => esc_html__( 'Apartment Details', 'multirent-companion' ),
-				'imageHelp'    => esc_html__( 'Use the Set featured image button above for the apartment tile image.', 'multirent-companion' ),
+				'imageHelp'    => esc_html__( 'Use the Apartment Images box below the editor for the main apartment photo and extra rental-page gallery photos. Gallery images can be reordered before saving.', 'multirent-companion' ),
 				'publishHelp'  => esc_html__( 'After filling these fields, click Publish or Update.', 'multirent-companion' ),
 			)
 		);
@@ -578,8 +635,14 @@ function multirent_companion_admin_assets( $hook_suffix ) {
 		'multirent-companion-admin',
 		'MultiRentAdmin',
 		array(
-			'chooseImage' => esc_html__( 'Choose image', 'multirent-companion' ),
-			'useImage'    => esc_html__( 'Use this image', 'multirent-companion' ),
+			'chooseImage'   => esc_html__( 'Choose image', 'multirent-companion' ),
+			'useImage'      => esc_html__( 'Use this image', 'multirent-companion' ),
+			'chooseGallery' => esc_html__( 'Choose apartment gallery images', 'multirent-companion' ),
+			'useGallery'    => esc_html__( 'Use selected images', 'multirent-companion' ),
+			'noImages'      => esc_html__( 'No gallery images selected', 'multirent-companion' ),
+			'moveUp'        => esc_html__( 'Move up', 'multirent-companion' ),
+			'moveDown'      => esc_html__( 'Move down', 'multirent-companion' ),
+			'removeImage'   => esc_html__( 'Remove image', 'multirent-companion' ),
 		)
 	);
 }
@@ -600,6 +663,39 @@ function multirent_companion_media_field( $field_name, $attachment_id, $button_l
 		<p>
 			<button type="button" class="button" data-multirent-media-select><?php echo esc_html( $button_label ); ?></button>
 			<button type="button" class="button button-link-delete" data-multirent-media-remove><?php echo esc_html( $remove_label ); ?></button>
+		</p>
+	</div>
+	<?php
+}
+
+function multirent_companion_gallery_media_field( $field_name, $attachment_ids ) {
+	$ids = multirent_companion_sanitize_gallery_image_ids( $attachment_ids );
+	$ids = $ids ? array_map( 'absint', explode( ',', $ids ) ) : array();
+	?>
+	<div class="multirent-gallery-control" data-multirent-gallery-control>
+		<input type="hidden" name="<?php echo esc_attr( $field_name ); ?>" value="<?php echo esc_attr( implode( ',', $ids ) ); ?>" data-multirent-gallery-ids>
+		<div class="multirent-gallery-preview" data-multirent-gallery-preview>
+			<?php if ( $ids ) : ?>
+				<?php foreach ( $ids as $attachment_id ) : ?>
+					<?php $image_url = wp_get_attachment_image_url( $attachment_id, 'thumbnail' ); ?>
+					<?php if ( $image_url ) : ?>
+						<div class="multirent-gallery-preview-item" data-multirent-gallery-item data-attachment-id="<?php echo esc_attr( $attachment_id ); ?>">
+							<img src="<?php echo esc_url( $image_url ); ?>" alt="">
+							<div class="multirent-gallery-preview-actions">
+								<button type="button" class="button button-small" data-multirent-gallery-move="up"><?php esc_html_e( 'Move up', 'multirent-companion' ); ?></button>
+								<button type="button" class="button button-small" data-multirent-gallery-move="down"><?php esc_html_e( 'Move down', 'multirent-companion' ); ?></button>
+								<button type="button" class="button button-small button-link-delete" data-multirent-gallery-remove-item><?php esc_html_e( 'Remove', 'multirent-companion' ); ?></button>
+							</div>
+						</div>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			<?php else : ?>
+				<span><?php esc_html_e( 'No gallery images selected', 'multirent-companion' ); ?></span>
+			<?php endif; ?>
+		</div>
+		<p>
+			<button type="button" class="button" data-multirent-gallery-select><?php esc_html_e( 'Choose gallery images', 'multirent-companion' ); ?></button>
+			<button type="button" class="button button-link-delete" data-multirent-gallery-remove><?php esc_html_e( 'Remove gallery images', 'multirent-companion' ); ?></button>
 		</p>
 	</div>
 	<?php
@@ -649,7 +745,7 @@ function multirent_companion_sanitize_settings( $input, $scope = null ) {
 		}
 
 		$value = isset( $input[ $key ] ) ? wp_unslash( $input[ $key ] ) : $default;
-		if ( in_array( $key, array( 'show_front_page_rentals', 'show_reviews', 'show_seo_note', 'show_migration_note', 'show_apartments_page', 'show_contact_page', 'show_local_page', 'show_contact_details', 'show_booking_help', 'show_contact_map', 'show_contact_content', 'show_contact_form', 'show_contact_map_note', 'show_local_guides', 'show_local_highlights', 'show_local_activities', 'show_local_links', 'show_local_content', 'use_custom_colors' ), true ) ) {
+		if ( in_array( $key, array( 'show_hero_section', 'show_intro_section', 'show_stats_section', 'show_front_page_rentals', 'show_reviews', 'show_seo_note', 'show_migration_note', 'show_contact_cta', 'show_apartments_page', 'show_contact_page', 'show_local_page', 'show_contact_details', 'show_booking_help', 'show_contact_map', 'show_contact_content', 'show_contact_form', 'show_contact_map_note', 'show_local_guides', 'show_local_highlights', 'show_local_activities', 'show_local_links', 'show_local_content', 'use_custom_colors' ), true ) ) {
 			$output[ $key ] = ! empty( $input[ $key ] ) ? '1' : '0';
 		} elseif ( 'front_page_rental_count' === $key ) {
 			$output[ $key ] = (string) min( 50, max( 1, absint( $value ) ) );
@@ -1170,11 +1266,14 @@ function multirent_companion_demo_settings() {
 		'property_name'            => 'MultiRent Demo Seaside House',
 		'hero_title'               => 'Demo apartments ready to explore',
 		'hero_text'                => 'Four example apartments with realistic details, selected amenities, contact information, and local guide content.',
+		'show_hero_section'        => '1',
 		'hero_button_text'         => 'View demo apartments',
 		'hero_button_url'          => '/demo-apartments/',
+		'show_intro_section'       => '1',
 		'intro_eyebrow'            => 'Demo content',
 		'intro_title'              => 'Preview every apartment display state',
 		'intro_text'               => 'Use this optional demo dataset to understand how MultiRent looks before adding real property content.',
+		'show_stats_section'       => '1',
 		'stats_lines'              => "4 | Demo apartments\n12 | Amenity options\n1 | Complete test site",
 		'show_front_page_rentals'  => '1',
 		'front_page_rental_count'  => '4',
@@ -1182,6 +1281,7 @@ function multirent_companion_demo_settings() {
 		'contact_text'             => 'Use the demo contact page to test booking links, phone, email, map, and editor content.',
 		'contact_button_text'      => 'Open demo contact',
 		'contact_button_url'       => '/demo-contact/',
+		'show_contact_cta'         => '1',
 		'menu_items'               => "Home | /demo-home/\nApartments | /demo-apartments/\nLocal | /demo-local-guide/\nContact | /demo-contact/",
 		'show_apartments_page'     => '1',
 		'show_contact_page'        => '1',
@@ -1189,8 +1289,8 @@ function multirent_companion_demo_settings() {
 		'contact_page_title'       => 'Demo contact and booking inquiry',
 		'contact_page_intro'       => 'Send demo dates, guest count, and the preferred apartment so the layout can be tested end to end.',
 		'contact_address'          => "MultiRent Demo Seaside House\nDemo Street 12\n21329 Demo Coast, Croatia",
-		'contact_phone'            => '+385 21 000 111',
-		'contact_mobile'           => '+385 91 000 222',
+		'contact_phone'            => '',
+		'contact_mobile'           => '',
 		'contact_email'            => 'demo-booking@example.test',
 		'contact_form_shortcode'   => '',
 		'contact_map_query'        => 'Split Croatia waterfront',
@@ -1484,8 +1584,24 @@ function multirent_companion_render_setup_page() {
 		<form method="post" action="">
 			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
 			<input type="hidden" name="multirent_action" value="save_settings">
-			<input type="hidden" name="multirent_settings_scope" value="property_name,hero_title,hero_text,hero_image,hero_button_text,hero_button_url,intro_eyebrow,intro_title,intro_text,stats_lines,show_front_page_rentals,front_page_rental_count,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,contact_title,contact_text,contact_button_text,contact_button_url,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
+			<input type="hidden" name="multirent_settings_scope" value="property_name,show_hero_section,hero_title,hero_text,hero_image,hero_button_text,hero_button_url,show_intro_section,intro_eyebrow,intro_title,intro_text,show_stats_section,stats_lines,show_front_page_rentals,front_page_rental_count,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,show_contact_cta,contact_title,contact_text,contact_button_text,contact_button_url,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
 			<h2><?php esc_html_e( 'Homepage and Brand', 'multirent-companion' ); ?></h2>
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Homepage section visibility', 'multirent-companion' ); ?></th>
+					<td>
+						<p><label><input name="multirent_settings[show_hero_section]" type="checkbox" value="1" <?php checked( $settings['show_hero_section'], '1' ); ?>> <?php esc_html_e( 'Show Hero section.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_intro_section]" type="checkbox" value="1" <?php checked( $settings['show_intro_section'], '1' ); ?>> <?php esc_html_e( 'Show Intro section.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_stats_section]" type="checkbox" value="1" <?php checked( $settings['show_stats_section'], '1' ); ?>> <?php esc_html_e( 'Show Stats strip.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_front_page_rentals]" type="checkbox" value="1" <?php checked( $settings['show_front_page_rentals'], '1' ); ?>> <?php esc_html_e( 'Show Apartment cards section.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_reviews]" type="checkbox" value="1" <?php checked( $settings['show_reviews'], '1' ); ?>> <?php esc_html_e( 'Show Reviews section when a reviews shortcode is entered.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_seo_note]" type="checkbox" value="1" <?php checked( $settings['show_seo_note'], '1' ); ?>> <?php esc_html_e( 'Show admin-only SEO reminder.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_migration_note]" type="checkbox" value="1" <?php checked( $settings['show_migration_note'], '1' ); ?>> <?php esc_html_e( 'Show admin-only backup reminder.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_contact_cta]" type="checkbox" value="1" <?php checked( $settings['show_contact_cta'], '1' ); ?>> <?php esc_html_e( 'Show Contact call-to-action section.', 'multirent-companion' ); ?></label></p>
+						<p class="description"><?php esc_html_e( 'These checkboxes hide or show full homepage blocks. The text and image fields below are kept even when their block is hidden.', 'multirent-companion' ); ?></p>
+					</td>
+				</tr>
+			</table>
 			<table class="form-table" role="presentation">
 				<?php foreach ( array( 'property_name', 'hero_title', 'hero_text', 'hero_button_text', 'hero_button_url', 'intro_eyebrow', 'intro_title', 'intro_text', 'stats_lines', 'reviews_shortcode', 'contact_title', 'contact_text', 'contact_button_text', 'contact_button_url' ) as $key ) : ?>
 					<tr>
@@ -1510,8 +1626,6 @@ function multirent_companion_render_setup_page() {
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Homepage apartments', 'multirent-companion' ); ?></th>
 					<td>
-						<label><input name="multirent_settings[show_front_page_rentals]" type="checkbox" value="1" <?php checked( $settings['show_front_page_rentals'], '1' ); ?>> <?php esc_html_e( 'Show apartment cards on the homepage.', 'multirent-companion' ); ?></label>
-						<?php multirent_companion_description( 'show_front_page_rentals' ); ?>
 						<label for="multirent-front-page-rental-count"><strong><?php esc_html_e( 'Number of apartments to show', 'multirent-companion' ); ?></strong></label><br>
 						<input id="multirent-front-page-rental-count" name="multirent_settings[front_page_rental_count]" type="number" min="1" max="50" step="1" value="<?php echo esc_attr( $settings['front_page_rental_count'] ); ?>">
 						<?php multirent_companion_description( 'front_page_rental_count' ); ?>
@@ -1524,15 +1638,15 @@ function multirent_companion_render_setup_page() {
 			<table class="form-table" role="presentation">
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Google Reviews', 'multirent-companion' ); ?></th>
-					<td><label><input name="multirent_settings[show_reviews]" type="checkbox" value="1" <?php checked( $settings['show_reviews'], '1' ); ?>> <?php esc_html_e( 'Show the reviews section when a reviews shortcode is entered.', 'multirent-companion' ); ?></label><p class="description"><?php esc_html_e( 'Use this only after you paste a reviews shortcode. If off, the reviews area stays hidden even when a shortcode is saved.', 'multirent-companion' ); ?></p></td>
+					<td><p class="description"><?php esc_html_e( 'Paste the reviews shortcode above, then enable Reviews in Homepage section visibility.', 'multirent-companion' ); ?></p></td>
 				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'SEO reminder', 'multirent-companion' ); ?></th>
-					<td><label><input name="multirent_settings[show_seo_note]" type="checkbox" value="1" <?php checked( $settings['show_seo_note'], '1' ); ?>> <?php esc_html_e( 'Show a private admin-only reminder to configure SEO metadata.', 'multirent-companion' ); ?></label><p class="description"><?php esc_html_e( 'This reminder is visible only to logged-in admins, not public visitors.', 'multirent-companion' ); ?></p></td>
+					<td><p class="description"><?php esc_html_e( 'Enable SEO reminder in Homepage section visibility to show this private admin-only homepage reminder.', 'multirent-companion' ); ?></p></td>
 				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Backup reminder', 'multirent-companion' ); ?></th>
-					<td><label><input name="multirent_settings[show_migration_note]" type="checkbox" value="1" <?php checked( $settings['show_migration_note'], '1' ); ?>> <?php esc_html_e( 'Show a private admin-only reminder to create backups before major changes.', 'multirent-companion' ); ?></label><p class="description"><?php esc_html_e( 'This does not install a backup plugin; it only reminds admins to make backups.', 'multirent-companion' ); ?></p></td>
+					<td><p class="description"><?php esc_html_e( 'Enable Backup reminder in Homepage section visibility to show this private admin-only homepage reminder.', 'multirent-companion' ); ?></p></td>
 				</tr>
 			</table>
 
@@ -1674,8 +1788,17 @@ function multirent_companion_render_contact_page() {
 			<input type="hidden" name="multirent_settings_scope" value="show_contact_page,contact_page_title,contact_page_intro,contact_address,contact_phone,contact_mobile,contact_email,contact_form_shortcode,contact_map_query,contact_map_note,booking_help_lines,show_contact_details,show_booking_help,show_contact_map,show_contact_content,show_contact_form,show_contact_map_note">
 			<table class="form-table" role="presentation">
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Show Contact page', 'multirent-companion' ); ?></th>
-					<td><label><input name="multirent_settings[show_contact_page]" type="checkbox" value="1" <?php checked( $settings['show_contact_page'], '1' ); ?>> <?php esc_html_e( 'Publish the Contact page and allow it in the generated top menu.', 'multirent-companion' ); ?></label><?php multirent_companion_description( 'show_contact_page' ); ?></td>
+					<th scope="row"><?php esc_html_e( 'Contact page visibility', 'multirent-companion' ); ?></th>
+					<td>
+						<p><label><input name="multirent_settings[show_contact_page]" type="checkbox" value="1" <?php checked( $settings['show_contact_page'], '1' ); ?>> <?php esc_html_e( 'Publish Contact page and include it in the generated top menu.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_contact_details]" type="checkbox" value="1" <?php checked( $settings['show_contact_details'], '1' ); ?>> <?php esc_html_e( 'Show contact details card.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_booking_help]" type="checkbox" value="1" <?php checked( $settings['show_booking_help'], '1' ); ?>> <?php esc_html_e( 'Show booking inquiry checklist.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_contact_map]" type="checkbox" value="1" <?php checked( $settings['show_contact_map'], '1' ); ?>> <?php esc_html_e( 'Show map iframe.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_contact_content]" type="checkbox" value="1" <?php checked( $settings['show_contact_content'], '1' ); ?>> <?php esc_html_e( 'Show page editor content.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_contact_form]" type="checkbox" value="1" <?php checked( $settings['show_contact_form'], '1' ); ?>> <?php esc_html_e( 'Show form shortcode area.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_contact_map_note]" type="checkbox" value="1" <?php checked( $settings['show_contact_map_note'], '1' ); ?>> <?php esc_html_e( 'Show map or arrival note.', 'multirent-companion' ); ?></label></p>
+						<p class="description"><?php esc_html_e( 'Show or hide full Contact page areas while keeping saved field values available for later.', 'multirent-companion' ); ?></p>
+					</td>
 				</tr>
 				<?php foreach ( array( 'contact_page_title', 'contact_page_intro', 'contact_address', 'contact_phone', 'contact_mobile', 'contact_email', 'contact_form_shortcode', 'contact_map_query', 'contact_map_note', 'booking_help_lines' ) as $key ) : ?>
 					<tr>
@@ -1688,12 +1811,6 @@ function multirent_companion_render_contact_page() {
 							<?php endif; ?>
 							<?php multirent_companion_description( $key ); ?>
 						</td>
-					</tr>
-				<?php endforeach; ?>
-				<?php foreach ( array( 'show_contact_details' => 'Show contact details card', 'show_booking_help' => 'Show booking inquiry checklist', 'show_contact_map' => 'Show map iframe', 'show_contact_content' => 'Show page editor content', 'show_contact_form' => 'Show form shortcode area', 'show_contact_map_note' => 'Show map or arrival note' ) as $key => $label ) : ?>
-					<tr>
-						<th scope="row"><?php echo esc_html( $label ); ?></th>
-						<td><label><input name="multirent_settings[<?php echo esc_attr( $key ); ?>]" type="checkbox" value="1" <?php checked( $settings[ $key ], '1' ); ?>> <?php esc_html_e( 'Enabled', 'multirent-companion' ); ?></label><p class="description"><?php esc_html_e( 'Turn this section on or off on the Contact page.', 'multirent-companion' ); ?></p></td>
 					</tr>
 				<?php endforeach; ?>
 			</table>
@@ -1716,8 +1833,16 @@ function multirent_companion_render_local_page() {
 			<input type="hidden" name="multirent_settings_scope" value="show_local_page,local_page_title,local_page_intro,local_guide_lines,local_highlight_lines,local_activity_lines,local_link_lines,show_local_guides,show_local_highlights,show_local_activities,show_local_links,show_local_content">
 			<table class="form-table" role="presentation">
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Show Local page', 'multirent-companion' ); ?></th>
-					<td><label><input name="multirent_settings[show_local_page]" type="checkbox" value="1" <?php checked( $settings['show_local_page'], '1' ); ?>> <?php esc_html_e( 'Publish the Local page and allow it in the generated top menu.', 'multirent-companion' ); ?></label><?php multirent_companion_description( 'show_local_page' ); ?></td>
+					<th scope="row"><?php esc_html_e( 'Local page visibility', 'multirent-companion' ); ?></th>
+					<td>
+						<p><label><input name="multirent_settings[show_local_page]" type="checkbox" value="1" <?php checked( $settings['show_local_page'], '1' ); ?>> <?php esc_html_e( 'Publish Local page and include it in the generated top menu.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_local_guides]" type="checkbox" value="1" <?php checked( $settings['show_local_guides'], '1' ); ?>> <?php esc_html_e( 'Show guide cards.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_local_highlights]" type="checkbox" value="1" <?php checked( $settings['show_local_highlights'], '1' ); ?>> <?php esc_html_e( 'Show local highlights.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_local_activities]" type="checkbox" value="1" <?php checked( $settings['show_local_activities'], '1' ); ?>> <?php esc_html_e( 'Show trips and activities.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_local_links]" type="checkbox" value="1" <?php checked( $settings['show_local_links'], '1' ); ?>> <?php esc_html_e( 'Show useful links sidebar.', 'multirent-companion' ); ?></label></p>
+						<p><label><input name="multirent_settings[show_local_content]" type="checkbox" value="1" <?php checked( $settings['show_local_content'], '1' ); ?>> <?php esc_html_e( 'Show page editor content.', 'multirent-companion' ); ?></label></p>
+						<p class="description"><?php esc_html_e( 'Show or hide full Local page areas while keeping saved field values available for later.', 'multirent-companion' ); ?></p>
+					</td>
 				</tr>
 				<?php foreach ( array( 'local_page_title', 'local_page_intro', 'local_guide_lines', 'local_highlight_lines', 'local_activity_lines', 'local_link_lines' ) as $key ) : ?>
 					<tr>
@@ -1730,12 +1855,6 @@ function multirent_companion_render_local_page() {
 							<?php endif; ?>
 							<?php multirent_companion_description( $key ); ?>
 						</td>
-					</tr>
-				<?php endforeach; ?>
-				<?php foreach ( array( 'show_local_guides' => 'Show guide cards', 'show_local_highlights' => 'Show local highlights', 'show_local_activities' => 'Show trips and activities', 'show_local_links' => 'Show useful links sidebar', 'show_local_content' => 'Show page editor content' ) as $key => $label ) : ?>
-					<tr>
-						<th scope="row"><?php echo esc_html( $label ); ?></th>
-						<td><label><input name="multirent_settings[<?php echo esc_attr( $key ); ?>]" type="checkbox" value="1" <?php checked( $settings[ $key ], '1' ); ?>> <?php esc_html_e( 'Enabled', 'multirent-companion' ); ?></label><p class="description"><?php esc_html_e( 'Turn this section on or off on the Local page.', 'multirent-companion' ); ?></p></td>
 					</tr>
 				<?php endforeach; ?>
 			</table>
