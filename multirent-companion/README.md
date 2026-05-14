@@ -6,17 +6,17 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate `multirent-theme-upload-0.1.22.zip` in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate `multirent-companion-plugin-upload-0.1.22.zip` in **Plugins > Add New > Upload Plugin**.
+1. Install and activate `multirent-theme-upload-0.1.23.zip` in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate `multirent-companion-plugin-upload-0.1.23.zip` in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, and Amenities** if this is a fresh site.
 5. Create the required number of rental units from the **Starter Content** section.
 6. Edit each rental unit under **MultiRent Setup > Rental Units**.
 7. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, `multirent-complete-package-extract-first-0.1.22.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, `multirent-complete-package-extract-first-0.1.23.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
-Do not upload `multirent-complete-package-extract-first-0.1.22.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.22.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.22.zip` for **Upload Plugin**.
+Do not upload `multirent-complete-package-extract-first-0.1.23.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.23.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.23.zip` for **Upload Plugin**.
 
 ## What This Plugin Adds
 
@@ -31,10 +31,10 @@ Grouped items include:
 - Apartments Page
 - Contact Page
 - Local Page
-- Help / README
 - Amenities
+- Help / README
 
-The submenu order is intentionally kept simple: **Website Setup** first, **Rental Units** second, then separate page administration screens, **Help / README**, and the remaining rental tools.
+The submenu order is intentionally kept simple: **Website Setup** first, **Rental Units** second, then separate page administration screens, rental tools such as **Amenities**, and **Help / README** last.
 
 The **Help / README** screen shows this README file inside WordPress admin so site owners can always find setup instructions from the left navigation pane.
 

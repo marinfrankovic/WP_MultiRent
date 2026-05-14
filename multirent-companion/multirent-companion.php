@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.22
+ * Version: 0.1.23
  * Requires at least: 6.5
  * Requires PHP: 8.4
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.22' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.23' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -443,6 +443,7 @@ function multirent_companion_admin_menu() {
 	add_submenu_page( 'multirent-setup', esc_html__( 'Apartments Page', 'multirent-companion' ), esc_html__( 'Apartments Page', 'multirent-companion' ), 'manage_options', 'multirent-apartments-page', 'multirent_companion_render_apartments_page' );
 	add_submenu_page( 'multirent-setup', esc_html__( 'Contact Page', 'multirent-companion' ), esc_html__( 'Contact Page', 'multirent-companion' ), 'manage_options', 'multirent-contact-page', 'multirent_companion_render_contact_page' );
 	add_submenu_page( 'multirent-setup', esc_html__( 'Local Page', 'multirent-companion' ), esc_html__( 'Local Page', 'multirent-companion' ), 'manage_options', 'multirent-local-page', 'multirent_companion_render_local_page' );
+	add_submenu_page( 'multirent-setup', esc_html__( 'Amenities', 'multirent-companion' ), esc_html__( 'Amenities', 'multirent-companion' ), 'manage_categories', 'edit-tags.php?taxonomy=rental_amenity&post_type=rental_unit' );
 	add_submenu_page( 'multirent-setup', esc_html__( 'Help / README', 'multirent-companion' ), esc_html__( 'Help / README', 'multirent-companion' ), 'manage_options', 'multirent-readme', 'multirent_companion_render_readme_page' );
 }
 add_action( 'admin_menu', 'multirent_companion_admin_menu' );
@@ -457,6 +458,7 @@ function multirent_companion_order_admin_submenus() {
 	$website_items = array();
 	$rental_items  = array();
 	$page_items    = array();
+	$help_items    = array();
 	$other_items   = array();
 
 	foreach ( $submenu['multirent-setup'] as $submenu_item ) {
@@ -468,14 +470,16 @@ function multirent_companion_order_admin_submenus() {
 		} elseif ( 'edit.php?post_type=rental_unit' === $submenu_slug ) {
 			$submenu_item[0] = esc_html__( 'Rental Units', 'multirent-companion' );
 			$rental_items[] = $submenu_item;
-		} elseif ( in_array( $submenu_slug, array( 'multirent-apartments-page', 'multirent-contact-page', 'multirent-local-page', 'multirent-readme' ), true ) ) {
+		} elseif ( in_array( $submenu_slug, array( 'multirent-apartments-page', 'multirent-contact-page', 'multirent-local-page' ), true ) ) {
 			$page_items[] = $submenu_item;
+		} elseif ( 'multirent-readme' === $submenu_slug ) {
+			$help_items[] = $submenu_item;
 		} else {
 			$other_items[] = $submenu_item;
 		}
 	}
 
-	$submenu['multirent-setup'] = array_values( array_merge( $website_items, $rental_items, $page_items, $other_items ) );
+	$submenu['multirent-setup'] = array_values( array_merge( $website_items, $rental_items, $page_items, $other_items, $help_items ) );
 }
 add_action( 'admin_menu', 'multirent_companion_order_admin_submenus', 99 );
 
