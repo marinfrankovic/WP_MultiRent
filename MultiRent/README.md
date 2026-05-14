@@ -57,7 +57,7 @@ The homepage is built for rental businesses and uses editable content from **Mul
 
 ### Rental Listings
 
-Rental cards are generated from **Rental Units**, which are managed by the companion plugin. Each card can show the apartment image, title, summary, capacity, bedrooms, bathrooms, size, optional price note, and booking link.
+Rental cards are generated from **Rental Units**, which are managed by the companion plugin. Each card can show the apartment image, title, summary, guest capacity, and details link. Bedrooms, bathrooms, size, and price note are shown on the single apartment detail page.
 
 ### Apartments Page Templates
 
@@ -180,7 +180,7 @@ Default amenity options are created by MultiRent Companion: Parking, WiFi, Balco
 
 ### Optional Demo Content
 
-Open **MultiRent Setup > Demo Content** and click **Create Demo Content** to preview a complete example site. This admin option is included in public releases. The demo creates four apartments, generated demo hero/featured/gallery images, demo Home/Apartments/Contact/Local pages, menu links, selected amenity checkboxes, and sample contact/local-guide settings.
+Open **MultiRent Setup > Website Setup**, find the **Demo Content** section, and click **Create Demo Content** to preview a complete example site. This admin option is included in public releases. The demo creates four apartments, generated demo hero/featured/gallery images, demo Home/Apartments/Contact/Local pages, menu links, selected amenity checkboxes, and sample contact/local-guide settings.
 
 Click **Remove Demo Content** to disable the demo and delete the generated demo pages, apartments, and images. Demo content is marked internally with `_multirent_demo_content=multirent-demo-content-v1`, and the plugin stores previous homepage and MultiRent settings so they can be restored.
 

@@ -31,7 +31,7 @@ Important: upload only `multirent-theme-upload-0.1.23.zip` in **Appearance > The
 
 ## Optional Demo Content
 
-MultiRent Companion includes a public-release admin option for optional demo content. Open **MultiRent Setup > Demo Content** and use **Create Demo Content** to enable it or **Remove Demo Content** to disable and clean it up. This is useful when you want to preview the theme before adding real property content.
+MultiRent Companion includes a public-release admin option for optional demo content. Open **MultiRent Setup > Website Setup**, find the **Demo Content** section, and use **Create Demo Content** to enable it or **Remove Demo Content** to disable and clean it up. This is useful when you want to preview the theme before adding real property content.
 
 The demo action creates four example apartments, generated demo hero/featured/gallery images, demo Home/Apartments/Contact/Local pages, selected amenity checkboxes, menu links, and sample contact/local-guide settings. Demo pages, apartments, and generated images are marked internally with `_multirent_demo_content=multirent-demo-content-v1`, so **Remove Demo Content** can delete only those generated examples and restore the previous homepage and MultiRent settings when available. Selected amenities appear on each apartment detail page.
 

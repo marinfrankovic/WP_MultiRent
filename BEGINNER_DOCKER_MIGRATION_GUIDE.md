@@ -216,7 +216,7 @@ Use the existing MultiRent theme and companion guides for the normal site editin
 
 ### Preview With Demo Content
 
-If you want to see how a full MultiRent site looks before adding real content, open **MultiRent Setup > Demo Content** and click **Create Demo Content**. This option is part of the released companion plugin, not only the local Docker setup.
+If you want to see how a full MultiRent site looks before adding real content, open **MultiRent Setup > Website Setup**, find the **Demo Content** section, and click **Create Demo Content**. This option is part of the released companion plugin, not only the local Docker setup.
 
 The demo creates four example apartments, generated hero/featured/gallery images, demo Home/Apartments/Contact/Local pages, selected amenity checkboxes, a demo menu, and sample contact/local-guide settings. It is safe to remove later because the generated demo pages, apartments, and images are marked with `_multirent_demo_content=multirent-demo-content-v1`.
 

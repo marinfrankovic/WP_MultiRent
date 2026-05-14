@@ -310,7 +310,7 @@ Use this on a new site to get a working structure quickly, then replace the plac
 
 ### Optional Demo Content
 
-The plugin can also create a complete optional demo site from **MultiRent Setup > Demo Content**. This admin option is included in public releases so a site owner can enable the demo to preview the theme and disable it later from the same screen. This is different from starter content: demo content is intended for previewing how the theme looks before entering real property data.
+The plugin can also create a complete optional demo site from the **Demo Content** section on **MultiRent Setup > Website Setup**. This admin option is included in public releases so a site owner can enable the demo to preview the theme and disable it later from the same screen. This is different from starter content: demo content is intended for previewing how the theme looks before entering real property data.
 
 **Create Demo Content** creates:
 
