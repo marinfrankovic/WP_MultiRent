@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.23
+ * Version: 0.1.24
  * Requires at least: 6.5
  * Requires PHP: 8.4
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.23' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.24' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -482,6 +482,30 @@ function multirent_companion_order_admin_submenus() {
 	$submenu['multirent-setup'] = array_values( array_merge( $website_items, $rental_items, $page_items, $other_items, $help_items ) );
 }
 add_action( 'admin_menu', 'multirent_companion_order_admin_submenus', 99 );
+
+function multirent_companion_admin_parent_file( $parent_file ) {
+	global $pagenow;
+
+	$taxonomy = isset( $_GET['taxonomy'] ) ? sanitize_key( wp_unslash( $_GET['taxonomy'] ) ) : '';
+	if ( 'edit-tags.php' === $pagenow && 'rental_amenity' === $taxonomy ) {
+		return 'multirent-setup';
+	}
+
+	return $parent_file;
+}
+add_filter( 'parent_file', 'multirent_companion_admin_parent_file' );
+
+function multirent_companion_admin_submenu_file( $submenu_file ) {
+	global $pagenow;
+
+	$taxonomy = isset( $_GET['taxonomy'] ) ? sanitize_key( wp_unslash( $_GET['taxonomy'] ) ) : '';
+	if ( 'edit-tags.php' === $pagenow && 'rental_amenity' === $taxonomy ) {
+		return 'edit-tags.php?taxonomy=rental_amenity&post_type=rental_unit';
+	}
+
+	return $submenu_file;
+}
+add_filter( 'submenu_file', 'multirent_companion_admin_submenu_file' );
 
 function multirent_companion_readme_line_html( $text ) {
 	$html = esc_html( $text );
