@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.27
+ * Version: 0.1.28
  * Requires at least: 6.5
  * Requires PHP: 8.4
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.27' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.28' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -441,7 +441,7 @@ function multirent_companion_settings() {
 }
 
 function multirent_companion_admin_menu() {
-	add_menu_page( esc_html__( 'MultiRent Setup', 'multirent-companion' ), esc_html__( 'MultiRent Setup', 'multirent-companion' ), 'manage_options', 'multirent-setup', 'multirent_companion_render_setup_page', 'dashicons-admin-generic', 58 );
+	add_menu_page( esc_html__( 'MultiRent Setup', 'multirent-companion' ), esc_html__( 'MultiRent Setup', 'multirent-companion' ), 'manage_options', 'multirent-setup', 'multirent_companion_render_setup_page', plugins_url( 'assets/images/multirent-wp-icon.png', __FILE__ ), 58 );
 	add_submenu_page( 'multirent-setup', esc_html__( 'Website Setup', 'multirent-companion' ), esc_html__( 'Website Setup', 'multirent-companion' ), 'manage_options', 'multirent-setup', 'multirent_companion_render_setup_page' );
 	add_submenu_page( 'multirent-setup', esc_html__( 'Apartments Page', 'multirent-companion' ), esc_html__( 'Apartments Page', 'multirent-companion' ), 'manage_options', 'multirent-apartments-page', 'multirent_companion_render_apartments_page' );
 	add_submenu_page( 'multirent-setup', esc_html__( 'Contact Page', 'multirent-companion' ), esc_html__( 'Contact Page', 'multirent-companion' ), 'manage_options', 'multirent-contact-page', 'multirent_companion_render_contact_page' );

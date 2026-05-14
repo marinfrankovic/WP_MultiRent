@@ -11,8 +11,8 @@ You will create a private WordPress site on your own computer:
 - Local website: `http://localhost:8082`
 - Local WordPress admin: `http://localhost:8082/wp-admin`
 - Database: stored inside Docker on your computer
-- Theme ZIP: `multirent-theme-upload-0.1.27.zip`
-- Plugin ZIP: `multirent-companion-plugin-upload-0.1.27.zip`
+- Theme ZIP: `multirent-theme-upload-0.1.28.zip`
+- Plugin ZIP: `multirent-companion-plugin-upload-0.1.28.zip`
 
 At the end, you will export the local site to one backup file and import that file into the live WordPress site.
 
@@ -174,19 +174,19 @@ http://localhost:8082/wp-admin
 
 Use the packaged ZIP files from the release assets:
 
-- `multirent-theme-upload-0.1.27.zip`
-- `multirent-companion-plugin-upload-0.1.27.zip`
+- `multirent-theme-upload-0.1.28.zip`
+- `multirent-companion-plugin-upload-0.1.28.zip`
 
-If you received `multirent-complete-package-extract-first-0.1.27.zip`, unzip it first. It contains the separate theme and plugin ZIP files.
+If you received `multirent-complete-package-extract-first-0.1.28.zip`, unzip it first. It contains the separate theme and plugin ZIP files.
 
-Important: do not upload `multirent-complete-package-extract-first-0.1.27.zip` or GitHub's automatic source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.27.zip` for the theme installer.
+Important: do not upload `multirent-complete-package-extract-first-0.1.28.zip` or GitHub's automatic source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.28.zip` for the theme installer.
 
 ### Install The Theme
 
 1. In WordPress admin, open **Appearance > Themes**.
 2. Click **Add New**.
 3. Click **Upload Theme**.
-4. Choose `multirent-theme-upload-0.1.27.zip`.
+4. Choose `multirent-theme-upload-0.1.28.zip`.
 5. Click **Install Now**.
 6. Click **Activate**.
 
@@ -194,7 +194,7 @@ Important: do not upload `multirent-complete-package-extract-first-0.1.27.zip` o
 
 1. In WordPress admin, open **Plugins > Add New**.
 2. Click **Upload Plugin**.
-3. Choose `multirent-companion-plugin-upload-0.1.27.zip`.
+3. Choose `multirent-companion-plugin-upload-0.1.28.zip`.
 4. Click **Install Now**.
 5. Click **Activate Plugin**.
 

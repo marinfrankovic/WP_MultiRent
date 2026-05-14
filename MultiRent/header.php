@@ -21,6 +21,10 @@
 			<div class="site-branding">
 				<?php if ( has_custom_logo() ) : ?>
 					<?php the_custom_logo(); ?>
+				<?php else : ?>
+					<a class="multirent-default-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" aria-label="<?php echo esc_attr( multirent_display_option( 'property_name', get_bloginfo( 'name' ) ) ); ?>">
+						<img class="multirent-default-logo" src="<?php echo esc_url( MULTIRENT_URI . '/assets/images/multirent-logo.png' ); ?>" alt="<?php esc_attr_e( 'MultiRent logo', 'multirent' ); ?>">
+					</a>
 				<?php endif; ?>
 				<div>
 					<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php echo esc_html( multirent_display_option( 'property_name', get_bloginfo( 'name' ) ) ); ?></a></p>

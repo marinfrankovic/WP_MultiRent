@@ -24,7 +24,8 @@ img { display: block; max-width: 100%; height: auto; }
 .admin-bar .site-header { top: 32px; }
 .header-inner { display: flex; min-height: 82px; align-items: center; justify-content: space-between; gap: 24px; }
 .site-branding { display: flex; align-items: center; gap: 14px; min-width: 0; }
-.custom-logo { max-height: 58px; width: auto; }
+.custom-logo, .multirent-default-logo { display: block; max-height: 58px; width: auto; }
+.multirent-default-logo-link { display: inline-flex; align-items: center; flex: 0 0 auto; }
 .site-branding > div { min-width: 0; }
 .site-title { margin: 0; font-size: clamp(1.12rem, 1.8vw, 1.45rem); font-weight: 900; line-height: 1.05; }
 .site-title a { display: block; overflow-wrap: anywhere; }
@@ -189,7 +190,7 @@ img { display: block; max-width: 100%; height: auto; }
 	.container { width: min(100% - 28px, 1120px); }
 	body { padding-top: 72px; }
 	.header-inner { min-height: 72px; }
-	.custom-logo { max-height: 48px; }
+	.custom-logo, .multirent-default-logo { max-height: 48px; }
 	.site-description { display: none; }
 	.main-navigation ul { top: 72px; left: 14px; right: 14px; }
 	.admin-bar .main-navigation ul { top: 118px; }

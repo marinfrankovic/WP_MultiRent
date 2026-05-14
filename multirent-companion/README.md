@@ -1,3 +1,7 @@
+<p align="center">
+	<img src="assets/images/multirent-wp-icon.png" alt="MultiRent WordPress icon" width="120">
+</p>
+
 # MultiRent Companion
 
 MultiRent Companion is the setup and content-management plugin for the **Multi Apartment Rental** WordPress theme.
@@ -6,23 +10,25 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate `multirent-theme-upload-0.1.27.zip` in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate `multirent-companion-plugin-upload-0.1.27.zip` in **Plugins > Add New > Upload Plugin**.
+1. Install and activate `multirent-theme-upload-0.1.28.zip` in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate `multirent-companion-plugin-upload-0.1.28.zip` in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, and Amenities** if this is a fresh site.
 5. Create the required number of rental units from the **Starter Content** section.
 6. Edit each rental unit under **MultiRent Setup > Rental Units**.
 7. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, `multirent-complete-package-extract-first-0.1.27.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, `multirent-complete-package-extract-first-0.1.28.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
-Do not upload `multirent-complete-package-extract-first-0.1.27.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.27.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.27.zip` for **Upload Plugin**.
+Do not upload `multirent-complete-package-extract-first-0.1.28.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.28.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.28.zip` for **Upload Plugin**.
 
 ## What This Plugin Adds
 
 ### MultiRent Setup Admin Area
 
 The plugin creates a dedicated **MultiRent Setup** menu in WordPress admin. Rental-related admin tasks are grouped there so users do not need to search through many WordPress screens.
+
+The **MultiRent Setup** menu uses the bundled MultiRent WP icon in the WordPress left admin menu.
 
 Grouped items include:
 
