@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.24
+ * Version: 0.1.25
  * Requires at least: 6.5
  * Requires PHP: 8.4
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.24' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.25' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -393,8 +393,11 @@ function multirent_companion_default_settings() {
 		'contact_button_url'  => '#contact',
 		'show_contact_cta'    => '1',
 		'show_apartments_page' => '1',
+		'apartments_page_id'  => '',
 		'show_contact_page'   => '1',
+		'contact_page_id'     => '',
 		'show_local_page'     => '1',
+		'local_page_id'       => '',
 		'contact_page_title'  => 'Contact and booking inquiry',
 		'contact_page_intro'  => 'Send your dates, guest count, and preferred rental unit so the owner can reply with availability.',
 		'contact_address'     => "Your property name\nStreet and house number\nCity, country",
@@ -729,6 +732,31 @@ function multirent_companion_gallery_media_field( $field_name, $attachment_ids )
 	<?php
 }
 
+function multirent_companion_page_select_field( $role, $field_name, $selected_page_id ) {
+	$roles = multirent_companion_page_roles();
+	if ( empty( $roles[ $role ] ) ) {
+		return;
+	}
+	if ( ! multirent_companion_page_exists( $selected_page_id ) ) {
+		$fallback_page    = multirent_companion_role_page( $role );
+		$selected_page_id = $fallback_page ? $fallback_page->ID : 0;
+	}
+
+	$pages = get_pages(
+		array(
+			'post_status' => 'publish,draft,pending,private',
+			'sort_column' => 'post_title',
+		)
+	);
+	?>
+	<select name="<?php echo esc_attr( $field_name ); ?>" id="multirent-<?php echo esc_attr( $role ); ?>-page-id">
+		<?php foreach ( $pages as $page ) : ?>
+			<option value="<?php echo esc_attr( $page->ID ); ?>" <?php selected( absint( $selected_page_id ), $page->ID ); ?>><?php echo esc_html( $page->post_title . ' (#' . $page->ID . ')' ); ?></option>
+		<?php endforeach; ?>
+	</select>
+	<?php
+}
+
 function multirent_companion_recommended_plugins() {
 	return array(
 		'cookie-law-info'        => array(
@@ -777,6 +805,8 @@ function multirent_companion_sanitize_settings( $input, $scope = null ) {
 			$output[ $key ] = ! empty( $input[ $key ] ) ? '1' : '0';
 		} elseif ( 'front_page_rental_count' === $key ) {
 			$output[ $key ] = (string) min( 50, max( 1, absint( $value ) ) );
+		} elseif ( in_array( $key, array( 'apartments_page_id', 'contact_page_id', 'local_page_id' ), true ) ) {
+			$output[ $key ] = (string) absint( $value );
 		} elseif ( 'hero_image' === $key ) {
 			$output[ $key ] = absint( $value );
 		} elseif ( 'contact_email' === $key ) {
@@ -801,11 +831,35 @@ function multirent_companion_handle_setup_actions() {
 	$action = sanitize_key( wp_unslash( $_POST['multirent_action'] ) );
 	$scope  = isset( $_POST['multirent_settings_scope'] ) ? array_filter( array_map( 'trim', explode( ',', sanitize_text_field( wp_unslash( $_POST['multirent_settings_scope'] ) ) ) ) ) : null;
 
-	if ( 'save_settings' === $action ) {
+	if ( in_array( $action, array( 'save_settings', 'save_apartments_page', 'save_contact_page', 'save_local_page' ), true ) ) {
 		$settings = isset( $_POST['multirent_settings'] ) && is_array( $_POST['multirent_settings'] ) ? multirent_companion_sanitize_settings( $_POST['multirent_settings'], $scope ) : multirent_companion_settings();
 		update_option( 'multirent_settings', $settings );
 		multirent_companion_sync_optional_page_visibility( $settings );
-		add_settings_error( 'multirent_messages', 'settings_saved', esc_html__( 'MultiRent settings saved.', 'multirent-companion' ), 'updated' );
+
+		if ( 'save_apartments_page' === $action ) {
+			$template_result = isset( $_POST['multirent_apartments_template'] ) ? multirent_companion_save_apartments_page_template( $_POST['multirent_apartments_template'] ) : null;
+			if ( is_wp_error( $template_result ) ) {
+				add_settings_error( 'multirent_messages', 'apartments_template_error', $template_result->get_error_message(), 'error' );
+			} else {
+				add_settings_error( 'multirent_messages', 'apartments_page_saved', esc_html__( 'Apartments page settings saved.', 'multirent-companion' ), 'updated' );
+			}
+		} elseif ( 'save_contact_page' === $action ) {
+			$template_result = isset( $_POST['multirent_contact_template'] ) ? multirent_companion_save_role_page_template( 'contact', $_POST['multirent_contact_template'] ) : null;
+			if ( is_wp_error( $template_result ) ) {
+				add_settings_error( 'multirent_messages', 'contact_template_error', $template_result->get_error_message(), 'error' );
+			} else {
+				add_settings_error( 'multirent_messages', 'contact_page_saved', esc_html__( 'Contact page settings saved.', 'multirent-companion' ), 'updated' );
+			}
+		} elseif ( 'save_local_page' === $action ) {
+			$template_result = isset( $_POST['multirent_local_template'] ) ? multirent_companion_save_role_page_template( 'local', $_POST['multirent_local_template'] ) : null;
+			if ( is_wp_error( $template_result ) ) {
+				add_settings_error( 'multirent_messages', 'local_template_error', $template_result->get_error_message(), 'error' );
+			} else {
+				add_settings_error( 'multirent_messages', 'local_page_saved', esc_html__( 'Local page settings saved.', 'multirent-companion' ), 'updated' );
+			}
+		} else {
+			add_settings_error( 'multirent_messages', 'settings_saved', esc_html__( 'MultiRent settings saved.', 'multirent-companion' ), 'updated' );
+		}
 	}
 
 	if ( 'apply_top_menu' === $action ) {
@@ -852,6 +906,32 @@ function multirent_companion_optional_pages() {
 	);
 }
 
+function multirent_companion_page_roles() {
+	return array(
+		'apartments' => array(
+			'title'        => 'Apartments',
+			'setting_key'  => 'apartments_page_id',
+			'show_key'     => 'show_apartments_page',
+			'template'     => 'template-apartments-grid.php',
+			'content'      => 'This page uses a ready-made MultiRent apartment listing template. Edit this text if you use the Featured Guide template.',
+		),
+		'contact'    => array(
+			'title'        => 'Contact',
+			'setting_key'  => 'contact_page_id',
+			'show_key'     => 'show_contact_page',
+			'template'     => 'template-contact.php',
+			'content'      => 'Add extra contact notes, house rules, payment instructions, or a contact-form shortcode here if you want page-editor content to appear.',
+		),
+		'local'      => array(
+			'title'        => 'Local',
+			'setting_key'  => 'local_page_id',
+			'show_key'     => 'show_local_page',
+			'template'     => 'template-local.php',
+			'content'      => 'Add extra local recommendations, seasonal notes, or guest instructions here if you want page-editor content to appear.',
+		),
+	);
+}
+
 function multirent_companion_get_page_by_title( $page_title ) {
 	$pages = get_posts(
 		array(
@@ -867,11 +947,27 @@ function multirent_companion_get_page_by_title( $page_title ) {
 	return $pages ? $pages[0] : null;
 }
 
+function multirent_companion_page_exists( $page_id ) {
+	$page = $page_id ? get_post( absint( $page_id ) ) : null;
+	return $page && 'page' === $page->post_type && 'trash' !== $page->post_status ? $page : null;
+}
+
+function multirent_companion_role_page( $role, $settings = null ) {
+	$roles = multirent_companion_page_roles();
+	if ( empty( $roles[ $role ] ) ) {
+		return null;
+	}
+
+	$settings = is_array( $settings ) ? $settings : multirent_companion_settings();
+	$page     = multirent_companion_page_exists( isset( $settings[ $roles[ $role ]['setting_key'] ] ) ? $settings[ $roles[ $role ]['setting_key'] ] : 0 );
+	return $page ? $page : multirent_companion_get_page_by_title( $roles[ $role ]['title'] );
+}
+
 function multirent_companion_sync_optional_page_visibility( $settings = null ) {
 	$settings = is_array( $settings ) ? $settings : multirent_companion_settings();
 
-	foreach ( multirent_companion_optional_pages() as $page_title => $setting_key ) {
-		$page = multirent_companion_get_page_by_title( $page_title );
+	foreach ( multirent_companion_page_roles() as $role => $role_config ) {
+		$page = multirent_companion_role_page( $role, $settings );
 		if ( ! $page ) {
 			continue;
 		}
@@ -879,9 +975,133 @@ function multirent_companion_sync_optional_page_visibility( $settings = null ) {
 		wp_update_post(
 			array(
 				'ID'          => $page->ID,
-				'post_status' => '1' === (string) $settings[ $setting_key ] ? 'publish' : 'draft',
+				'post_status' => '1' === (string) $settings[ $role_config['show_key'] ] ? 'publish' : 'draft',
 			)
 		);
+	}
+}
+
+function multirent_companion_apartments_page_templates() {
+	return array(
+		'template-apartments-grid.php'     => array(
+			'label'       => esc_html__( 'Apartments - Grid', 'multirent-companion' ),
+			'description' => esc_html__( 'A simple apartment card grid for the clearest overview of all rental units.', 'multirent-companion' ),
+			'layout'      => esc_html__( 'Hero title, page intro, then a responsive grid of apartment cards.', 'multirent-companion' ),
+		),
+		'template-apartments-featured.php' => array(
+			'label'       => esc_html__( 'Apartments - Featured Guide', 'multirent-companion' ),
+			'description' => esc_html__( 'A richer guide-style listing for pages that need intro copy before the rental cards.', 'multirent-companion' ),
+			'layout'      => esc_html__( 'Page heading, editor content, featured intro, then apartment cards.', 'multirent-companion' ),
+		),
+		'template-apartments-compact.php'  => array(
+			'label'       => esc_html__( 'Apartments - Compact List', 'multirent-companion' ),
+			'description' => esc_html__( 'A tighter comparison list for scanning many apartments quickly.', 'multirent-companion' ),
+			'layout'      => esc_html__( 'Compact rows with apartment image, summary, guest capacity, and details link.', 'multirent-companion' ),
+		),
+	);
+}
+
+function multirent_companion_contact_page_templates() {
+	return array(
+		'template-contact.php'         => array(
+			'label'       => esc_html__( 'Contact / Booking Inquiry', 'multirent-companion' ),
+			'description' => esc_html__( 'A balanced contact page with details beside booking guidance, map, content, and form sections.', 'multirent-companion' ),
+			'layout'      => esc_html__( 'Side contact card plus main inquiry, map, page content, and form area.', 'multirent-companion' ),
+		),
+		'template-contact-split.php'   => array(
+			'label'       => esc_html__( 'Contact - Split Map', 'multirent-companion' ),
+			'description' => esc_html__( 'A map-forward layout for guests who need arrival context before sending an inquiry.', 'multirent-companion' ),
+			'layout'      => esc_html__( 'Large map and arrival note first, followed by contact details and inquiry sections.', 'multirent-companion' ),
+		),
+		'template-contact-compact.php' => array(
+			'label'       => esc_html__( 'Contact - Compact', 'multirent-companion' ),
+			'description' => esc_html__( 'A compact stacked layout for simpler sites or shorter contact pages.', 'multirent-companion' ),
+			'layout'      => esc_html__( 'Single-column contact details, booking checklist, editor content, form, and optional map.', 'multirent-companion' ),
+		),
+	);
+}
+
+function multirent_companion_local_page_templates() {
+	return array(
+		'template-local.php'         => array(
+			'label'       => esc_html__( 'Local Information', 'multirent-companion' ),
+			'description' => esc_html__( 'A full local guide with main content and useful links in a sidebar.', 'multirent-companion' ),
+			'layout'      => esc_html__( 'Guide cards, highlights, activities, editor content, and travel links sidebar.', 'multirent-companion' ),
+		),
+		'template-local-compact.php' => array(
+			'label'       => esc_html__( 'Local - Compact Guide', 'multirent-companion' ),
+			'description' => esc_html__( 'A simpler stacked guide for shorter local information pages.', 'multirent-companion' ),
+			'layout'      => esc_html__( 'Single-column guide sections, highlights, activities, links, and editor content.', 'multirent-companion' ),
+		),
+		'template-local-featured.php' => array(
+			'label'       => esc_html__( 'Local - Featured Guide', 'multirent-companion' ),
+			'description' => esc_html__( 'A guide-first layout that emphasizes the plan-your-stay cards before other information.', 'multirent-companion' ),
+			'layout'      => esc_html__( 'Featured guide cards first, then highlights, activities, travel links, and editor content.', 'multirent-companion' ),
+		),
+	);
+}
+
+function multirent_companion_role_page_templates( $role ) {
+	if ( 'apartments' === $role ) {
+		return multirent_companion_apartments_page_templates();
+	}
+
+	if ( 'contact' === $role ) {
+		return multirent_companion_contact_page_templates();
+	}
+
+	if ( 'local' === $role ) {
+		return multirent_companion_local_page_templates();
+	}
+
+	return array();
+}
+
+function multirent_companion_role_page_template( $role ) {
+	$roles     = multirent_companion_page_roles();
+	$page      = multirent_companion_role_page( $role );
+	$template  = $page ? get_post_meta( $page->ID, '_wp_page_template', true ) : '';
+	$templates = multirent_companion_role_page_templates( $role );
+	$default   = isset( $roles[ $role ]['template'] ) ? $roles[ $role ]['template'] : '';
+
+	return isset( $templates[ $template ] ) ? $template : $default;
+}
+
+function multirent_companion_save_role_page_template( $role, $template ) {
+	$templates = multirent_companion_role_page_templates( $role );
+	$template  = sanitize_text_field( wp_unslash( $template ) );
+
+	if ( ! isset( $templates[ $template ] ) ) {
+		return new WP_Error( 'invalid_page_template', esc_html__( 'Choose a valid page template.', 'multirent-companion' ) );
+	}
+
+	$page = multirent_companion_role_page( $role );
+	if ( ! $page ) {
+		return new WP_Error( 'missing_role_page', esc_html__( 'Choose a WordPress page first.', 'multirent-companion' ) );
+	}
+
+	update_post_meta( $page->ID, '_wp_page_template', $template );
+	return true;
+}
+
+function multirent_companion_apartments_page_template() {
+	return multirent_companion_role_page_template( 'apartments' );
+}
+
+function multirent_companion_save_apartments_page_template( $template ) {
+	return multirent_companion_save_role_page_template( 'apartments', $template );
+}
+
+function multirent_companion_apply_role_page_templates() {
+	foreach ( multirent_companion_page_roles() as $role => $role_config ) {
+		if ( 'apartments' === $role || empty( $role_config['template'] ) ) {
+			continue;
+		}
+
+		$page = multirent_companion_role_page( $role );
+		if ( $page ) {
+			update_post_meta( $page->ID, '_wp_page_template', $role_config['template'] );
+		}
 	}
 }
 
@@ -937,7 +1157,19 @@ function multirent_companion_create_starter_site() {
 
 	multirent_companion_ensure_default_amenities();
 
-	multirent_companion_sync_optional_page_visibility( multirent_companion_settings() );
+	$settings = multirent_companion_settings();
+	if ( ! empty( $page_ids['Apartments'] ) ) {
+		$settings['apartments_page_id'] = (string) absint( $page_ids['Apartments'] );
+	}
+	if ( ! empty( $page_ids['Contact'] ) ) {
+		$settings['contact_page_id'] = (string) absint( $page_ids['Contact'] );
+	}
+	if ( ! empty( $page_ids['Local'] ) ) {
+		$settings['local_page_id'] = (string) absint( $page_ids['Local'] );
+	}
+	update_option( 'multirent_settings', $settings );
+
+	multirent_companion_sync_optional_page_visibility( $settings );
 	multirent_companion_apply_top_menu( multirent_companion_settings()['menu_items'] );
 
 	flush_rewrite_rules();
@@ -1569,15 +1801,21 @@ function multirent_companion_apply_top_menu( $menu_items_text ) {
 
 function multirent_companion_filter_hidden_menu_items( $items, $settings ) {
 	$hidden_paths = array();
-	if ( '1' !== (string) $settings['show_apartments_page'] ) {
-		$hidden_paths[] = '/apartments/';
+	foreach ( multirent_companion_page_roles() as $role => $role_config ) {
+		if ( '1' === (string) $settings[ $role_config['show_key'] ] ) {
+			continue;
+		}
+
+		$hidden_paths[] = '/' . sanitize_title( $role_config['title'] ) . '/';
+		$page = multirent_companion_role_page( $role, $settings );
+		if ( $page ) {
+			$path = wp_parse_url( get_permalink( $page ), PHP_URL_PATH );
+			if ( $path ) {
+				$hidden_paths[] = '/' . trim( (string) $path, '/' ) . '/';
+			}
+		}
 	}
-	if ( '1' !== (string) $settings['show_contact_page'] ) {
-		$hidden_paths[] = '/contact/';
-	}
-	if ( '1' !== (string) $settings['show_local_page'] ) {
-		$hidden_paths[] = '/local/';
-	}
+	$hidden_paths = array_values( array_unique( $hidden_paths ) );
 
 	if ( ! $hidden_paths ) {
 		return $items;
@@ -1774,29 +2012,59 @@ function multirent_companion_render_setup_page() {
 }
 
 function multirent_companion_render_apartments_page() {
-	$settings = multirent_companion_settings();
+	$settings          = multirent_companion_settings();
+	$apartments_page   = multirent_companion_role_page( 'apartments', $settings );
+	$current_template  = multirent_companion_apartments_page_template();
+	$templates         = multirent_companion_apartments_page_templates();
+	$current_template_data = $templates[ $current_template ];
 	settings_errors( 'multirent_messages' );
 	?>
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Apartments Page', 'multirent-companion' ); ?></h1>
-		<p><?php esc_html_e( 'Manage whether the Apartments page is visible and choose the apartment listing template from the normal WordPress page editor.', 'multirent-companion' ); ?></p>
+		<p><?php esc_html_e( 'Manage whether the Apartments page is visible and choose the apartment listing template from this screen.', 'multirent-companion' ); ?></p>
 		<form method="post" action="">
 			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
-			<input type="hidden" name="multirent_action" value="save_settings">
-			<input type="hidden" name="multirent_settings_scope" value="show_apartments_page">
+			<input type="hidden" name="multirent_action" value="save_apartments_page">
+			<input type="hidden" name="multirent_settings_scope" value="show_apartments_page,apartments_page_id">
 			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><label for="multirent-apartments-page-id"><?php esc_html_e( 'Assigned Apartments page', 'multirent-companion' ); ?></label></th>
+					<td>
+						<?php multirent_companion_page_select_field( 'apartments', 'multirent_settings[apartments_page_id]', $settings['apartments_page_id'] ); ?>
+						<p class="description"><?php esc_html_e( 'Choose which WordPress page should behave as the Apartments page. You can create alternate apartment pages and switch between them here.', 'multirent-companion' ); ?></p>
+					</td>
+				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Show Apartments page', 'multirent-companion' ); ?></th>
 					<td><label><input name="multirent_settings[show_apartments_page]" type="checkbox" value="1" <?php checked( $settings['show_apartments_page'], '1' ); ?>> <?php esc_html_e( 'Publish the Apartments page and allow it in the generated top menu.', 'multirent-companion' ); ?></label><?php multirent_companion_description( 'show_apartments_page' ); ?></td>
 				</tr>
+				<tr>
+					<th scope="row"><label for="multirent-apartments-template"><?php esc_html_e( 'Apartments template', 'multirent-companion' ); ?></label></th>
+					<td>
+						<select id="multirent-apartments-template" name="multirent_apartments_template" data-multirent-template-select>
+							<?php foreach ( $templates as $template_file => $template_data ) : ?>
+								<option value="<?php echo esc_attr( $template_file ); ?>" data-preview-title="<?php echo esc_attr( $template_data['label'] ); ?>" data-preview-description="<?php echo esc_attr( $template_data['description'] ); ?>" data-preview-layout="<?php echo esc_attr( $template_data['layout'] ); ?>" <?php selected( $current_template, $template_file ); ?>><?php echo esc_html( $template_data['label'] ); ?></option>
+							<?php endforeach; ?>
+						</select>
+						<p class="description"><?php esc_html_e( 'Choose the template here instead of opening Pages > All Pages > Apartments.', 'multirent-companion' ); ?></p>
+					</td>
+				</tr>
 			</table>
-			<h2><?php esc_html_e( 'Available templates', 'multirent-companion' ); ?></h2>
-			<ul class="ul-disc">
-				<li><?php esc_html_e( 'Apartments - Grid: simple apartment card grid.', 'multirent-companion' ); ?></li>
-				<li><?php esc_html_e( 'Apartments - Featured Guide: intro text plus apartment cards.', 'multirent-companion' ); ?></li>
-				<li><?php esc_html_e( 'Apartments - Compact List: tighter apartment comparison list.', 'multirent-companion' ); ?></li>
-			</ul>
-			<p><?php esc_html_e( 'To switch template: open Pages > All Pages > Apartments, then choose the template in the page settings sidebar.', 'multirent-companion' ); ?></p>
+			<div class="multirent-template-preview" data-multirent-template-preview>
+				<h2 data-multirent-template-preview-title><?php echo esc_html( $current_template_data['label'] ); ?></h2>
+				<p data-multirent-template-preview-description><?php echo esc_html( $current_template_data['description'] ); ?></p>
+				<div class="multirent-template-preview-frame" aria-hidden="true">
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+				<p class="description" data-multirent-template-preview-layout><?php echo esc_html( $current_template_data['layout'] ); ?></p>
+			</div>
+			<?php if ( $apartments_page ) : ?>
+				<p><a class="button button-secondary" href="<?php echo esc_url( get_permalink( $apartments_page ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open Apartments Page Preview', 'multirent-companion' ); ?></a></p>
+			<?php else : ?>
+				<p class="description"><?php esc_html_e( 'Create the starter pages first to enable the live Apartments page preview link.', 'multirent-companion' ); ?></p>
+			<?php endif; ?>
 			<?php submit_button( esc_html__( 'Save Apartments Page Settings', 'multirent-companion' ) ); ?>
 		</form>
 	</div>
@@ -1804,7 +2072,11 @@ function multirent_companion_render_apartments_page() {
 }
 
 function multirent_companion_render_contact_page() {
-	$settings = multirent_companion_settings();
+	$settings              = multirent_companion_settings();
+	$contact_page          = multirent_companion_role_page( 'contact', $settings );
+	$current_template      = multirent_companion_role_page_template( 'contact' );
+	$templates             = multirent_companion_contact_page_templates();
+	$current_template_data = $templates[ $current_template ];
 	settings_errors( 'multirent_messages' );
 	?>
 	<div class="wrap">
@@ -1812,9 +2084,27 @@ function multirent_companion_render_contact_page() {
 		<p><?php esc_html_e( 'Manage the optional Contact / Booking Inquiry page and decide which sections should appear.', 'multirent-companion' ); ?></p>
 		<form method="post" action="">
 			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
-			<input type="hidden" name="multirent_action" value="save_settings">
-			<input type="hidden" name="multirent_settings_scope" value="show_contact_page,contact_page_title,contact_page_intro,contact_address,contact_phone,contact_mobile,contact_email,contact_form_shortcode,contact_map_query,contact_map_note,booking_help_lines,show_contact_details,show_booking_help,show_contact_map,show_contact_content,show_contact_form,show_contact_map_note">
+			<input type="hidden" name="multirent_action" value="save_contact_page">
+			<input type="hidden" name="multirent_settings_scope" value="show_contact_page,contact_page_id,contact_page_title,contact_page_intro,contact_address,contact_phone,contact_mobile,contact_email,contact_form_shortcode,contact_map_query,contact_map_note,booking_help_lines,show_contact_details,show_booking_help,show_contact_map,show_contact_content,show_contact_form,show_contact_map_note">
 			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><label for="multirent-contact-page-id"><?php esc_html_e( 'Assigned Contact page', 'multirent-companion' ); ?></label></th>
+					<td>
+						<?php multirent_companion_page_select_field( 'contact', 'multirent_settings[contact_page_id]', $settings['contact_page_id'] ); ?>
+						<p class="description"><?php esc_html_e( 'Choose which WordPress page should use the Contact / Booking Inquiry template. You can keep multiple contact-page versions and switch between them here.', 'multirent-companion' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="multirent-contact-template"><?php esc_html_e( 'Contact template', 'multirent-companion' ); ?></label></th>
+					<td>
+						<select id="multirent-contact-template" name="multirent_contact_template" data-multirent-template-select>
+							<?php foreach ( $templates as $template_file => $template_data ) : ?>
+								<option value="<?php echo esc_attr( $template_file ); ?>" data-preview-title="<?php echo esc_attr( $template_data['label'] ); ?>" data-preview-description="<?php echo esc_attr( $template_data['description'] ); ?>" data-preview-layout="<?php echo esc_attr( $template_data['layout'] ); ?>" <?php selected( $current_template, $template_file ); ?>><?php echo esc_html( $template_data['label'] ); ?></option>
+							<?php endforeach; ?>
+						</select>
+						<p class="description"><?php esc_html_e( 'Choose the Contact page layout and preview the selected structure before saving.', 'multirent-companion' ); ?></p>
+					</td>
+				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Contact page visibility', 'multirent-companion' ); ?></th>
 					<td>
@@ -1842,6 +2132,19 @@ function multirent_companion_render_contact_page() {
 					</tr>
 				<?php endforeach; ?>
 			</table>
+			<div class="multirent-template-preview" data-multirent-template-preview>
+				<h2 data-multirent-template-preview-title><?php echo esc_html( $current_template_data['label'] ); ?></h2>
+				<p data-multirent-template-preview-description><?php echo esc_html( $current_template_data['description'] ); ?></p>
+				<div class="multirent-template-preview-frame" aria-hidden="true">
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+				<p class="description" data-multirent-template-preview-layout><?php echo esc_html( $current_template_data['layout'] ); ?></p>
+			</div>
+			<?php if ( $contact_page ) : ?>
+				<p><a class="button button-secondary" href="<?php echo esc_url( get_permalink( $contact_page ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open Contact Page Preview', 'multirent-companion' ); ?></a></p>
+			<?php endif; ?>
 			<?php submit_button( esc_html__( 'Save Contact Page Settings', 'multirent-companion' ) ); ?>
 		</form>
 	</div>
@@ -1849,7 +2152,11 @@ function multirent_companion_render_contact_page() {
 }
 
 function multirent_companion_render_local_page() {
-	$settings = multirent_companion_settings();
+	$settings              = multirent_companion_settings();
+	$local_page            = multirent_companion_role_page( 'local', $settings );
+	$current_template      = multirent_companion_role_page_template( 'local' );
+	$templates             = multirent_companion_local_page_templates();
+	$current_template_data = $templates[ $current_template ];
 	settings_errors( 'multirent_messages' );
 	?>
 	<div class="wrap">
@@ -1857,9 +2164,27 @@ function multirent_companion_render_local_page() {
 		<p><?php esc_html_e( 'Manage the optional Local Information page and decide which travel-guide sections should appear.', 'multirent-companion' ); ?></p>
 		<form method="post" action="">
 			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
-			<input type="hidden" name="multirent_action" value="save_settings">
-			<input type="hidden" name="multirent_settings_scope" value="show_local_page,local_page_title,local_page_intro,local_guide_lines,local_highlight_lines,local_activity_lines,local_link_lines,show_local_guides,show_local_highlights,show_local_activities,show_local_links,show_local_content">
+			<input type="hidden" name="multirent_action" value="save_local_page">
+			<input type="hidden" name="multirent_settings_scope" value="show_local_page,local_page_id,local_page_title,local_page_intro,local_guide_lines,local_highlight_lines,local_activity_lines,local_link_lines,show_local_guides,show_local_highlights,show_local_activities,show_local_links,show_local_content">
 			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><label for="multirent-local-page-id"><?php esc_html_e( 'Assigned Local page', 'multirent-companion' ); ?></label></th>
+					<td>
+						<?php multirent_companion_page_select_field( 'local', 'multirent_settings[local_page_id]', $settings['local_page_id'] ); ?>
+						<p class="description"><?php esc_html_e( 'Choose which WordPress page should use the Local Information template. You can keep multiple local-guide versions and switch between them here.', 'multirent-companion' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="multirent-local-template"><?php esc_html_e( 'Local template', 'multirent-companion' ); ?></label></th>
+					<td>
+						<select id="multirent-local-template" name="multirent_local_template" data-multirent-template-select>
+							<?php foreach ( $templates as $template_file => $template_data ) : ?>
+								<option value="<?php echo esc_attr( $template_file ); ?>" data-preview-title="<?php echo esc_attr( $template_data['label'] ); ?>" data-preview-description="<?php echo esc_attr( $template_data['description'] ); ?>" data-preview-layout="<?php echo esc_attr( $template_data['layout'] ); ?>" <?php selected( $current_template, $template_file ); ?>><?php echo esc_html( $template_data['label'] ); ?></option>
+							<?php endforeach; ?>
+						</select>
+						<p class="description"><?php esc_html_e( 'Choose the Local page layout and preview the selected structure before saving.', 'multirent-companion' ); ?></p>
+					</td>
+				</tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Local page visibility', 'multirent-companion' ); ?></th>
 					<td>
@@ -1886,6 +2211,19 @@ function multirent_companion_render_local_page() {
 					</tr>
 				<?php endforeach; ?>
 			</table>
+			<div class="multirent-template-preview" data-multirent-template-preview>
+				<h2 data-multirent-template-preview-title><?php echo esc_html( $current_template_data['label'] ); ?></h2>
+				<p data-multirent-template-preview-description><?php echo esc_html( $current_template_data['description'] ); ?></p>
+				<div class="multirent-template-preview-frame" aria-hidden="true">
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+				<p class="description" data-multirent-template-preview-layout><?php echo esc_html( $current_template_data['layout'] ); ?></p>
+			</div>
+			<?php if ( $local_page ) : ?>
+				<p><a class="button button-secondary" href="<?php echo esc_url( get_permalink( $local_page ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open Local Page Preview', 'multirent-companion' ); ?></a></p>
+			<?php endif; ?>
 			<?php submit_button( esc_html__( 'Save Local Page Settings', 'multirent-companion' ) ); ?>
 		</form>
 	</div>

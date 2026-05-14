@@ -141,11 +141,46 @@
 		}
 	}
 
+	function updateTemplatePreview(select) {
+		const preview = document.querySelector('[data-multirent-template-preview]');
+		if (!select || !preview) {
+			return;
+		}
+
+		const option = select.options[select.selectedIndex];
+		const title = preview.querySelector('[data-multirent-template-preview-title]');
+		const description = preview.querySelector('[data-multirent-template-preview-description]');
+		const layout = preview.querySelector('[data-multirent-template-preview-layout]');
+
+		if (title) {
+			title.textContent = option.dataset.previewTitle || option.textContent;
+		}
+
+		if (description) {
+			description.textContent = option.dataset.previewDescription || '';
+		}
+
+		if (layout) {
+			layout.textContent = option.dataset.previewLayout || '';
+		}
+	}
+
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', openApartmentEditorBox);
+		document.addEventListener('DOMContentLoaded', function () {
+			openApartmentEditorBox();
+			updateTemplatePreview(document.querySelector('[data-multirent-template-select]'));
+		});
 	} else {
 		openApartmentEditorBox();
+		updateTemplatePreview(document.querySelector('[data-multirent-template-select]'));
 	}
+
+	document.addEventListener('change', function (event) {
+		const templateSelect = event.target.closest('[data-multirent-template-select]');
+		if (templateSelect) {
+			updateTemplatePreview(templateSelect);
+		}
+	});
 
 	document.addEventListener('click', function (event) {
 		const selectButton = event.target.closest('[data-multirent-media-select]');

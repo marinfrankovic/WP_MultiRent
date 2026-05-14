@@ -5,16 +5,16 @@ Multi Apartment Rental is a clean, PII-free WordPress theme for apartment, room,
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload `multirent-theme-upload-0.1.24.zip`.
+2. Upload `multirent-theme-upload-0.1.25.zip`.
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload `multirent-companion-plugin-upload-0.1.24.zip`.
+5. Upload `multirent-companion-plugin-upload-0.1.25.zip`.
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received `multirent-complete-package-extract-first-0.1.24.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
+If you received `multirent-complete-package-extract-first-0.1.25.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
 
-Do not upload `multirent-complete-package-extract-first-0.1.24.zip` or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in `multirent-theme-upload-0.1.24.zip`.
+Do not upload `multirent-complete-package-extract-first-0.1.25.zip` or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in `multirent-theme-upload-0.1.25.zip`.
 
 ## Intended Use
 
@@ -30,7 +30,7 @@ Users can manage:
 - Amenities
 - Reviews shortcode
 - Contact call to action
-- Ready-made Apartments page templates
+- Ready-made Apartments, Contact, and Local page templates
 - Configurable Contact page sections
 - Configurable Local information page sections
 - Preset and custom color schemes
@@ -61,13 +61,33 @@ Rental cards are generated from **Rental Units**, which are managed by the compa
 
 ### Apartments Page Templates
 
-The theme includes three ready-made page templates for apartment listing pages. Create or edit a page, then choose one of these from the page template selector:
+The theme includes ready-made page templates for Apartments, Contact, and Local pages. Choose the assigned WordPress page and template from the matching MultiRent Setup admin screen, then use the inline preview to compare layouts before saving.
+
+### Apartments Page Templates
+
+Choose the Apartments page template from **MultiRent Setup > Apartments Page**:
 
 - **Apartments - Grid**: simple card grid similar to the apartment overview on the original local rental site.
 - **Apartments - Featured Guide**: intro text plus the same apartment card grid, useful when the page should explain how to choose a unit.
 - **Apartments - Compact List**: tighter horizontal cards for sites with many apartments or when quick comparison matters.
 
-All three templates pull published **Rental Units** automatically and use the rental image fields plus the right-sidebar Apartment Details fields.
+All Apartments templates pull published **Rental Units** automatically and use the rental image fields plus the right-sidebar Apartment Details fields.
+
+### Contact Page Templates
+
+Choose the Contact page and template from **MultiRent Setup > Contact Page**:
+
+- **Contact / Booking Inquiry**: balanced details, inquiry, map, content, and form layout.
+- **Contact - Split Map**: map-forward layout for arrival context before inquiry details.
+- **Contact - Compact**: simpler single-column contact and inquiry flow.
+
+### Local Page Templates
+
+Choose the Local page and template from **MultiRent Setup > Local Page**:
+
+- **Local Information**: full guide layout with a useful-links sidebar.
+- **Local - Compact Guide**: stacked single-column guide for shorter local pages.
+- **Local - Featured Guide**: guide-first layout with prominent plan-your-stay cards.
 
 ### Adding And Editing Pages
 
@@ -78,7 +98,7 @@ To add a new page:
 1. Go to **Pages > Add New**.
 2. Enter a title.
 3. Add text, headings, lists, images, buttons, columns, or other blocks.
-4. Choose a MultiRent page template in the page settings sidebar if needed.
+4. Choose assigned Apartments, Contact, and Local pages plus their templates from the matching MultiRent Setup admin screens if needed.
 5. Click **Publish**.
 
 To edit text on an existing page:
@@ -95,11 +115,11 @@ Homepage fields, including the intro eyebrow above the property intro heading, a
 
 The landing page is the only mandatory page. Optional pages have their own admin screens under **MultiRent Setup**:
 
-- **Apartments Page**: show/hide the Apartments page and choose the visual template from the WordPress page editor.
-- **Contact Page**: show/hide the Contact page and choose which contact sections appear.
-- **Local Page**: show/hide the Local page and choose which local guide sections appear.
+- **Apartments Page**: choose which WordPress page is the Apartments page, show/hide it, choose the visual template, and preview the selected layout before saving.
+- **Contact Page**: choose which WordPress page is the Contact page, show/hide it, choose the visual template, and control contact details, booking checklist, map, content, form, and map note.
+- **Local Page**: choose which WordPress page is the Local page, show/hide it, choose the visual template, and control guide cards, highlights, activities, useful links, and page content.
 
-When an optional page is hidden, the companion plugin changes it to draft and removes it from the generated top menu. The standard WordPress page editor is still available for custom page content.
+When an optional assigned page is hidden, the companion plugin changes that selected page to draft and removes matching default page paths from the generated top menu. The standard WordPress page editor is still available for custom page content, and pages can be deleted or recreated like normal WordPress pages.
 
 ### Adding Images And Linking Them
 
@@ -186,7 +206,7 @@ Click **Remove Demo Content** to disable the demo and delete the generated demo 
 
 ### Contact Page Template
 
-The **Contact / Booking Inquiry** template can show or hide these sections from MultiRent Setup:
+The Contact templates can show or hide these sections from MultiRent Setup:
 
 - Contact details card
 - Booking inquiry checklist
@@ -205,7 +225,7 @@ Contact field meanings:
 
 ### Local Information Template
 
-The **Local Information** template can show or hide these sections from MultiRent Setup:
+The Local templates can show or hide these sections from MultiRent Setup:
 
 - Guest guide cards
 - Local highlights

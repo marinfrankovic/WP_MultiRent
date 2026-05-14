@@ -147,10 +147,17 @@ img { display: block; max-width: 100%; height: auto; }
 .contact-map-card { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); background: var(--white); }
 .contact-map-card iframe { display: block; width: 100%; min-height: 340px; border: 0; }
 .contact-map-note { margin-top: 24px; color: var(--muted); }
+.contact-map-feature { margin-bottom: 28px; }
+.contact-map-feature iframe { min-height: 460px; }
+.contact-layout-reversed { grid-template-columns: minmax(0, 1.18fr) minmax(260px, 0.82fr); margin-top: 28px; }
+.contact-compact-stack, .local-compact-stack { display: grid; gap: 22px; }
+.contact-list-inline { grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
 .plugin-form { overflow: hidden; }
 .reviews-widget, .reviews-widget [class*="grw"], .reviews-widget [class*="wp-google"] { max-width: 100%; overflow-x: clip; }
 .local-page-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 0.34fr); gap: 28px; align-items: start; }
 .local-main-column { display: grid; gap: 28px; }
+.local-guide-featured-panel { margin-bottom: 28px; }
+.local-page-layout-featured { grid-template-columns: minmax(0, 0.72fr) minmax(270px, 0.28fr); }
 .local-guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); gap: 22px 28px; }
 .local-guide-grid > *, .local-highlight-grid > *, .local-activity-grid > * { min-width: 0; }
 .local-guide-grid h3 { margin: 0 0 8px; }
@@ -170,7 +177,7 @@ img { display: block; max-width: 100%; height: auto; }
 	.main-navigation.is-open ul { display: flex; }
 	.main-navigation a { justify-content: flex-start; min-height: 44px; padding: 0 14px; }
 	.rental-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-	.split-section, .unit-detail-layout, .contact-layout, .local-page-layout { grid-template-columns: 1fr; }
+	.split-section, .unit-detail-layout, .contact-layout, .contact-layout-reversed, .local-page-layout, .local-page-layout-featured { grid-template-columns: 1fr; }
 	.unit-hero .split-section { grid-template-columns: 1fr; }
 	.unit-hero-image { justify-self: stretch; width: 100%; }
 	.unit-side-layout { justify-self: end; width: min(100%, 720px); }
