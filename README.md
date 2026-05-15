@@ -8,6 +8,8 @@ WP MultiRent contains the **Multi Apartment Rental** WordPress theme and the **M
 
 The project is designed for apartment, room, villa, and multi-unit rental websites where site owners should be able to manage the website from the WordPress dashboard without editing code.
 
+Demo site: [https://demo.multirent.online](https://demo.multirent.online)
+
 ## Repository Contents
 
 - `MultiRent/`: installable WordPress theme source.
@@ -18,7 +20,7 @@ The project is designed for apartment, room, villa, and multi-unit rental websit
 
 ## Promo Page
 
-The one-page promotional site is in `docs/index.html` and is ready to publish with GitHub Pages using the repository's `docs/` folder. It links to the live demo site, latest GitHub release, source repository, and install workflow.
+The one-page promotional site is in `docs/index.html` and is ready to publish with GitHub Pages using the repository's `docs/` folder. It links to the live demo site at [https://demo.multirent.online](https://demo.multirent.online), latest GitHub release, source repository, and install workflow.
 
 ## Latest Packages
 
