@@ -20,7 +20,7 @@ Demo site: [https://demo.multirent.online](https://demo.multirent.online)
 
 ## Promo Page
 
-The one-page promotional site is in `docs/index.html` and is ready to publish with GitHub Pages using the repository's `docs/` folder. It links to the live demo site at [https://demo.multirent.online](https://demo.multirent.online), latest GitHub release, source repository, and install workflow.
+Visit the promotional site at [https://multirent.online](https://multirent.online) for an overview of MultiRent, download links, and setup guidance. To see the theme and companion plugin in action, open the demo site at [https://demo.multirent.online](https://demo.multirent.online).
 
 ## Latest Packages
 
