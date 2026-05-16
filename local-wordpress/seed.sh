@@ -10,5 +10,5 @@ wp theme activate MultiRent
 wp plugin activate multirent-companion
 wp option update permalink_structure '/%postname%/'
 wp rewrite flush
-wp eval 'multirent_companion_create_starter_site(); multirent_companion_create_units(4);'
+wp eval 'multirent_companion_create_starter_site();'
 wp option update blogdescription "Configurable rental template"

@@ -80,7 +80,7 @@ img { display: block; max-width: 100%; height: auto; }
 .amenity-icon { display: inline-grid; width: 1.35em; place-items: center; font-size: 1rem; line-height: 1; }
 .unit-hero { padding: 84px 0; background: var(--sea-dark); color: var(--white); }
 .unit-hero .split-section { grid-template-columns: minmax(0, 0.72fr) minmax(520px, 1.28fr); }
-.unit-hero-image { justify-self: end; width: min(100%, 680px); border-radius: var(--radius); box-shadow: var(--shadow); }
+.unit-hero-image { justify-self: end; width: min(100%, 680px); height: clamp(280px, 36vw, 480px); border-radius: var(--radius); box-shadow: var(--shadow); object-fit: cover; object-position: center; }
 .unit-detail-layout { display: grid; grid-template-columns: minmax(0, 0.72fr) minmax(620px, 1.28fr); gap: 32px; align-items: start; }
 .unit-detail-layout-no-description { grid-template-columns: 1fr; }
 .unit-side-layout { display: grid; grid-template-columns: minmax(190px, 1fr) minmax(280px, 350px); column-gap: 18px; row-gap: 10px; justify-self: end; align-items: start; width: min(100%, 720px); }

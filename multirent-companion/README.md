@@ -6,17 +6,16 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate `multirent-theme-upload-0.1.31.zip` in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate `multirent-companion-plugin-upload-0.1.31.zip` in **Plugins > Add New > Upload Plugin**.
+1. Install and activate `multirent-theme-upload-0.1.32.zip` in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate `multirent-companion-plugin-upload-0.1.32.zip` in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
-4. Click **Create Starter Pages, Menu, and Amenities** if this is a fresh site.
-5. Create the required number of rental units from the **Starter Content** section.
-6. Edit each rental unit under **MultiRent Setup > Rental Units**.
-7. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
+4. Click **Create Starter Pages, Menu, Amenities, and Rental Units** if this is a fresh site. This creates the Apartments page and four starter rental units.
+5. Rename, add, or edit each rental unit under **MultiRent Setup > Rental Units**.
+6. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, `multirent-complete-package-extract-first-0.1.31.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, `multirent-complete-package-extract-first-0.1.32.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
-Do not upload `multirent-complete-package-extract-first-0.1.31.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.31.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.31.zip` for **Upload Plugin**.
+Do not upload `multirent-complete-package-extract-first-0.1.32.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.32.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.32.zip` for **Upload Plugin**.
 
 ## What This Plugin Adds
 
@@ -34,15 +33,16 @@ Grouped items include:
 - Contact Page
 - Local Page
 - Amenities
+- Demo Content
 - Help / README
 
-The submenu order is intentionally kept simple: **Website Setup** first, **Rental Units** second, then separate page administration screens, rental tools such as **Amenities**, and **Help / README** last.
+The submenu order is intentionally kept simple: **Website Setup** first, **Rental Units** second, then separate page administration screens, rental tools such as **Amenities**, **Demo Content** above **Help / README**, and **Help / README** last.
 
 The **Help / README** screen shows this README file inside WordPress admin so site owners can always find setup instructions from the left navigation pane.
 
 ### Website Setup
 
-The **Website Setup** screen controls homepage and brand content:
+The **Website Setup** screen starts with **Starter Content** for fresh sites, then controls homepage and brand content:
 
 - Property name
 - Property tagline
@@ -313,27 +313,31 @@ When **Use custom colors** is enabled, the user can set custom primary, dark, su
 
 ### Starter Content
 
-The plugin can create starter pages, a starter menu, starter amenities, and a chosen number of rental units.
+The plugin can create starter pages, a starter menu, starter amenities, and four starter rental units in one action.
 
-Use this on a new site to get a working structure quickly, then replace the placeholder text and images with real property content.
+Use this on a new site to get a working structure quickly, then rename, add, or edit the starter rental units and replace the placeholder text and images with real property content.
 
 ### Optional Demo Content
 
-The plugin can also create a complete optional demo site from the **Demo Content** section on **MultiRent Setup > Website Setup**. This admin option is included in public releases so a site owner can enable the demo to preview the theme and disable it later from the same screen. This is different from starter content: demo content is intended for previewing how the theme looks before entering real property data.
+The plugin can also create a complete optional demo site from **MultiRent Setup > Demo Content**. This admin option is included in public releases so a site owner can enable the demo to preview the theme and disable it later from the same screen. This is different from starter content: demo content is intended for previewing how the theme looks before entering real property data.
 
 You can preview the public demo before installing at [https://demo.multirent.online](https://demo.multirent.online).
 
 **Create Demo Content** creates:
 
 - Four demo apartments.
-- Generated demo hero, apartment featured, and apartment gallery images.
+- More than 30 resized CC0 demo photos from the WordPress Photo Directory for hero, apartment featured, and apartment gallery images. These are downloaded during demo creation, stored with source/license metadata, and resized before thumbnails are generated so the demo does not become unnecessarily large.
+- Generated QR-style demo images for contact and apartment QR fields. These are non-production placeholder codes that should be replaced with real booking, check-in, or information QR codes.
 - Demo Home, Apartments, Contact, and Local pages.
 - Selected amenity checkbox values for each demo apartment, shown on the apartment detail page.
-- Sample contact details, map note, booking-help text, local guide cards, local highlights, activity cards, useful links, and top menu links.
+- Sample South America beach map locations, contact details, map note, booking-help text, local guide cards, local highlights, activity cards, useful links, and top menu links.
+- Open sample YouTube video URLs using Big Buck Bunny from the Blender Foundation project for video-layout testing.
 
 **Remove Demo Content** deletes the generated demo pages, apartments, and images and restores the previous homepage and MultiRent settings when the saved previous values are available.
 
 Generated demo pages, apartments, and images are marked with `_multirent_demo_content=multirent-demo-content-v1`. This marker is used only for cleanup; it is not displayed publicly.
+
+The theme and companion plugin use WordPress UTF-8 output and preserve Croatian characters such as `č`, `ć`, `ž`, `š`, and `đ` in settings, titles, rental content, and menus when the WordPress database is configured with a Unicode charset such as `utf8mb4`.
 
 Starter and demo pages, generated demo apartments, generated demo images, and starter rental units are assigned to the **MultiRent** WordPress author so packaged example content is clearly separated from real site-owner content.
 

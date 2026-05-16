@@ -1,4 +1,4 @@
-﻿# Beginner Guide: Local WordPress, MultiRent, Backup, And Live Restore
+# Beginner Guide: Local WordPress, MultiRent, Backup, And Live Restore
 
 This guide is for a user with no Docker or WordPress development knowledge. It assumes you are **not cloning the WP MultiRent repository**. Instead, you will use a small local Docker folder with Docker files, install the packaged **Multi Apartment Rental** theme ZIP and **MultiRent Companion** plugin ZIP, back up the finished work with **All-in-One WP Migration and Backup**, and restore it on a live website.
 
@@ -12,8 +12,8 @@ You will create a private WordPress site on your own computer:
 - Local WordPress admin: `http://localhost:8082/wp-admin`
 - Database: stored inside Docker on your computer
 - Docker files: `compose.yaml` and `uploads.ini`
-- Theme ZIP: `multirent-theme-upload-0.1.31.zip`
-- Plugin ZIP: `multirent-companion-plugin-upload-0.1.31.zip`
+- Theme ZIP: `multirent-theme-upload-0.1.32.zip`
+- Plugin ZIP: `multirent-companion-plugin-upload-0.1.32.zip`
 
 At the end, you will export the local site to one backup file and import that file into the live WordPress site.
 
@@ -54,8 +54,8 @@ You do not need to download or clone any source code for this guide. You only ne
 - A folder on your computer for the local WordPress Docker site
 - `compose.yaml`
 - `uploads.ini`
-- `multirent-theme-upload-0.1.31.zip`
-- `multirent-companion-plugin-upload-0.1.31.zip`
+- `multirent-theme-upload-0.1.32.zip`
+- `multirent-companion-plugin-upload-0.1.32.zip`
 
 If you received a ready-made Docker folder, use that folder and check that it contains `compose.yaml` and `uploads.ini`. If you did not receive those Docker files, create them manually with the steps below.
 
@@ -174,19 +174,19 @@ http://localhost:8082/wp-admin
 
 Use the packaged ZIP files from the release assets:
 
-- `multirent-theme-upload-0.1.31.zip`
-- `multirent-companion-plugin-upload-0.1.31.zip`
+- `multirent-theme-upload-0.1.32.zip`
+- `multirent-companion-plugin-upload-0.1.32.zip`
 
-If you received `multirent-complete-package-extract-first-0.1.31.zip`, unzip it first. It contains the separate theme and plugin ZIP files.
+If you received `multirent-complete-package-extract-first-0.1.32.zip`, unzip it first. It contains the separate theme and plugin ZIP files.
 
-Important: do not upload `multirent-complete-package-extract-first-0.1.31.zip` or any source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.31.zip` for the theme installer.
+Important: do not upload `multirent-complete-package-extract-first-0.1.32.zip` or any source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.32.zip` for the theme installer.
 
 ### Install The Theme
 
 1. In WordPress admin, open **Appearance > Themes**.
 2. Click **Add New**.
 3. Click **Upload Theme**.
-4. Choose `multirent-theme-upload-0.1.31.zip`.
+4. Choose `multirent-theme-upload-0.1.32.zip`.
 5. Click **Install Now**.
 6. Click **Activate**.
 
@@ -194,15 +194,15 @@ Important: do not upload `multirent-complete-package-extract-first-0.1.31.zip` o
 
 1. In WordPress admin, open **Plugins > Add New**.
 2. Click **Upload Plugin**.
-3. Choose `multirent-companion-plugin-upload-0.1.31.zip`.
+3. Choose `multirent-companion-plugin-upload-0.1.32.zip`.
 4. Click **Install Now**.
 5. Click **Activate Plugin**.
 
 ### Create Starter Content
 
 1. In the left WordPress admin menu, open **MultiRent Setup**.
-2. Click **Create Starter Pages, Menu, and Amenities** if this is a fresh site.
-3. Create the rental units you need.
+2. Click **Create Starter Pages, Menu, Amenities, and Rental Units** if this is a fresh site. This creates the Apartments page and four starter rental units.
+3. Rename, add, or edit the rental units you need under **MultiRent Setup > Rental Units**.
 4. Use **MultiRent Setup > Apartments Page**, **Contact Page**, and **Local Page** to choose which WordPress page is assigned to each role and which template layout it uses.
 5. Open **Settings > Permalinks**.
 6. Click **Save Changes** once. You do not need to change anything on the page.
@@ -217,9 +217,11 @@ Use the existing MultiRent theme and companion guides for the normal site editin
 
 ### Preview With Demo Content
 
-If you want to see how a full MultiRent site looks before adding real content, open **MultiRent Setup > Website Setup**, find the **Demo Content** section, and click **Create Demo Content**. This option is part of the released companion plugin, not only the local Docker setup.
+If you want to see how a full MultiRent site looks before adding real content, open **MultiRent Setup > Demo Content** and click **Create Demo Content**. This option is part of the released companion plugin, not only the local Docker setup.
 
-The demo creates four example apartments, generated hero/featured/gallery images, demo Home/Apartments/Contact/Local pages, selected amenity checkboxes, a demo menu, and sample contact/local-guide settings. It is safe to remove later because the generated demo pages, apartments, and images are marked with `_multirent_demo_content=multirent-demo-content-v1`.
+The demo creates four example apartments, more than 30 resized CC0 demo photos from the WordPress Photo Directory, generated QR-style demo images, an open sample YouTube video, demo Home/Apartments/Contact/Local pages, selected amenity checkboxes, a demo menu, South America beach map locations, and sample contact/local-guide settings. It is safe to remove later because the generated demo pages, apartments, and images are marked with `_multirent_demo_content=multirent-demo-content-v1`.
+
+The local Docker database uses a Unicode charset, so Croatian text such as `č`, `ć`, `ž`, `š`, and `đ` can be used in property names, menus, rental units, and page content.
 
 When you are done testing, click **Remove Demo Content** from the same screen. This removes the generated demo pages, apartments, and images and restores the previous homepage and MultiRent settings when possible.
 

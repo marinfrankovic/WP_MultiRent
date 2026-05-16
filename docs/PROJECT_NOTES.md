@@ -4,11 +4,15 @@ These notes keep supporting project information out of the front README while pr
 
 ## Demo Content
 
-MultiRent Companion includes an optional demo-content action under **MultiRent Setup > Website Setup**. Use **Create Demo Content** to preview a complete example site, and use **Remove Demo Content** from the same screen when finished.
+MultiRent Companion includes an optional demo-content action under **MultiRent Setup > Demo Content**, placed just above **Help / README** in the admin menu. Use **Create Demo Content** to preview a complete example site, and use **Remove Demo Content** from the same screen when finished.
 
-The demo action creates example apartments, generated hero/featured/gallery/QR images, demo Home/Apartments/Contact/Local pages, selected amenities, menu links, and sample contact/local-guide settings. Some demo apartments include YouTube video, apartment-specific map, and QR examples so users can compare richer detail-page states.
+The demo action creates example apartments, more than 30 resized CC0 photos from the WordPress Photo Directory for hero/featured/gallery images, generated QR-style images, demo Home/Apartments/Contact/Local pages, selected amenities, menu links, South America beach map locations, and sample contact/local-guide settings. Some demo apartments include an open sample YouTube video, apartment-specific map, and QR examples so users can compare richer detail-page states.
 
 Demo pages, apartments, and generated images are marked internally with `_multirent_demo_content=multirent-demo-content-v1`, so removal targets only generated examples and restores previous homepage and MultiRent settings when available.
+
+Downloaded demo photos store their WordPress Photo Directory source URL, source page, and CC0 license metadata on the attachment. The companion plugin resizes sideloaded originals before regenerating attachment metadata so demo exports stay modest in size.
+
+The theme uses WordPress UTF-8 output and has been checked with Croatian characters (`ČĆŽŠĐ čćžšđ`) against the local Docker `utf8mb4` database.
 
 Do not edit demo content into real production content. Remove the demo set first, then create or import real apartments and pages.
 
