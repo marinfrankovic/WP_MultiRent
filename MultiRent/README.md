@@ -9,16 +9,16 @@ Multi Apartment Rental is a clean, PII-free WordPress theme for apartment, room,
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload `multirent-theme-upload-0.1.32.zip`.
+2. Upload `multirent-theme-upload-0.1.33.zip`.
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload `multirent-companion-plugin-upload-0.1.32.zip`.
+5. Upload `multirent-companion-plugin-upload-0.1.33.zip`.
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received `multirent-complete-package-extract-first-0.1.32.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
+If you received `multirent-complete-package-extract-first-0.1.33.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
 
-Do not upload `multirent-complete-package-extract-first-0.1.32.zip` or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in `multirent-theme-upload-0.1.32.zip`.
+Do not upload `multirent-complete-package-extract-first-0.1.33.zip` or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in `multirent-theme-upload-0.1.33.zip`.
 
 ## Intended Use
 
@@ -207,11 +207,9 @@ The **Amenities** box on each apartment is a checkbox list. Select only the amen
 
 Default amenity options are created by MultiRent Companion: Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed. If older starter terms such as `Wi-Fi` or `Air conditioning` exist, the companion plugin migrates them to the newer checkbox terms when possible.
 
-### Optional Demo Content
+### Optional Demo Preview
 
-Open **MultiRent Setup > Demo Content** and click **Create Demo Content** to preview a complete example site. This admin option is included in public releases. The demo creates four apartments, more than 30 resized CC0 demo photos, generated QR-style images, demo Home/Apartments/Contact/Local pages, menu links, selected amenity checkboxes, South America beach map examples, and sample contact/local-guide settings. Starter and demo content created by the companion plugin is assigned to the **MultiRent** WordPress author.
-
-Click **Remove Demo Content** to disable the demo and delete the generated demo pages, apartments, and images. Demo content is marked internally with `_multirent_demo_content=multirent-demo-content-v1`, and the plugin stores previous homepage and MultiRent settings so they can be restored.
+Open **MultiRent Setup > Demo Content** to access the hosted public demo at [https://demo.multirent.online](https://demo.multirent.online). The demo is hosted separately so the plugin does not download sample media or create demo apartments on the local site. Starter content created from **Website Setup** is assigned to the **MultiRent** WordPress author.
 
 ### Contact Page Template
 
