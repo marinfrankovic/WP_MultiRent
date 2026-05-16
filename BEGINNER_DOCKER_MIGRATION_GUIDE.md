@@ -1,6 +1,6 @@
 ﻿# Beginner Guide: Local WordPress, MultiRent, Backup, And Live Restore
 
-This guide is for a user with no Docker or WordPress development knowledge. It explains how to create a local WordPress test site on a Windows computer, install the **Multi Apartment Rental** theme and **MultiRent Companion** plugin, back up the finished work with **All-in-One WP Migration and Backup**, and restore it on a live website.
+This guide is for a user with no Docker or WordPress development knowledge. It assumes you are **not cloning the WP MultiRent repository**. Instead, you will use a small local Docker folder with Docker files, install the packaged **Multi Apartment Rental** theme ZIP and **MultiRent Companion** plugin ZIP, back up the finished work with **All-in-One WP Migration and Backup**, and restore it on a live website.
 
 This guide does not explain how to use every MultiRent field after installation. For the theme setup screens, use the existing theme and companion documentation.
 
@@ -11,6 +11,7 @@ You will create a private WordPress site on your own computer:
 - Local website: `http://localhost:8082`
 - Local WordPress admin: `http://localhost:8082/wp-admin`
 - Database: stored inside Docker on your computer
+- Docker files: `compose.yaml` and `uploads.ini`
 - Theme ZIP: `multirent-theme-upload-0.1.31.zip`
 - Plugin ZIP: `multirent-companion-plugin-upload-0.1.31.zip`
 
@@ -46,18 +47,17 @@ docker compose version
 
 Both commands should show a version number. If they do not, close and reopen PowerShell, then try again.
 
-## Part 2: Create A Local WordPress Folder
+## Part 2: Create A Local WordPress Docker Folder
 
-If you are using the full WP MultiRent repository, you can use the included `local-wordpress` folder instead of creating your own folder and files. Open PowerShell in the repository and run:
+You do not need to download or clone any source code for this guide. You only need:
 
-```powershell
-Set-Location .\local-wordpress
-docker compose up -d
-```
+- A folder on your computer for the local WordPress Docker site
+- `compose.yaml`
+- `uploads.ini`
+- `multirent-theme-upload-0.1.31.zip`
+- `multirent-companion-plugin-upload-0.1.31.zip`
 
-Then continue with **Part 4: Install WordPress Locally**.
-
-If you only received the theme/plugin ZIP files and do not have the repository, create a local WordPress folder manually:
+If you received a ready-made Docker folder, use that folder and check that it contains `compose.yaml` and `uploads.ini`. If you did not receive those Docker files, create them manually with the steps below.
 
 1. Create a folder somewhere easy to find, for example:
 
@@ -179,7 +179,7 @@ Use the packaged ZIP files from the release assets:
 
 If you received `multirent-complete-package-extract-first-0.1.31.zip`, unzip it first. It contains the separate theme and plugin ZIP files.
 
-Important: do not upload `multirent-complete-package-extract-first-0.1.31.zip` or GitHub's automatic source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.31.zip` for the theme installer.
+Important: do not upload `multirent-complete-package-extract-first-0.1.31.zip` or any source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.31.zip` for the theme installer.
 
 ### Install The Theme
 
@@ -264,7 +264,7 @@ http://localhost:8082
 Documents\MultiRent Backups\local-multirent-before-live-restore.wpress
 ```
 
-Do not store this file inside a public repository. It can contain website content, users, media, settings, and private data.
+Do not store this file in a public folder or upload it anywhere public. It can contain website content, users, media, settings, and private data.
 
 ## Part 9: Prepare The Live WordPress Site
 
