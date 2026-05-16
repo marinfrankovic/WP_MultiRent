@@ -9,16 +9,16 @@ Multi Apartment Rental is a clean, PII-free WordPress theme for apartment, room,
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload `multirent-theme-upload-0.1.34.zip`.
+2. Upload `multirent-theme-upload-0.1.35.zip`.
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload `multirent-companion-plugin-upload-0.1.34.zip`.
+5. Upload `multirent-companion-plugin-upload-0.1.35.zip`.
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received `multirent-complete-package-extract-first-0.1.34.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
+If you received `multirent-complete-package-extract-first-0.1.35.zip`, unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
 
-Do not upload `multirent-complete-package-extract-first-0.1.34.zip` or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in `multirent-theme-upload-0.1.34.zip`.
+Do not upload `multirent-complete-package-extract-first-0.1.35.zip` or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in `multirent-theme-upload-0.1.35.zip`.
 
 ## Intended Use
 
@@ -78,7 +78,7 @@ Choose the Apartments page template from **MultiRent Setup > Apartments Page**:
 - **Apartments - Featured Guide**: intro text plus the same apartment card grid, useful when the page should explain how to choose a unit.
 - **Apartments - Compact List**: tighter horizontal cards for sites with many apartments or when quick comparison matters.
 
-All Apartments templates pull published **Rental Units** automatically and use the rental image fields plus the right-sidebar Apartment Details fields.
+All Apartments templates pull published **Rental Units** automatically and use the rental image fields plus the right-sidebar Apartment Details fields. To hide an apartment from the public Apartments page, change the rental unit to draft, private, or another non-public status.
 
 ### Contact Page Templates
 
