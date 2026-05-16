@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.33
+ * Version: 0.1.34
  * Requires at least: 6.5
  * Requires PHP: 8.4
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.33' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.34' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -111,7 +111,7 @@ function multirent_companion_register_content_types() {
 			),
 			'public'       => true,
 			'show_in_menu' => 'multirent-setup',
-			'supports'     => array( 'title', 'editor', 'excerpt', 'page-attributes' ),
+			'supports'     => array( 'title', 'editor', 'excerpt', 'page-attributes', 'custom-fields' ),
 			'has_archive'  => true,
 			'rewrite'      => array( 'slug' => 'rentals' ),
 			'show_in_rest' => true,
@@ -163,8 +163,8 @@ function multirent_companion_register_unit_meta() {
 				'type'              => 'string',
 				'show_in_rest'      => true,
 				'sanitize_callback' => in_array( $key, array( 'booking_url', 'video_url' ), true ) ? 'esc_url_raw' : 'sanitize_text_field',
-				'auth_callback'     => function() {
-					return current_user_can( 'edit_posts' );
+				'auth_callback'     => function( $allowed, $meta_key, $post_id ) {
+					return current_user_can( 'edit_post', $post_id );
 				},
 			)
 		);
@@ -178,8 +178,8 @@ function multirent_companion_register_unit_meta() {
 			'type'              => 'string',
 			'show_in_rest'      => true,
 			'sanitize_callback' => 'multirent_companion_sanitize_gallery_image_ids',
-			'auth_callback'     => function() {
-				return current_user_can( 'edit_posts' );
+			'auth_callback'     => function( $allowed, $meta_key, $post_id ) {
+				return current_user_can( 'edit_post', $post_id );
 			},
 		)
 	);
@@ -192,8 +192,8 @@ function multirent_companion_register_unit_meta() {
 			'type'              => 'integer',
 			'show_in_rest'      => true,
 			'sanitize_callback' => 'absint',
-			'auth_callback'     => function() {
-				return current_user_can( 'edit_posts' );
+			'auth_callback'     => function( $allowed, $meta_key, $post_id ) {
+				return current_user_can( 'edit_post', $post_id );
 			},
 		)
 	);
@@ -677,7 +677,7 @@ function multirent_companion_admin_assets( $hook_suffix ) {
 		wp_enqueue_script(
 			'multirent-companion-unit-sidebar',
 			plugins_url( 'assets/js/unit-sidebar.js', __FILE__ ),
-			array( 'wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-i18n', 'wp-block-editor' ),
+			array( 'wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-core-data', 'wp-i18n', 'wp-block-editor' ),
 			MULTIRENT_COMPANION_VERSION,
 			true
 		);

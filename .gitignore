@@ -50,3 +50,4 @@ check-menu-order.php
 # Keep intentional release ZIPs only
 *.zip
 !release-assets/*.zip
+release-assets/*/

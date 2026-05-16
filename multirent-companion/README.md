@@ -6,16 +6,16 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate `multirent-theme-upload-0.1.33.zip` in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate `multirent-companion-plugin-upload-0.1.33.zip` in **Plugins > Add New > Upload Plugin**.
+1. Install and activate `multirent-theme-upload-0.1.34.zip` in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate `multirent-companion-plugin-upload-0.1.34.zip` in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, Amenities, and Rental Units** if this is a fresh site. This creates the Apartments page and four starter rental units.
 5. Rename, add, or edit each rental unit under **MultiRent Setup > Rental Units**.
 6. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, `multirent-complete-package-extract-first-0.1.33.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, `multirent-complete-package-extract-first-0.1.34.zip` contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
-Do not upload `multirent-complete-package-extract-first-0.1.33.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.33.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.33.zip` for **Upload Plugin**.
+Do not upload `multirent-complete-package-extract-first-0.1.34.zip` or GitHub's automatic source-code ZIP as the theme. Use `multirent-theme-upload-0.1.34.zip` for **Upload Theme** and `multirent-companion-plugin-upload-0.1.34.zip` for **Upload Plugin**.
 
 ## What This Plugin Adds
 
@@ -417,6 +417,8 @@ Use **Apartment Tile Image** only for the main apartment/card image. Use **Apart
 ### Apartment Details And Images
 
 Each rental unit edit screen keeps image controls and text/detail controls separate. The auto-expanded **Apartment Images** box below the main editor is for the apartment tile image and ordered gallery photos only. Capacity, bedrooms, bathrooms, size, price note, booking URL, YouTube video URL, QR code image, and apartment map fields are edited in the right sidebar under **Apartment Details**.
+
+Apartment Details fields are saved as rental-unit custom fields. Amenities are saved separately as taxonomy terms, so an amenity checkbox can save even when a custom-field problem affects details such as capacity, bedrooms, price note, video URL, QR image, or map address. After editing Apartment Details, click **Update** and refresh the public apartment page to confirm the details card and QR/map tile use the new values.
 
 The apartment tile image is stored as the normal WordPress featured image internally, but site owners manage it from **Apartment Images > Apartment Tile Image** below the editor. It appears in rental cards and single rental pages. The detail-page gallery is controlled by the **Apartment Gallery Images** section in the same box.
 

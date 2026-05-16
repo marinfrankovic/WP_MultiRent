@@ -43,14 +43,14 @@ For a full beginner workflow, including Docker Desktop, local WordPress, backups
 Use the packaged ZIP files from `release-assets/` or the latest GitHub release.
 
 1. In WordPress admin, open **Appearance > Themes > Add New > Upload Theme**.
-2. Upload and activate `multirent-theme-upload-0.1.33.zip`.
+2. Upload and activate `multirent-theme-upload-0.1.34.zip`.
 3. Open **Plugins > Add New > Upload Plugin**.
-4. Upload and activate `multirent-companion-plugin-upload-0.1.33.zip`.
+4. Upload and activate `multirent-companion-plugin-upload-0.1.34.zip`.
 5. Open **MultiRent Setup** from the WordPress left admin menu.
 6. On a fresh site, use **Create Starter Pages, Menu, Amenities, and Rental Units**. This creates the Apartments page and four starter rental units.
 7. Rename, add, or edit rental units under **MultiRent Setup > Rental Units**.
 
-If you received `multirent-complete-package-extract-first-0.1.33.zip`, extract it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
+If you received `multirent-complete-package-extract-first-0.1.34.zip`, extract it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
 
 Do not upload the complete package ZIP or GitHub's automatic source-code ZIP as a theme. WordPress expects the theme upload ZIP to contain `MultiRent/style.css`.
 

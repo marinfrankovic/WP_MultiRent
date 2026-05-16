@@ -13,6 +13,7 @@
 	const MediaUploadCheck = wp.blockEditor && wp.blockEditor.MediaUploadCheck;
 	const useSelect = wp.data.useSelect;
 	const useDispatch = wp.data.useDispatch;
+	const useEntityProp = wp.coreData && wp.coreData.useEntityProp;
 
 	function hideDuplicateFeaturedImagePanel() {
 		let unsubscribe = null;
@@ -40,9 +41,12 @@
 			return select('core/editor').getCurrentPostType();
 		}, []);
 
-		const meta = useSelect(function (select) {
+		const editorMeta = useSelect(function (select) {
 			return select('core/editor').getEditedPostAttribute('meta') || {};
 		}, []);
+		const entityMetaPair = useEntityProp ? useEntityProp('postType', postType || 'rental_unit', 'meta') : null;
+		const meta = entityMetaPair ? (entityMetaPair[0] || {}) : editorMeta;
+		const setEntityMeta = entityMetaPair ? entityMetaPair[1] : null;
 
 		const editPost = useDispatch('core/editor').editPost;
 
@@ -53,6 +57,11 @@
 		function updateMeta(key, value) {
 			const nextMeta = Object.assign({}, meta);
 			nextMeta[key] = value;
+			if (setEntityMeta) {
+				setEntityMeta(nextMeta);
+				return;
+			}
+
 			editPost({ meta: nextMeta });
 		}
 

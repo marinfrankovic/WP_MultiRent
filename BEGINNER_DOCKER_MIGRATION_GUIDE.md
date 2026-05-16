@@ -12,8 +12,8 @@ You will create a private WordPress site on your own computer:
 - Local WordPress admin: `http://localhost:8082/wp-admin`
 - Database: stored inside Docker on your computer
 - Docker files: `compose.yaml` and `uploads.ini`
-- Theme ZIP: `multirent-theme-upload-0.1.33.zip`
-- Plugin ZIP: `multirent-companion-plugin-upload-0.1.33.zip`
+- Theme ZIP: `multirent-theme-upload-0.1.34.zip`
+- Plugin ZIP: `multirent-companion-plugin-upload-0.1.34.zip`
 
 At the end, you will export the local site to one backup file and import that file into the live WordPress site.
 
@@ -54,8 +54,8 @@ You do not need to download or clone any source code for this guide. You only ne
 - A folder on your computer for the local WordPress Docker site
 - `compose.yaml`
 - `uploads.ini`
-- `multirent-theme-upload-0.1.33.zip`
-- `multirent-companion-plugin-upload-0.1.33.zip`
+- `multirent-theme-upload-0.1.34.zip`
+- `multirent-companion-plugin-upload-0.1.34.zip`
 
 If you received a ready-made Docker folder, use that folder and check that it contains `compose.yaml` and `uploads.ini`. If you did not receive those Docker files, create them manually with the steps below.
 
@@ -174,19 +174,19 @@ http://localhost:8082/wp-admin
 
 Use the packaged ZIP files from the release assets:
 
-- `multirent-theme-upload-0.1.33.zip`
-- `multirent-companion-plugin-upload-0.1.33.zip`
+- `multirent-theme-upload-0.1.34.zip`
+- `multirent-companion-plugin-upload-0.1.34.zip`
 
-If you received `multirent-complete-package-extract-first-0.1.33.zip`, unzip it first. It contains the separate theme and plugin ZIP files.
+If you received `multirent-complete-package-extract-first-0.1.34.zip`, unzip it first. It contains the separate theme and plugin ZIP files.
 
-Important: do not upload `multirent-complete-package-extract-first-0.1.33.zip` or any source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.33.zip` for the theme installer.
+Important: do not upload `multirent-complete-package-extract-first-0.1.34.zip` or any source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose `multirent-theme-upload-0.1.34.zip` for the theme installer.
 
 ### Install The Theme
 
 1. In WordPress admin, open **Appearance > Themes**.
 2. Click **Add New**.
 3. Click **Upload Theme**.
-4. Choose `multirent-theme-upload-0.1.33.zip`.
+4. Choose `multirent-theme-upload-0.1.34.zip`.
 5. Click **Install Now**.
 6. Click **Activate**.
 
@@ -194,7 +194,7 @@ Important: do not upload `multirent-complete-package-extract-first-0.1.33.zip` o
 
 1. In WordPress admin, open **Plugins > Add New**.
 2. Click **Upload Plugin**.
-3. Choose `multirent-companion-plugin-upload-0.1.33.zip`.
+3. Choose `multirent-companion-plugin-upload-0.1.34.zip`.
 4. Click **Install Now**.
 5. Click **Activate Plugin**.
 
@@ -219,7 +219,7 @@ Use the existing MultiRent theme and companion guides for the normal site editin
 
 If you want to see how a full MultiRent site looks before adding real content, open **MultiRent Setup > Demo Content** and use the link to [https://demo.multirent.online](https://demo.multirent.online). The public demo is hosted separately so this local Docker site stays light and does not download sample media or create demo apartments.
 
-The local Docker database uses a Unicode charset, so Croatian text such as `č`, `ć`, `ž`, `š`, and `đ` can be used in property names, menus, rental units, and page content.
+The local Docker database uses a Unicode charset, so Croatian text such as `Ä`, `Ä‡`, `Å¾`, `Å¡`, and `Ä‘` can be used in property names, menus, rental units, and page content.
 
 ## Part 6: Stop And Start The Local Site Later
 
