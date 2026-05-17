@@ -32,7 +32,7 @@ Do not commit:
 
 ## Release Notes
 
-GitHub Releases should contain the latest packaged theme ZIP, plugin ZIP, and combined template ZIP.
+GitHub Releases should contain the latest packaged theme ZIP, plugin ZIP, and combined template ZIP. Public install documentation should link to the latest release asset downloads for those packages.
 
 Version 0.1.35 refreshes the public packages and documentation after verifying that Apartments page templates list all published Rental Units automatically. Missing apartments should be handled by checking the rental unit status and the assigned Apartments page/template, not by editing template code.
 
