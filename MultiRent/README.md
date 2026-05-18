@@ -9,16 +9,16 @@ Multi Apartment Rental is a clean, PII-free WordPress theme for apartment, room,
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload [multirent-theme-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-theme-upload-0.1.36.zip).
+2. Upload [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip).
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload [multirent-companion-plugin-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-companion-plugin-upload-0.1.36.zip).
+5. Upload [multirent-companion-plugin-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-companion-plugin-upload-0.1.37.zip).
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received [multirent-complete-package-extract-first-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-complete-package-extract-first-0.1.36.zip), unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
+If you received [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip), unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
 
-Do not upload [multirent-complete-package-extract-first-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-complete-package-extract-first-0.1.36.zip) or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in [multirent-theme-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-theme-upload-0.1.36.zip).
+Do not upload [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip) or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip).
 
 ## Intended Use
 
@@ -193,7 +193,7 @@ Apartment images work in three places:
 7. In the auto-expanded **Apartment Images** box below the editor, use **Apartment Gallery Images** to choose the gallery photos for the apartment detail page, reorder them with **Move up** and **Move down**, and remove any images you do not want.
 8. Add optional extra photos in the main editor with **Image** or **Gallery** blocks only when they should appear inside the written description.
 9. In the right sidebar, open **Apartment Details** and fill in guest capacity, bedrooms, bathrooms, size, optional price note, booking or inquiry URL, optional YouTube video URL, optional map address/coordinates, and optional QR code image. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile, and leave QR/map fields empty to hide the compact QR/map tile.
-10. Select amenities in the **Amenities** checkbox list. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
+10. Select amenities in the **Amenities** checkbox list. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Separate entrance, Dishwasher, Coffee machine, Microwave, Washing machine, Iron, Hair dryer, Baby cot, EV charger, Pets allowed, and Pets not allowed.
 11. Click **Publish**.
 12. View the apartment page and the Apartments listing page to confirm the card, image, gallery order, optional video lightbox, optional QR/map tile, details, amenities, and booking link are correct.
 
@@ -205,7 +205,7 @@ If the new apartment page shows a 404 error, open **Settings > Permalinks** and 
 
 The **Amenities** box on each apartment is a checkbox list. Select only the amenities that apply to that apartment. Selected amenities are displayed as icon badges on the single apartment detail page.
 
-Default amenity options are created by MultiRent Companion: Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed. If older starter terms such as `Wi-Fi` or `Air conditioning` exist, the companion plugin migrates them to the newer checkbox terms when possible.
+Default amenity options are created by MultiRent Companion: Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Separate entrance, Dishwasher, Coffee machine, Microwave, Washing machine, Iron, Hair dryer, Baby cot, EV charger, Pets allowed, and Pets not allowed. New default amenity choices are added only when missing, so existing rental-unit amenity selections and custom amenity terms are preserved. If older starter terms such as `Wi-Fi` or `Air conditioning` exist, the companion plugin migrates them to the newer checkbox terms when possible.
 
 ### Optional Demo Preview
 
@@ -315,3 +315,4 @@ This theme and companion plugin are provided on a best-effort basis. No guarante
 Any permitted private-use copy, modified version, or redistributed non-commercial version must clearly state that it originated from the Multi Apartment Rental theme and MultiRent Companion plugin, and must credit the original author and the MultiRent project.
 
 No free or paid support is provided. The copyright holder may remove this theme/plugin, stop distributing it, or stop developing it without notice.
+

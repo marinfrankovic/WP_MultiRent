@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.36
+ * Version: 0.1.37
  * Requires at least: 6.5
  * Requires PHP: 8.4
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.36' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.37' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -32,6 +32,15 @@ function multirent_companion_default_amenities() {
 		'terrace'          => 'Terrace',
 		'no-smoking'       => 'No-Smoking',
 		'kitchen'          => 'Kitchen',
+		'separate-entrance' => 'Separate entrance',
+		'dishwasher'       => 'Dishwasher',
+		'coffee-machine'   => 'Coffee machine',
+		'microwave'        => 'Microwave',
+		'washing-machine'  => 'Washing machine',
+		'iron'             => 'Iron',
+		'hair-dryer'       => 'Hair dryer',
+		'baby-cot'         => 'Baby cot',
+		'ev-charger'       => 'EV charger',
 		'pets-allowed'     => 'Pets allowed',
 		'pets-not-allowed' => 'Pets not allowed',
 	);
@@ -1769,3 +1778,4 @@ function multirent_companion_render_readme_page() {
 	</div>
 	<?php
 }
+

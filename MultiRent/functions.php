@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.1.36' );
+define( 'MULTIRENT_VERSION', '0.1.37' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -491,6 +491,15 @@ function multirent_amenity_icons() {
 		'terace'           => '&#x2600;&#xFE0F;',
 		'no-smoking'       => '&#x1F6AD;',
 		'kitchen'          => '&#x1F373;',
+		'separate-entrance' => '&#x1F6AA;',
+		'dishwasher'       => '&#x1F9FC;',
+		'coffee-machine'   => '&#x2615;',
+		'microwave'        => '&#x1F4A1;',
+		'washing-machine'  => '&#x1F9FA;',
+		'iron'             => '&#x1F9FA;',
+		'hair-dryer'       => '&#x1F4A8;',
+		'baby-cot'         => '&#x1F6CF;&#xFE0F;',
+		'ev-charger'       => '&#x1F50C;',
 		'pets-allowed'     => '&#x1F43E;',
 		'pets-not-allowed' => '&#x1F6AB;',
 	);
@@ -713,3 +722,4 @@ function multirent_render_unit_guest_info( $post_id ) {
 function multirent_button_url( $url ) {
 	return $url ? $url : '#';
 }
+

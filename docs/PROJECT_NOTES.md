@@ -34,7 +34,7 @@ Do not commit:
 
 GitHub Releases should contain the latest packaged theme ZIP, plugin ZIP, and combined template ZIP. Public install documentation should link to the latest release asset downloads for those packages.
 
-Version 0.1.36 adds stronger release hygiene checks, explicit local backup ignores, safer starter-content confirmation, and clearer wording that starter content is generated locally while the complete demo is hosted separately.
+Version 0.1.37 adds expanded default rental-unit amenities, including private-entry, kitchen-appliance, laundry, family, and EV-charging options, while preserving existing rental-unit amenity selections and custom terms.
 
 Keep only the latest 10 GitHub Releases available. See [Release Policy](../RELEASE_POLICY.md) for packaging and retention details.
 
@@ -43,3 +43,4 @@ Keep only the latest 10 GitHub Releases available. See [Release Policy](../RELEA
 This theme and companion plugin are provided on a best-effort basis. No guarantees are given for correctness, compatibility, security, availability, fitness for a particular purpose, or future maintenance.
 
 The end user is responsible for everything they install, configure, publish, modify, connect, or deploy with this theme and plugin. No free or paid support is provided.
+

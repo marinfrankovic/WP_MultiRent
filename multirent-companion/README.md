@@ -6,16 +6,16 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate [multirent-theme-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-theme-upload-0.1.36.zip) in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate [multirent-companion-plugin-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-companion-plugin-upload-0.1.36.zip) in **Plugins > Add New > Upload Plugin**.
+1. Install and activate [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip) in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate [multirent-companion-plugin-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-companion-plugin-upload-0.1.37.zip) in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, Amenities, and Rental Units** if this is a fresh site. This creates the Apartments page and four starter rental units.
 5. Rename, add, or edit each rental unit under **MultiRent Setup > Rental Units**.
 6. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, [multirent-complete-package-extract-first-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-complete-package-extract-first-0.1.36.zip) contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip) contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
-Do not upload [multirent-complete-package-extract-first-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-complete-package-extract-first-0.1.36.zip) or GitHub's automatic source-code ZIP as the theme. Use [multirent-theme-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-theme-upload-0.1.36.zip) for **Upload Theme** and [multirent-companion-plugin-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-companion-plugin-upload-0.1.36.zip) for **Upload Plugin**.
+Do not upload [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip) or GitHub's automatic source-code ZIP as the theme. Use [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip) for **Upload Theme** and [multirent-companion-plugin-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-companion-plugin-upload-0.1.37.zip) for **Upload Plugin**.
 
 ## What This Plugin Adds
 
@@ -361,7 +361,7 @@ Use this workflow whenever you want to add one complete apartment from the WordP
 7. In the **Apartment Gallery Images** box below the editor, choose the detail-page gallery photos, reorder them with **Move up** and **Move down**, and remove any images you do not want.
 8. Add optional extra apartment photos in the main editor with **Image** or **Gallery** blocks only when those photos should appear inside the written apartment description.
 9. In the right sidebar, open **Apartment Details** and fill in **Guest capacity**, **Bedrooms**, **Bathrooms**, **Size**, optional **Price note**, **Booking or inquiry URL**, optional **YouTube video URL**, optional **Apartment map address/coordinates**, and optional **QR code image**. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile. If a YouTube URL is set, it appears as part of the apartment gallery and opens in the lightbox player. If QR or map fields are set, a compact QR/map tile appears under the details tile; when all QR/map fields are empty, that tile is hidden.
-10. In the **Amenities** checkbox list, select the amenities for that apartment. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
+10. In the **Amenities** checkbox list, select the amenities for that apartment. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Separate entrance, Dishwasher, Coffee machine, Microwave, Washing machine, Iron, Hair dryer, Baby cot, EV charger, Pets allowed, and Pets not allowed.
 11. Click **Publish** to make the apartment live, or **Save Draft** if it is not ready yet.
 12. Open the public apartment page from the **View** link and check the image, gallery order, description, details, amenities, and booking button.
 13. Open the Apartments page on the public site and confirm the new apartment card appears in the list.
@@ -439,9 +439,9 @@ The apartment tile image is stored as the normal WordPress featured image intern
 
 ### Amenities
 
-Amenities are grouped under **MultiRent Setup > Amenities** and appear as checkboxes on each rental unit. The companion plugin creates the standard amenity choices automatically: Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Pets allowed, and Pets not allowed.
+Amenities are grouped under **MultiRent Setup > Amenities** and appear as checkboxes on each rental unit. The companion plugin creates the standard amenity choices automatically: Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Separate entrance, Dishwasher, Coffee machine, Microwave, Washing machine, Iron, Hair dryer, Baby cot, EV charger, Pets allowed, and Pets not allowed.
 
-When an amenity checkbox is selected for an apartment, the theme displays that amenity as an icon badge on the single apartment detail page. Apartment listing cards stay compact and show the apartment image, title, excerpt, guest capacity, and details link. Older starter terms such as `Wi-Fi` and `Air conditioning` are migrated to the newer checkbox terms when possible, and unused old starter terms are cleaned up.
+When an amenity checkbox is selected for an apartment, the theme displays that amenity as an icon badge on the single apartment detail page. Apartment listing cards stay compact and show the apartment image, title, excerpt, guest capacity, and details link. New default amenity choices are inserted only when missing, so existing rental-unit amenity selections and custom amenity terms are preserved. Older starter terms such as `Wi-Fi` and `Air conditioning` are migrated to the newer checkbox terms when possible, and unused old starter terms are cleaned up.
 
 ## Recommended Plugins
 
@@ -491,3 +491,4 @@ This theme and companion plugin are provided on a best-effort basis. No guarante
 Any permitted private-use copy, modified version, or redistributed non-commercial version must clearly state that it originated from the Multi Apartment Rental theme and MultiRent Companion plugin, and must credit the original author and the MultiRent project.
 
 No free or paid support is provided. The copyright holder may remove this theme/plugin, stop distributing it, or stop developing it without notice.
+

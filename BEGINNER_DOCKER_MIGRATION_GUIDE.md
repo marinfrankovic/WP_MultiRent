@@ -12,8 +12,8 @@ You will create a private WordPress site on your own computer:
 - Local WordPress admin: `http://localhost:8082/wp-admin`
 - Database: stored inside Docker on your computer
 - Docker files: `compose.yaml` and `uploads.ini`
-- Theme ZIP: [multirent-theme-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-theme-upload-0.1.36.zip)
-- Plugin ZIP: [multirent-companion-plugin-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-companion-plugin-upload-0.1.36.zip)
+- Theme ZIP: [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip)
+- Plugin ZIP: [multirent-companion-plugin-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-companion-plugin-upload-0.1.37.zip)
 
 At the end, you will export the local site to one backup file and import that file into the live WordPress site.
 
@@ -54,8 +54,8 @@ You do not need to download or clone any source code for this guide. You only ne
 - A folder on your computer for the local WordPress Docker site
 - `compose.yaml`
 - `uploads.ini`
-- [multirent-theme-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-theme-upload-0.1.36.zip)
-- [multirent-companion-plugin-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-companion-plugin-upload-0.1.36.zip)
+- [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip)
+- [multirent-companion-plugin-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-companion-plugin-upload-0.1.37.zip)
 
 If you received a ready-made Docker folder, use that folder and check that it contains `compose.yaml` and `uploads.ini`. If you did not receive those Docker files, create them manually with the steps below.
 
@@ -174,19 +174,19 @@ http://localhost:8082/wp-admin
 
 Use the packaged ZIP files from the latest GitHub release assets:
 
-- [multirent-theme-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-theme-upload-0.1.36.zip)
-- [multirent-companion-plugin-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-companion-plugin-upload-0.1.36.zip)
+- [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip)
+- [multirent-companion-plugin-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-companion-plugin-upload-0.1.37.zip)
 
-If you received [multirent-complete-package-extract-first-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-complete-package-extract-first-0.1.36.zip), unzip it first. It contains the separate theme and plugin ZIP files.
+If you received [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip), unzip it first. It contains the separate theme and plugin ZIP files.
 
-Important: do not upload [multirent-complete-package-extract-first-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-complete-package-extract-first-0.1.36.zip) or any source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose [multirent-theme-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-theme-upload-0.1.36.zip) for the theme installer.
+Important: do not upload [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip) or any source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip) for the theme installer.
 
 ### Install The Theme
 
 1. In WordPress admin, open **Appearance > Themes**.
 2. Click **Add New**.
 3. Click **Upload Theme**.
-4. Choose [multirent-theme-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-theme-upload-0.1.36.zip).
+4. Choose [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip).
 5. Click **Install Now**.
 6. Click **Activate**.
 
@@ -194,7 +194,7 @@ Important: do not upload [multirent-complete-package-extract-first-0.1.36.zip](h
 
 1. In WordPress admin, open **Plugins > Add New**.
 2. Click **Upload Plugin**.
-3. Choose [multirent-companion-plugin-upload-0.1.36.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.36/multirent-companion-plugin-upload-0.1.36.zip).
+3. Choose [multirent-companion-plugin-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-companion-plugin-upload-0.1.37.zip).
 4. Click **Install Now**.
 5. Click **Activate Plugin**.
 
@@ -448,3 +448,4 @@ This command deletes the local database and WordPress files. Use it only when yo
 ```powershell
 docker compose down -v
 ```
+
