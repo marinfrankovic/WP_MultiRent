@@ -11,6 +11,11 @@ local-wordpress/wp-content/
 local-wordpress/mysql/
 local-wordpress/db_data/
 local-wordpress/wordpress_data/
+local-wordpress/backups/
+local-wordpress/**/*.sql
+local-wordpress/**/*.sqlite
+local-wordpress/**/*.db
+local-wordpress/**/*.wpress
 local-wordpress/*.sql
 local-wordpress/*.sqlite
 local-wordpress/*.db
@@ -21,6 +26,7 @@ wp-config.php
 *.sql
 *.sqlite
 *.db
+*.wpress
 
 # Credentials, auth data, and secrets
 .env
@@ -43,6 +49,7 @@ AuthData/
 *.bak
 *.tmp
 *.log
+*.old
 _zipstage*/
 check-admin-validation.php
 check-menu-order.php

@@ -14,6 +14,7 @@ $repoRoot = Resolve-Path (Join-Path $scriptRoot '..')
 $themeDir = Join-Path $repoRoot 'MultiRent'
 $pluginDir = Join-Path $repoRoot 'multirent-companion'
 $releaseDir = Join-Path $repoRoot 'release-assets'
+$validationScript = Join-Path $scriptRoot 'Test-MultiRentRelease.ps1'
 
 function Assert-ReleaseSource {
 	$requiredPaths = @(
@@ -49,7 +50,50 @@ function Assert-ZipEntry {
 	}
 }
 
+function Invoke-ReleaseValidation {
+	param(
+		[switch] $IncludePackages
+	)
+
+	if (-not (Test-Path -LiteralPath $validationScript -PathType Leaf)) {
+		throw "Release validation script is missing: $validationScript"
+	}
+
+	if ($IncludePackages) {
+		& $validationScript -IncludePackages
+	} else {
+		& $validationScript
+	}
+}
+
+function Remove-ReleaseJunk {
+	param(
+		[Parameter(Mandatory = $true)]
+		[string] $Path
+	)
+
+	$junkPatterns = @(
+		'.DS_Store',
+		'Thumbs.db',
+		'*.bak',
+		'*.tmp',
+		'*.log',
+		'*.old',
+		'check-admin-validation.php',
+		'check-menu-order.php'
+	)
+
+	foreach ($pattern in $junkPatterns) {
+		Get-ChildItem -LiteralPath $Path -Recurse -Force -File -Filter $pattern -ErrorAction SilentlyContinue |
+			Remove-Item -Force
+	}
+
+	Get-ChildItem -LiteralPath $Path -Recurse -Force -Directory -Filter '_zipstage*' -ErrorAction SilentlyContinue |
+		Remove-Item -Recurse -Force
+}
+
 Assert-ReleaseSource
+Invoke-ReleaseValidation
 
 if (-not (Test-Path -LiteralPath $releaseDir -PathType Container)) {
 	New-Item -ItemType Directory -Path $releaseDir | Out-Null
@@ -63,6 +107,8 @@ try {
 	New-Item -ItemType Directory -Path $packagesDir | Out-Null
 	Copy-Item -LiteralPath $themeDir -Destination (Join-Path $packagesDir 'MultiRent') -Recurse
 	Copy-Item -LiteralPath $pluginDir -Destination (Join-Path $packagesDir 'multirent-companion') -Recurse
+	Remove-ReleaseJunk -Path $packagesDir
+	Invoke-ReleaseValidation
 
 	$themeZip = Join-Path $releaseDir ("multirent-theme-upload-{0}.zip" -f $Version)
 	$pluginZip = Join-Path $releaseDir ("multirent-companion-plugin-upload-{0}.zip" -f $Version)
@@ -102,6 +148,8 @@ try {
 			Where-Object { $_.Name -notin @((Split-Path $themeZip -Leaf), (Split-Path $pluginZip -Leaf), (Split-Path $templateZip -Leaf)) } |
 			Remove-Item -Force
 	}
+
+	Invoke-ReleaseValidation -IncludePackages
 
 	Assert-ReleaseSource
 

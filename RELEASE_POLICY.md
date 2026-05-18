@@ -18,7 +18,7 @@ Keep the latest 10 releases available on GitHub.
 
 For future releases:
 
-1. Build and validate the theme ZIP, plugin ZIP, and extract-first complete package ZIP with `scripts/New-MultiRentReleasePackage.ps1 -Version x.y.z -CleanOldLocalPackages`.
+1. Build and validate the theme ZIP, plugin ZIP, and extract-first complete package ZIP with `scripts/New-MultiRentReleasePackage.ps1 -Version x.y.z -CleanOldLocalPackages`. The script runs source privacy checks, PHP syntax checks when PHP is available, ZIP entry validation, and package privacy checks.
 2. Create a new GitHub release with those three ZIP files attached.
 3. Mark the newest release as latest.
 4. Update documentation links for theme, companion plugin, and complete package ZIPs so they point to the newest GitHub release asset URLs.
@@ -39,3 +39,5 @@ If any of these files are missing, stop immediately and restore the source folde
 ## Privacy
 
 Before every release, scan source files and packaged ZIPs for credentials, local admin details, API keys, tokens, private backups, database dumps, and account-specific production settings.
+
+Use `scripts/Test-MultiRentRelease.ps1 -IncludePackages` for a standalone validation run before or after packaging.

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.35
+ * Version: 0.1.36
  * Requires at least: 6.5
  * Requires PHP: 8.4
  * Author: MultiRent Project
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.35' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.1.36' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -907,6 +907,11 @@ function multirent_companion_handle_setup_actions() {
 	}
 
 	if ( 'create_starter_site' === $action ) {
+		if ( empty( $_POST['multirent_confirm_starter_site'] ) ) {
+			add_settings_error( 'multirent_messages', 'starter_site_not_confirmed', esc_html__( 'Confirm the starter content action before running it.', 'multirent-companion' ), 'error' );
+			return;
+		}
+
 		multirent_companion_create_starter_site();
 		add_settings_error( 'multirent_messages', 'site_created', esc_html__( 'Starter pages, menu, amenities, and four rental units created.', 'multirent-companion' ), 'updated' );
 	}
@@ -1396,9 +1401,11 @@ function multirent_companion_render_setup_page() {
 
 		<h2><?php esc_html_e( 'Starter Content', 'multirent-companion' ); ?></h2>
 		<p><?php esc_html_e( 'Use this first on a new site to create Home, Apartments, Contact, and Local pages, assign the Apartments page, create the top menu and amenities, and add four starter rental units you can rename or replace.', 'multirent-companion' ); ?></p>
+		<p class="description"><?php esc_html_e( 'On an existing site this can set the front page, assign page templates, update the generated top menu, and publish or draft MultiRent role pages. Review the affected pages before using it outside a fresh setup.', 'multirent-companion' ); ?></p>
 		<form method="post" action="" style="margin-bottom:24px;">
 			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
 			<input type="hidden" name="multirent_action" value="create_starter_site">
+			<label><input type="checkbox" name="multirent_confirm_starter_site" value="1" required> <?php esc_html_e( 'I understand this will create missing starter content and may update the front page, templates, visibility, and generated top menu.', 'multirent-companion' ); ?></label>
 			<?php submit_button( esc_html__( 'Create Starter Pages, Menu, Amenities, and Rental Units', 'multirent-companion' ), 'secondary' ); ?>
 		</form>
 
