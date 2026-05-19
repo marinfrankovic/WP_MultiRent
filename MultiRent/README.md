@@ -4,7 +4,7 @@
 
 # Multi Apartment Rental
 
-Multi Apartment Rental is a clean, PII-free WordPress theme for apartment, room, villa, and multi-unit rental websites.
+Multi Apartment Rental is a clean WordPress theme for apartment, room, villa, and multi-unit rental websites.
 
 ## Installation
 
@@ -16,9 +16,7 @@ Multi Apartment Rental is a clean, PII-free WordPress theme for apartment, room,
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip), unzip it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
-
-Do not upload [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip) or GitHub's automatic source-code ZIP directly in **Upload Theme**. WordPress expects the theme ZIP to contain the `MultiRent/style.css` stylesheet, which is present in [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip).
+If you received [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
 
 ## Intended Use
 

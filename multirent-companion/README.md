@@ -15,8 +15,6 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 For convenience, [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip) contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
-Do not upload [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip) or GitHub's automatic source-code ZIP as the theme. Use [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip) for **Upload Theme** and [multirent-companion-plugin-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-companion-plugin-upload-0.1.37.zip) for **Upload Plugin**.
-
 ## What This Plugin Adds
 
 ### MultiRent Setup Admin Area
@@ -323,7 +321,7 @@ The plugin includes a **MultiRent Setup > Demo Content** screen with a link to t
 
 Use the public demo to preview apartment pages, galleries, maps, QR examples, contact details, local guide sections, and the finished theme layout before adding real property content. Use **Website Setup** on the local site to create starter pages, menu links, amenities, and rental units.
 
-The theme and companion plugin use WordPress UTF-8 output and preserve Croatian characters such as `č`, `ć`, `ž`, `š`, and `đ` in settings, titles, rental content, and menus when the WordPress database is configured with a Unicode charset such as `utf8mb4`.
+The theme and companion plugin preserve Croatian characters such as `č`, `ć`, `ž`, `š`, and `đ` in settings, titles, rental content, and menus on standard WordPress installations.
 
 Starter and demo pages, generated demo apartments, generated demo images, and starter rental units are assigned to the **MultiRent** WordPress author so packaged example content is clearly separated from real site-owner content.
 

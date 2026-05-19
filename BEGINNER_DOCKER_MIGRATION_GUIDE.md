@@ -177,9 +177,7 @@ Use the packaged ZIP files from the latest GitHub release assets:
 - [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip)
 - [multirent-companion-plugin-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-companion-plugin-upload-0.1.37.zip)
 
-If you received [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip), unzip it first. It contains the separate theme and plugin ZIP files.
-
-Important: do not upload [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip) or any source-code ZIP directly as a theme. If WordPress says the theme is missing `style.css`, you selected the wrong ZIP. Choose [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip) for the theme installer.
+If you received [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
 
 ### Install The Theme
 

@@ -8,7 +8,7 @@ WP MultiRent contains the **Multi Apartment Rental** WordPress theme and the **M
 
 MultiRent is built for apartment, room, villa, and multi-unit rental websites. It helps site owners manage listings, images, amenities, maps, QR codes, local information, menus, colors, and contact details from the WordPress dashboard without editing theme files.
 
-The theme outputs UTF-8 markup through WordPress, uses the active WordPress database charset, and supports Croatian characters such as `č`, `ć`, `ž`, `š`, and `đ` in titles, menus, settings, and rental content.
+MultiRent supports Croatian characters such as `č`, `ć`, `ž`, `š`, and `đ` in titles, menus, settings, and rental content.
 
 - Promotional site: [https://multirent.online](https://multirent.online)
 - Demo site: [https://demo.multirent.online](https://demo.multirent.online)
@@ -50,9 +50,7 @@ Use the packaged ZIP files from `release-assets/` or the latest GitHub release d
 6. On a fresh site, use **Create Starter Pages, Menu, Amenities, and Rental Units**. This creates the Apartments page and four starter rental units.
 7. Rename, add, or edit rental units under **MultiRent Setup > Rental Units**.
 
-If you received [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip), extract it first. It contains the separate theme and plugin ZIP files that must be uploaded individually.
-
-Do not upload the complete package ZIP or GitHub's automatic source-code ZIP as a theme. WordPress expects the theme upload ZIP to contain `MultiRent/style.css`.
+If you received [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip), extract it first. Then upload the theme ZIP and plugin ZIP individually.
 
 The Apartments page templates list every published **Rental Unit** automatically. If an apartment is missing from the public Apartments page, check that the rental unit is published and that the selected Apartments page still exists, uses one of the Apartments templates, and is assigned under **MultiRent Setup > Apartments Page**.
 
@@ -61,8 +59,8 @@ The Apartments page templates list every published **Rental Unit** automatically
 - [MultiRent Companion setup README](multirent-companion/README.md): full no-code setup workflow and admin-screen reference.
 - [Multi Apartment Rental theme README](MultiRent/README.md): theme templates, header behavior, colors, apartment pages, and package notes.
 - [Local WordPress Docker setup](local-wordpress/README.md): local commands, seeding, stopping, and volume cleanup.
-- [Project notes](docs/PROJECT_NOTES.md): demo content, update safety, privacy boundary, release notes, warranty, and support notes.
-- [Release policy](RELEASE_POLICY.md): packaging and GitHub release retention.
+- [Project notes](docs/PROJECT_NOTES.md): maintainer notes, update safety, release notes, warranty, and support notes.
+- [Release policy](RELEASE_POLICY.md): maintainer packaging and release-retention notes.
 
 The companion README is also visible inside WordPress after installation under **MultiRent Setup > Help / README**.
 
