@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.1.37' );
+define( 'MULTIRENT_VERSION', '0.1.38' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -21,7 +21,7 @@ function multirent_setup() {
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'responsive-embeds' );
 	add_theme_support( 'custom-logo', array( 'height' => 90, 'width' => 260, 'flex-height' => true, 'flex-width' => true ) );
-	add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script' ) );
+	add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption' ) );
 
 	register_nav_menus(
 		array(
@@ -33,7 +33,8 @@ function multirent_setup() {
 add_action( 'after_setup_theme', 'multirent_setup' );
 
 function multirent_enqueue_assets() {
-	wp_enqueue_style( 'multirent-theme', MULTIRENT_URI . '/assets/css/theme.css', array(), MULTIRENT_VERSION );
+	wp_enqueue_style( 'multirent-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap', array(), null );
+	wp_enqueue_style( 'multirent-theme', MULTIRENT_URI . '/assets/css/theme.css', array( 'multirent-fonts' ), MULTIRENT_VERSION );
 	wp_add_inline_style( 'multirent-theme', multirent_custom_color_css() );
 	wp_enqueue_script( 'multirent-navigation', MULTIRENT_URI . '/assets/js/navigation.js', array(), MULTIRENT_VERSION, true );
 	wp_enqueue_script( 'multirent-gallery-lightbox', MULTIRENT_URI . '/assets/js/gallery-lightbox.js', array(), MULTIRENT_VERSION, true );
@@ -131,13 +132,43 @@ function multirent_is_hidden_menu_url( $url, $hidden_paths ) {
 	return in_array( $path, $hidden_paths, true );
 }
 
+function multirent_normalized_url_path( $url ) {
+	$path = wp_parse_url( $url, PHP_URL_PATH );
+	if ( ! $path ) {
+		return '/';
+	}
+
+	return '/' . trim( (string) $path, '/' ) . '/';
+}
+
+function multirent_is_current_menu_item( $item ) {
+	$item_path    = multirent_normalized_url_path( $item['url'] ?? '/' );
+	$current_path = multirent_normalized_url_path( home_url( add_query_arg( array(), $_SERVER['REQUEST_URI'] ?? '/' ) ) );
+	$label        = isset( $item['label'] ) ? strtolower( trim( (string) $item['label'] ) ) : '';
+
+	if ( $item_path === $current_path ) {
+		return true;
+	}
+
+	if ( '/' !== $item_path && str_starts_with( $current_path, $item_path ) ) {
+		return true;
+	}
+
+	if ( is_singular( 'rental_unit' ) || is_post_type_archive( 'rental_unit' ) || is_tax( 'rental_amenity' ) ) {
+		return in_array( $item_path, array( '/apartments/', '/rentals/' ), true ) || 'apartments' === $label || 'rentals' === $label;
+	}
+
+	return false;
+}
+
 function multirent_primary_menu() {
 	$items = multirent_menu_items();
 	if ( $items ) {
 		?>
 		<ul id="primary-menu" class="menu">
 			<?php foreach ( $items as $item ) : ?>
-				<li><a href="<?php echo esc_url( $item['url'] ); ?>"><?php echo esc_html( $item['label'] ); ?></a></li>
+				<?php $is_current = multirent_is_current_menu_item( $item ); ?>
+				<li class="<?php echo $is_current ? 'current-menu-item current_page_item' : ''; ?>"><a href="<?php echo esc_url( $item['url'] ); ?>"><?php echo esc_html( $item['label'] ); ?></a></li>
 			<?php endforeach; ?>
 		</ul>
 		<?php

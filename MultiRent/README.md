@@ -9,14 +9,14 @@ Multi Apartment Rental is a clean WordPress theme for apartment, room, villa, an
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip).
+2. Upload [multirent-theme-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-theme-upload-0.1.38.zip).
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload [multirent-companion-plugin-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-companion-plugin-upload-0.1.37.zip).
+5. Upload [multirent-companion-plugin-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-companion-plugin-upload-0.1.38.zip).
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
+If you received [multirent-complete-package-extract-first-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-complete-package-extract-first-0.1.38.zip), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
 
 ## Intended Use
 
@@ -249,6 +249,10 @@ Local field meanings:
 ### Header Menu
 
 The theme supports a primary header menu. The top header row stays fixed while visitors scroll, so the property name and menu remain visible. Users can manage the menu through standard WordPress menus or through the simpler **Top Menu Builder** in MultiRent Companion.
+
+Generated top-menu items receive the same active-menu styling as normal WordPress menus. Apartment and rental-unit detail pages keep the Apartments/Rentals menu item highlighted so guests can see they are still inside the apartment listing area.
+
+The public theme typography uses Inter for body text and Playfair Display for headings and the site title, matching the original apartment-site styling used during the Brajkovic migration sandbox.
 
 ### Colors
 

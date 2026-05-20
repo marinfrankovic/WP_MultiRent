@@ -34,6 +34,8 @@ Do not commit:
 
 GitHub Releases should contain the latest packaged theme ZIP, plugin ZIP, and combined template ZIP. Public install documentation should link to the latest release asset downloads for those packages.
 
+Version 0.1.38 marks the theme and companion plugin as tested through WordPress 7.0, refreshes public package links, and removes deprecated HTML5 `style` / `script` theme support while keeping normal asset enqueues unchanged.
+
 Version 0.1.37 adds expanded default rental-unit amenities, including private-entry, kitchen-appliance, laundry, family, and EV-charging options, while preserving existing rental-unit amenity selections and custom terms.
 
 Keep only the latest 10 GitHub Releases available. See [Release Policy](../RELEASE_POLICY.md) for packaging and retention details.

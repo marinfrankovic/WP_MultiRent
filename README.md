@@ -38,19 +38,23 @@ The Docker setup mounts the repository source folders directly into WordPress, s
 
 For a full beginner workflow, including Docker Desktop, local WordPress, backups, and live restore, read [Beginner Docker, backup, and live restore guide](BEGINNER_DOCKER_MIGRATION_GUIDE.md).
 
+## Compatibility
+
+Version `0.1.38` is tested with WordPress `7.0` and requires PHP `8.4` or newer. The theme and companion plugin are classic WordPress extensions; WordPress 7.0 block-editor and AI additions are optional and do not need extra setup for the public rental pages.
+
 ## Install The Theme Files
 
 Use the packaged ZIP files from `release-assets/` or the latest GitHub release downloads.
 
 1. In WordPress admin, open **Appearance > Themes > Add New > Upload Theme**.
-2. Upload and activate [multirent-theme-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-theme-upload-0.1.37.zip).
+2. Upload and activate [multirent-theme-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-theme-upload-0.1.38.zip).
 3. Open **Plugins > Add New > Upload Plugin**.
-4. Upload and activate [multirent-companion-plugin-upload-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-companion-plugin-upload-0.1.37.zip).
+4. Upload and activate [multirent-companion-plugin-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-companion-plugin-upload-0.1.38.zip).
 5. Open **MultiRent Setup** from the WordPress left admin menu.
 6. On a fresh site, use **Create Starter Pages, Menu, Amenities, and Rental Units**. This creates the Apartments page and four starter rental units.
 7. Rename, add, or edit rental units under **MultiRent Setup > Rental Units**.
 
-If you received [multirent-complete-package-extract-first-0.1.37.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.37/multirent-complete-package-extract-first-0.1.37.zip), extract it first. Then upload the theme ZIP and plugin ZIP individually.
+If you received [multirent-complete-package-extract-first-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-complete-package-extract-first-0.1.38.zip), extract it first. Then upload the theme ZIP and plugin ZIP individually.
 
 The Apartments page templates list every published **Rental Unit** automatically. If an apartment is missing from the public Apartments page, check that the rental unit is published and that the selected Apartments page still exists, uses one of the Apartments templates, and is assigned under **MultiRent Setup > Apartments Page**.
 
