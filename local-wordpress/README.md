@@ -8,6 +8,8 @@ The local site runs at:
 http://localhost:8082
 ```
 
+The Compose project name is `local-wordpress-multirent`, matching the long-lived local Docker volumes used by this repository.
+
 ## Start The Site
 
 ```powershell

@@ -7,14 +7,7 @@
 
 get_header();
 
-$rentals = new WP_Query(
-	array(
-		'post_type'      => 'rental_unit',
-		'posts_per_page' => -1,
-		'orderby'        => 'menu_order title',
-		'order'          => 'ASC',
-	)
-);
+$rentals = new WP_Query( multirent_current_apartment_page_query_args() );
 ?>
 
 <main id="primary" class="site-main">

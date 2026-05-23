@@ -151,3 +151,161 @@
 	color: #646970;
 	font-size: 12px;
 }
+
+.multirent-tabs {
+	display: grid;
+	grid-template-columns: repeat(4, max-content) 1fr;
+	align-items: end;
+	gap: 0;
+	margin: 18px 0 24px;
+}
+
+.multirent-tabs > input[type="radio"] {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.multirent-tabs > label {
+	display: inline-flex;
+	align-items: center;
+	min-height: 42px;
+	padding: 0 16px;
+	border: 1px solid #c3c4c7;
+	border-bottom: 0;
+	background: #f6f7f7;
+	color: #1d2327;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.multirent-tabs > label:not(:first-of-type) {
+	border-left: 0;
+}
+
+.multirent-tabs > input[type="radio"]:checked + label {
+	position: relative;
+	z-index: 2;
+	background: #fff;
+	color: #0a4b78;
+}
+
+.multirent-tab-panel {
+	display: none;
+	grid-column: 1 / -1;
+	padding: 20px;
+	border: 1px solid #c3c4c7;
+	background: #fff;
+}
+
+#multirent-tab-apartments:checked ~ .multirent-tab-panel-apartments,
+#multirent-tab-contacts:checked ~ .multirent-tab-panel-contacts,
+#multirent-tab-hero:checked ~ .multirent-tab-panel-hero,
+#multirent-tab-help:checked ~ .multirent-tab-panel-help {
+	display: block;
+}
+
+.multirent-slot-panel,
+.multirent-inner-panel,
+.multirent-slot-card {
+	margin: 0 0 14px;
+	padding: 16px;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	background: #fff;
+}
+
+.multirent-slot-panel > summary,
+.multirent-inner-panel > summary {
+	cursor: pointer;
+	font-weight: 700;
+}
+
+.multirent-slot-panel > summary {
+	font-size: 15px;
+}
+
+.multirent-slot-panel-body {
+	margin-top: 14px;
+}
+
+.multirent-inner-panel {
+	padding: 12px;
+	background: #f6f7f7;
+}
+
+.multirent-slot-card h3,
+.multirent-slot-panel h3 {
+	margin-top: 0;
+}
+
+.multirent-slot-card label,
+.multirent-slot-panel label,
+.multirent-field-row label {
+	font-weight: 600;
+}
+
+.multirent-slot-card input[type="checkbox"] + span,
+.multirent-slot-card .description {
+	font-weight: 400;
+}
+
+.multirent-slot-card select,
+.multirent-slot-card .regular-text,
+.multirent-slot-card .large-text,
+.multirent-slot-panel select,
+.multirent-slot-panel .regular-text,
+.multirent-slot-panel .large-text {
+	width: 100%;
+	max-width: 100%;
+}
+
+.multirent-field-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 12px;
+}
+
+.multirent-field-row {
+	display: grid;
+	gap: 6px;
+}
+
+.multirent-slot-checkboxes {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+	gap: 4px 10px;
+}
+
+.multirent-hero-button-list {
+	display: grid;
+	gap: 10px;
+	max-width: 780px;
+}
+
+.multirent-hero-button-row {
+	display: grid;
+	grid-template-columns: minmax(180px, 0.4fr) minmax(220px, 1fr);
+	gap: 12px;
+	align-items: center;
+	padding: 12px;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	background: #fff;
+}
+
+@media (max-width: 782px) {
+	.multirent-tabs {
+		grid-template-columns: 1fr;
+	}
+
+	.multirent-tabs > label {
+		border: 1px solid #c3c4c7;
+	}
+
+	.multirent-hero-button-row {
+		grid-template-columns: 1fr;
+	}
+}

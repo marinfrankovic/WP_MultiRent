@@ -48,6 +48,7 @@ h1, h2, h3, h4 { color: var(--sea-dark); font-family: var(--font-heading); font-
 .hero h1, .unit-hero h1, .page-hero h1 { color: inherit; }
 .hero h1 { margin: 0; font-size: clamp(3rem, 7vw, 6.4rem); line-height: 0.94; text-transform: uppercase; }
 .hero p:not(.eyebrow) { max-width: 620px; margin: 22px 0 30px; color: rgba(255,255,255,0.9); font-size: 1.18rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; max-width: 720px; }
 .section { padding: 84px 0; }
 .split-section { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 48px; align-items: start; }
 .section h1, .section h2, .unit-hero h1 { margin: 0; font-size: clamp(2.15rem, 3vw, 3rem); line-height: 1.12; }

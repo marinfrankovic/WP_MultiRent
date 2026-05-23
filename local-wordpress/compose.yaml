@@ -1,4 +1,4 @@
-name: multirent-wordpress
+name: local-wordpress-multirent
 
 services:
   db:

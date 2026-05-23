@@ -6,7 +6,7 @@
 
 WP MultiRent contains the **Multi Apartment Rental** WordPress theme and the **MultiRent Companion** plugin.
 
-MultiRent is built for apartment, room, villa, and multi-unit rental websites. It helps site owners manage listings, images, amenities, maps, QR codes, local information, menus, colors, and contact details from the WordPress dashboard without editing theme files.
+MultiRent is built for apartment, room, villa, and multi-unit rental websites. It helps site owners manage listings, images, amenities, maps, QR codes, local information, menus, colors, and contact details from the WordPress dashboard without editing theme files. Sites can use up to three apartment overview pages and three contact pages, each with its own template and optional homepage hero button.
 
 MultiRent supports Croatian characters such as `č`, `ć`, `ž`, `š`, and `đ` in titles, menus, settings, and rental content.
 
@@ -40,23 +40,24 @@ For a full beginner workflow, including Docker Desktop, local WordPress, backups
 
 ## Compatibility
 
-Version `0.1.38` is tested with WordPress `7.0` and requires PHP `8.4` or newer. The theme and companion plugin are classic WordPress extensions; WordPress 7.0 block-editor and AI additions are optional and do not need extra setup for the public rental pages.
+Version `0.2.0` is tested with WordPress `7.0` and requires PHP `8.4` or newer. The theme and companion plugin are classic WordPress extensions; WordPress 7.0 block-editor and AI additions are optional and do not need extra setup for the public rental pages.
 
 ## Install The Theme Files
 
 Use the packaged ZIP files from `release-assets/` or the latest GitHub release downloads.
 
 1. In WordPress admin, open **Appearance > Themes > Add New > Upload Theme**.
-2. Upload and activate [multirent-theme-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-theme-upload-0.1.38.zip).
+2. Upload and activate [multirent-theme-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-theme-upload-0.2.0.zip).
 3. Open **Plugins > Add New > Upload Plugin**.
-4. Upload and activate [multirent-companion-plugin-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-companion-plugin-upload-0.1.38.zip).
+4. Upload and activate [multirent-companion-plugin-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-companion-plugin-upload-0.2.0.zip).
 5. Open **MultiRent Setup** from the WordPress left admin menu.
-6. On a fresh site, use **Create Starter Pages, Menu, Amenities, and Rental Units**. This creates the Apartments page and four starter rental units.
-7. Rename, add, or edit rental units under **MultiRent Setup > Rental Units**.
+6. On a fresh site, use **Create Starter Pages, Menu, Amenities, and Rental Units**. This creates the first Apartments page, first Contact page, Local page, and four starter rental units.
+7. Open **MultiRent Setup > Pages & Buttons** to configure up to three apartment pages, up to three contact pages, which page slots appear in the top menu, and the buttons shown under the homepage hero. The screen is organized with tabs for Apartment Pages, Contact Pages, Hero Buttons, and Help.
+8. Rename, add, or edit rental units under **MultiRent Setup > Rental Units**. In the rental-unit editor right sidebar, use **Apartment Page Assignment** to assign each unit to one or more configured apartment pages.
 
-If you received [multirent-complete-package-extract-first-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-complete-package-extract-first-0.1.38.zip), extract it first. Then upload the theme ZIP and plugin ZIP individually.
+If you received [multirent-complete-package-extract-first-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-complete-package-extract-first-0.2.0.zip), extract it first. Then upload the theme ZIP and plugin ZIP individually.
 
-The Apartments page templates list every published **Rental Unit** automatically. If an apartment is missing from the public Apartments page, check that the rental unit is published and that the selected Apartments page still exists, uses one of the Apartments templates, and is assigned under **MultiRent Setup > Apartments Page**.
+The Apartments page templates list published **Rental Unit** posts assigned to the current apartment page slot. Existing units default to Apartment Page 1. If an apartment is missing from a public Apartments page, check that the rental unit is published, that the selected Apartments page still exists, uses one of the Apartments templates, and is assigned from the rental-unit editor right sidebar under **Apartment Page Assignment**.
 
 ## Documentation
 

@@ -6,14 +6,14 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate [multirent-theme-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-theme-upload-0.1.38.zip) in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate [multirent-companion-plugin-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-companion-plugin-upload-0.1.38.zip) in **Plugins > Add New > Upload Plugin**.
+1. Install and activate [multirent-theme-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-theme-upload-0.2.0.zip) in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate [multirent-companion-plugin-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-companion-plugin-upload-0.2.0.zip) in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, Amenities, and Rental Units** if this is a fresh site. This creates the Apartments page and four starter rental units.
 5. Rename, add, or edit each rental unit under **MultiRent Setup > Rental Units**.
 6. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, [multirent-complete-package-extract-first-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-complete-package-extract-first-0.1.38.zip) contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, [multirent-complete-package-extract-first-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-complete-package-extract-first-0.2.0.zip) contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
 ## What This Plugin Adds
 
@@ -27,14 +27,13 @@ Grouped items include:
 
 - Website Setup
 - Rental Units
-- Apartments Page
-- Contact Page
+- Pages & Buttons
 - Local Page
 - Amenities
 - Demo Content
 - Help / README
 
-The submenu order is intentionally kept simple: **Website Setup** first, **Rental Units** second, then separate page administration screens, rental tools such as **Amenities**, **Demo Content** above **Help / README**, and **Help / README** last.
+The submenu order is intentionally kept simple: **Website Setup** first, **Rental Units** second, **Pages & Buttons** for apartment/contact pages, top-menu visibility, and hero buttons, then **Local Page**, rental tools such as **Amenities**, **Demo Content** above **Help / README**, and **Help / README** last.
 
 The **Help / README** screen shows this README file inside WordPress admin so site owners can always find setup instructions from the left navigation pane.
 
@@ -47,14 +46,24 @@ The **Website Setup** screen starts with **Starter Content** for fresh sites, th
 - Optional page logo shown left of the property name
 - Homepage section visibility checkboxes
 - Hero title and hero text
-- Hero button label and link
+- Legacy hero button label and link, used only when no page-slot hero buttons are enabled
 - Homepage intro eyebrow, title, and text
 - Stats lines, such as unit count, distance, or service notes
 - Homepage apartment-card number of apartments to show
 - Reviews shortcode field
 - Contact call-to-action title, text, button label, and button link
 
-The landing page is the only mandatory page. Apartments, Contact, and Local pages are optional and have their own administration screens.
+The landing page is the only mandatory page. Apartment, Contact, and Local pages are optional. New sites should use **Pages & Buttons** to manage up to three apartment pages and three contact pages.
+
+### Pages & Buttons
+
+The **Pages & Buttons** screen is the primary interface for flexible site structure. It uses tabs for readability: **Apartment Pages**, **Contact Pages**, **Hero Buttons**, and **Help**. Apartment and Contact page panels are collapsed by default so users can scan all configured slots before opening the one they want to edit. It has fixed slots rather than unlimited page builders, so non-technical users can stay oriented:
+
+- **Apartment Pages tab**: enable Apartment Page 1-3, choose a WordPress page, choose an Apartments template, and decide whether each page should show in the top menu.
+- **Contact Pages tab**: enable Contact Page 1-3, choose a WordPress page, choose a Contact template, decide whether each page should show in the top menu, and fill each page's own contact details, form shortcode, map, QR image, and section visibility. Each contact page uses collapsible subsections for Basic, Contact Details, Map & QR, Form & Booking Help, and Visibility.
+- **Hero Buttons tab**: decide which enabled apartment/contact pages appear as buttons under the homepage hero, and edit each button label in one place.
+
+Older single-page settings are migrated once into the new model. The old Apartments page becomes Apartment Page 1, the old Contact page becomes Contact Page 1, and old Contact fields are copied into Contact Page 1 fields. Existing rental units with no page assignment continue to appear on Apartment Page 1.
 
 #### Website Setup Field Reference
 
@@ -65,8 +74,7 @@ The landing page is the only mandatory page. Apartments, Contact, and Local page
 - **Hero title**: main landing-page headline. Use a short phrase that explains the stay you offer.
 - **Hero text**: short landing-page introduction below the headline.
 - **Hero image**: large visual image used on the landing page hero.
-- **Hero button text**: text shown on the main landing-page call-to-action button.
-- **Hero button URL**: where the hero button opens. Use a page path such as `/apartments/` or a full URL.
+- **Hero button text / URL**: legacy fallback button used when no apartment/contact page-slot hero buttons are enabled.
 - **Intro eyebrow**: small label shown above the landing-page intro heading.
 - **Intro title**: heading for the landing-page intro section below the hero.
 - **Intro text**: text for the landing-page intro section.
@@ -84,13 +92,18 @@ The landing page is the only mandatory page. Apartments, Contact, and Local page
 
 ### Separate Page Administration
 
-Optional pages are managed from separate left-menu screens under **MultiRent Setup**:
+Use **Pages & Buttons** for apartment/contact setup. The older single Apartments and Contact page handlers remain internally for upgrade compatibility but are no longer shown in the admin menu. **Local Page** remains separate because local information is still a single page.
 
-- **Apartments Page**: choose which WordPress page is the Apartments page, show or hide it, choose an Apartments template, and open the assigned page preview from the template section.
-- **Contact Page**: choose which WordPress page is the Contact page, show or hide it, choose a Contact template, open the assigned page preview from the template section, and control contact details, booking checklist, map, optional QR code tile, page content, form shortcode, and map note.
+Optional page administration is split like this:
+
+- **Pages & Buttons**: manage Apartment Page 1-3, Contact Page 1-3, top-menu visibility for those page slots, and homepage hero buttons.
 - **Local Page**: choose which WordPress page is the Local page, show or hide it, choose a Local template, open the assigned page preview from the template section, and control guide cards, highlights, activities, useful links, and page content.
 
-When an optional page is hidden, MultiRent changes that page to draft and removes it from the generated top menu. The Home/Landing page remains mandatory.
+When an optional page or page slot is hidden, MultiRent changes that page to draft and removes matching paths from the generated top menu. When **Show in top menu** is unchecked for an enabled apartment/contact slot, the page stays published but is removed from the generated/header menu. The Home/Landing page remains mandatory.
+
+### Assigning Rental Units To Apartment Pages
+
+Each rental unit has an **Apartment Page Assignment** panel in the editor right sidebar. Select which configured apartment page slots should show that unit. If a WordPress editor variation does not show the custom sidebar panel, use the right-side **Apartment Page Assignment** meta box on the same rental-unit edit screen. Existing units and units with no selection are shown on Apartment Page 1 by default, so upgrades do not hide content.
 
 ### Page Templates Created By Starter Content
 
@@ -100,7 +113,7 @@ The starter-content button creates sample pages under the **MultiRent** WordPres
 - **Contact** uses the **Contact / Booking Inquiry** template.
 - **Local** uses the **Local Information** template.
 
-The theme also includes **Apartments - Featured Guide** and **Apartments - Compact List** templates. Users can switch the Apartments page template from **MultiRent Setup > Apartments Page**.
+The theme also includes **Apartments - Featured Guide** and **Apartments - Compact List** templates. Users can switch apartment page templates from **MultiRent Setup > Pages & Buttons**.
 Contact pages can use **Contact / Booking Inquiry**, **Contact - Split Map**, or **Contact - Compact**. Local pages can use **Local Information**, **Local - Compact Guide**, or **Local - Featured Guide**.
 
 ### Adding And Editing Pages
@@ -112,7 +125,7 @@ To add a new page:
 1. Open **Pages > Add New**.
 2. Enter the page title.
 3. Add text, headings, lists, images, buttons, or other blocks in the editor.
-4. For Apartments, Contact, and Local pages, choose the assigned WordPress page and template from the matching MultiRent Setup admin screen and use the preview button under the template dropdown when you want to open the assigned page.
+4. For Apartment and Contact pages, choose the assigned WordPress page and template from **MultiRent Setup > Pages & Buttons**. For Local pages, use **MultiRent Setup > Local Page**. Use preview buttons when you want to open assigned pages.
 5. Click **Publish**.
 
 To edit text on any page:
@@ -124,7 +137,7 @@ To edit text on any page:
 5. Use the **+** button to add Paragraph, Heading, List, Button, Image, or Columns blocks.
 6. Click **Update**.
 
-Some page sections are controlled from **MultiRent Setup** instead of the page editor. Homepage text is edited in **MultiRent Setup > Website Setup**. Contact page fields are edited in **MultiRent Setup > Contact Page**. Local page fields are edited in **MultiRent Setup > Local Page**.
+Some page sections are controlled from **MultiRent Setup** instead of the page editor. Homepage text is edited in **MultiRent Setup > Website Setup**. Apartment/contact page slots and contact page fields are edited in **MultiRent Setup > Pages & Buttons**. Local page fields are edited in **MultiRent Setup > Local Page**.
 
 ### Adding Images To Pages
 
@@ -168,7 +181,7 @@ Contact | /contact/
 Booking Terms | /booking-terms/
 ```
 
-Click **Save and Apply Top Menu** after editing the list.
+Click **Save and Apply Top Menu** after editing the list. Apartment and Contact page slots can also appear automatically when **Show in top menu** is checked for that slot in **Pages & Buttons**. Unchecking it keeps the page published but removes it from the generated/header menu.
 
 Users who prefer the standard WordPress menu editor can use **Appearance > Menus** instead. Create or edit a menu, drag items into the preferred order, assign it to the **Primary menu** location, and click **Save Menu**.
 
@@ -203,7 +216,7 @@ Click **Save and Apply Top Menu** to create or update the **MultiRent Top Menu**
 
 ### Contact Page Builder
 
-The Contact Page Builder is available from **MultiRent Setup > Contact Page**. It lets users choose which WordPress page is the Contact page, choose between Contact templates, and open the assigned page preview from the template section.
+Contact page setup is available from **MultiRent Setup > Pages & Buttons**. It lets users configure up to three Contact pages, choose templates, and open assigned page previews.
 
 Editable fields include:
 
@@ -228,7 +241,7 @@ The Contact page visibility checkboxes are grouped at the top of the screen. The
 
 #### Contact Page Field Reference
 
-- **Show Contact page**: publishes or drafts the Contact page and controls whether it is included in the generated top menu.
+- **Show Contact page**: legacy single Contact page visibility. New Contact Page 1-3 slots use **Pages & Buttons**, where each slot has separate page enablement and **Show in top menu** controls.
 - **Contact page title**: main heading shown at the top of the Contact page.
 - **Contact page intro**: intro text shown under the Contact page heading.
 - **Contact address**: address block shown in the contact details card. Use one line per address line.
@@ -358,7 +371,7 @@ Use this workflow whenever you want to add one complete apartment from the WordP
 6. In the auto-expanded **Apartment Images** box below the editor, use **Apartment Tile Image** to select the main apartment photo from the Media Library or upload a new one. This is the apartment tile image used on cards and apartment pages.
 7. In the **Apartment Gallery Images** box below the editor, choose the detail-page gallery photos, reorder them with **Move up** and **Move down**, and remove any images you do not want.
 8. Add optional extra apartment photos in the main editor with **Image** or **Gallery** blocks only when those photos should appear inside the written apartment description.
-9. In the right sidebar, open **Apartment Details** and fill in **Guest capacity**, **Bedrooms**, **Bathrooms**, **Size**, optional **Price note**, **Booking or inquiry URL**, optional **YouTube video URL**, optional **Apartment map address/coordinates**, and optional **QR code image**. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile. If a YouTube URL is set, it appears as part of the apartment gallery and opens in the lightbox player. If QR or map fields are set, a compact QR/map tile appears under the details tile; when all QR/map fields are empty, that tile is hidden.
+9. In the right sidebar, open **Apartment Page Assignment** and choose which apartment pages should show this unit. Then open **Apartment Details** and fill in **Guest capacity**, **Bedrooms**, **Bathrooms**, **Size**, optional **Price note**, **Booking or inquiry URL**, optional **YouTube video URL**, optional **Apartment map address/coordinates**, and optional **QR code image**. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile. If a YouTube URL is set, it appears as part of the apartment gallery and opens in the lightbox player. If QR or map fields are set, a compact QR/map tile appears under the details tile; when all QR/map fields are empty, that tile is hidden.
 10. In the **Amenities** checkbox list, select the amenities for that apartment. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Separate entrance, Dishwasher, Coffee machine, Microwave, Washing machine, Iron, Hair dryer, Baby cot, EV charger, Pets allowed, and Pets not allowed.
 11. Click **Publish** to make the apartment live, or **Save Draft** if it is not ready yet.
 12. Open the public apartment page from the **View** link and check the image, gallery order, description, details, amenities, and booking button.
@@ -414,7 +427,7 @@ Use **Apartment Tile Image** only for the main apartment/card image. Use **Apart
 
 ### Apartment Details And Images
 
-Each rental unit edit screen keeps image controls and text/detail controls separate. The auto-expanded **Apartment Images** box below the main editor is for the apartment tile image and ordered gallery photos only. Capacity, bedrooms, bathrooms, size, price note, booking URL, YouTube video URL, QR code image, and apartment map fields are edited in the right sidebar under **Apartment Details**.
+Each rental unit edit screen keeps image controls, apartment-page assignment, and text/detail controls separate. The auto-expanded **Apartment Images** box below the main editor is for the apartment tile image and ordered gallery photos only. Apartment page placement is edited in the right sidebar under **Apartment Page Assignment**. Capacity, bedrooms, bathrooms, size, price note, booking URL, YouTube video URL, QR code image, and apartment map fields are edited in the right sidebar under **Apartment Details**.
 
 Apartment Details fields are saved as rental-unit custom fields. Amenities are saved separately as taxonomy terms, so an amenity checkbox can save even when a custom-field problem affects details such as capacity, bedrooms, price note, video URL, QR image, or map address. After editing Apartment Details, click **Update** and refresh the public apartment page to confirm the details card and QR/map tile use the new values.
 

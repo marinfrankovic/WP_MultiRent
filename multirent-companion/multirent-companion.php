@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.1.38
+ * Version: 0.2.0
  * Requires at least: 6.5
  * Tested up to: 7.0
  * Requires PHP: 8.4
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.1.38' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.2.0' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -207,6 +207,20 @@ function multirent_companion_register_unit_meta() {
 			},
 		)
 	);
+
+	register_post_meta(
+		'rental_unit',
+		'_multirent_apartment_page_ids',
+		array(
+			'single'            => true,
+			'type'              => 'string',
+			'show_in_rest'      => true,
+			'sanitize_callback' => 'multirent_companion_sanitize_apartment_page_ids',
+			'auth_callback'     => function( $allowed, $meta_key, $post_id ) {
+				return current_user_can( 'edit_post', $post_id );
+			},
+		)
+	);
 }
 add_action( 'init', 'multirent_companion_register_unit_meta' );
 
@@ -248,6 +262,42 @@ function multirent_companion_gallery_image_ids_for_editor( $post_id ) {
 	}
 
 	return implode( ',', $image_ids );
+}
+
+function multirent_companion_sanitize_apartment_page_ids( $value ) {
+	$ids = is_array( $value ) ? $value : explode( ',', trim( (string) $value, ',' ) );
+	$ids = array_filter( array_map( 'absint', $ids ) );
+	$ids = array_values( array_unique( $ids ) );
+
+	return $ids ? ',' . implode( ',', $ids ) . ',' : '';
+}
+
+function multirent_companion_apartment_page_ids_for_editor( $post_id ) {
+	$stored = multirent_companion_sanitize_apartment_page_ids( get_post_meta( $post_id, '_multirent_apartment_page_ids', true ) );
+	if ( ! $stored ) {
+		$slot = multirent_companion_page_slot( 'apartment', 1 );
+		return ! empty( $slot['page_id'] ) ? array( absint( $slot['page_id'] ) ) : array();
+	}
+
+	return array_values( array_filter( array_map( 'absint', explode( ',', trim( $stored, ',' ) ) ) ) );
+}
+
+function multirent_companion_apartment_page_options_for_editor() {
+	$options = array();
+	foreach ( multirent_companion_page_slots( 'apartment' ) as $slot ) {
+		if ( empty( $slot['enabled'] ) || empty( $slot['page_id'] ) ) {
+			continue;
+		}
+
+		$options[] = array(
+			'id'    => absint( $slot['page_id'] ),
+			'label' => $slot['button_label'] ? $slot['button_label'] : sprintf( __( 'Apartment Page %d', 'multirent-companion' ), $slot['index'] ),
+			'title' => get_the_title( $slot['page_id'] ),
+			'index' => absint( $slot['index'] ),
+		);
+	}
+
+	return $options;
 }
 
 function multirent_companion_unit_sidebar_fields() {
@@ -340,8 +390,32 @@ function multirent_companion_description( $key ) {
 
 function multirent_companion_add_unit_meta_box() {
 	add_meta_box( 'multirent_unit_details', esc_html__( 'Apartment Images', 'multirent-companion' ), 'multirent_companion_render_unit_meta_box', 'rental_unit', 'normal', 'high' );
+	add_meta_box( 'multirent_unit_apartment_pages', esc_html__( 'Apartment Page Assignment', 'multirent-companion' ), 'multirent_companion_render_unit_apartment_pages_meta_box', 'rental_unit', 'side', 'high' );
 }
 add_action( 'add_meta_boxes', 'multirent_companion_add_unit_meta_box' );
+
+function multirent_companion_render_unit_apartment_pages_fields( $post_id ) {
+	$selected_apartment_page_ids = multirent_companion_apartment_page_ids_for_editor( $post_id );
+	$apartment_page_options      = multirent_companion_apartment_page_options_for_editor();
+	?>
+	<input type="hidden" name="multirent_apartment_page_ids_present" value="1">
+	<div class="multirent-unit-assignment-control">
+		<p><?php esc_html_e( 'Choose which apartment overview pages should show this rental unit. If nothing is selected, the unit belongs to Apartment Page 1.', 'multirent-companion' ); ?></p>
+		<?php if ( $apartment_page_options ) : ?>
+			<?php foreach ( $apartment_page_options as $option ) : ?>
+				<p><label><input type="checkbox" name="multirent_apartment_page_ids[]" value="<?php echo esc_attr( $option['id'] ); ?>" <?php checked( in_array( absint( $option['id'] ), $selected_apartment_page_ids, true ) ); ?>> <?php echo esc_html( $option['label'] ); ?> <span class="description">#<?php echo esc_html( $option['id'] ); ?></span></label></p>
+			<?php endforeach; ?>
+		<?php else : ?>
+			<p class="description"><?php esc_html_e( 'No enabled apartment pages are configured yet. Add them in MultiRent Setup > Pages & Buttons.', 'multirent-companion' ); ?></p>
+		<?php endif; ?>
+	</div>
+	<?php
+}
+
+function multirent_companion_render_unit_apartment_pages_meta_box( $post ) {
+	wp_nonce_field( 'multirent_save_unit_details', 'multirent_unit_nonce' );
+	multirent_companion_render_unit_apartment_pages_fields( $post->ID );
+}
 
 function multirent_companion_render_unit_meta_box( $post ) {
 	wp_nonce_field( 'multirent_save_unit_details', 'multirent_unit_nonce' );
@@ -395,6 +469,11 @@ function multirent_companion_save_unit_details( $post_id ) {
 
 	if ( isset( $_POST['multirent_gallery_image_ids'] ) ) {
 		update_post_meta( $post_id, '_gallery_image_ids', multirent_companion_sanitize_gallery_image_ids( wp_unslash( $_POST['multirent_gallery_image_ids'] ) ) );
+	}
+
+	if ( isset( $_POST['multirent_apartment_page_ids_present'] ) ) {
+		$assigned_page_ids = isset( $_POST['multirent_apartment_page_ids'] ) && is_array( $_POST['multirent_apartment_page_ids'] ) ? wp_unslash( $_POST['multirent_apartment_page_ids'] ) : array();
+		update_post_meta( $post_id, '_multirent_apartment_page_ids', multirent_companion_sanitize_apartment_page_ids( $assigned_page_ids ) );
 	}
 
 }
@@ -469,6 +548,93 @@ function multirent_companion_default_settings() {
 		'color_dark'          => '',
 		'color_surface'       => '',
 		'color_accent'        => '',
+		'apartment_page_1_enabled' => '1',
+		'apartment_page_1_id' => '',
+		'apartment_page_1_template' => 'template-apartments-grid.php',
+		'apartment_page_1_button_label' => 'Apartments',
+		'apartment_page_1_show_hero' => '1',
+		'apartment_page_1_show_menu' => '1',
+		'apartment_page_2_enabled' => '0',
+		'apartment_page_2_id' => '',
+		'apartment_page_2_template' => 'template-apartments-grid.php',
+		'apartment_page_2_button_label' => 'Apartments 2',
+		'apartment_page_2_show_hero' => '0',
+		'apartment_page_2_show_menu' => '0',
+		'apartment_page_3_enabled' => '0',
+		'apartment_page_3_id' => '',
+		'apartment_page_3_template' => 'template-apartments-grid.php',
+		'apartment_page_3_button_label' => 'Apartments 3',
+		'apartment_page_3_show_hero' => '0',
+		'apartment_page_3_show_menu' => '0',
+		'contact_page_1_enabled' => '1',
+		'contact_page_1_id' => '',
+		'contact_page_1_template' => 'template-contact.php',
+		'contact_page_1_button_label' => 'Contact',
+		'contact_page_1_show_hero' => '1',
+		'contact_page_1_show_menu' => '1',
+		'contact_page_1_title' => 'Contact and booking inquiry',
+		'contact_page_1_intro' => 'Send your dates, guest count, and preferred rental unit so the owner can reply with availability.',
+		'contact_page_1_address' => "Your property name\nStreet and house number\nCity, country",
+		'contact_page_1_phone' => '',
+		'contact_page_1_mobile' => '',
+		'contact_page_1_email' => '',
+		'contact_page_1_form_shortcode' => '',
+		'contact_page_1_map_query' => '',
+		'contact_page_1_map_note' => 'Add arrival notes, parking instructions, or map corrections here.',
+		'contact_page_1_qr_code_image_id' => '',
+		'contact_page_1_booking_help_lines' => "Preferred arrival and departure dates\nNumber of adults and children\nPreferred apartment or flexible choice\nParking, arrival, or mobility questions",
+		'contact_page_1_show_details' => '1',
+		'contact_page_1_show_booking_help' => '1',
+		'contact_page_1_show_map' => '1',
+		'contact_page_1_show_content' => '1',
+		'contact_page_1_show_form' => '1',
+		'contact_page_1_show_map_note' => '1',
+		'contact_page_2_enabled' => '0',
+		'contact_page_2_id' => '',
+		'contact_page_2_template' => 'template-contact.php',
+		'contact_page_2_button_label' => 'Contact 2',
+		'contact_page_2_show_hero' => '0',
+		'contact_page_2_show_menu' => '0',
+		'contact_page_2_title' => 'Contact and booking inquiry',
+		'contact_page_2_intro' => '',
+		'contact_page_2_address' => '',
+		'contact_page_2_phone' => '',
+		'contact_page_2_mobile' => '',
+		'contact_page_2_email' => '',
+		'contact_page_2_form_shortcode' => '',
+		'contact_page_2_map_query' => '',
+		'contact_page_2_map_note' => '',
+		'contact_page_2_qr_code_image_id' => '',
+		'contact_page_2_booking_help_lines' => '',
+		'contact_page_2_show_details' => '1',
+		'contact_page_2_show_booking_help' => '1',
+		'contact_page_2_show_map' => '1',
+		'contact_page_2_show_content' => '1',
+		'contact_page_2_show_form' => '1',
+		'contact_page_2_show_map_note' => '1',
+		'contact_page_3_enabled' => '0',
+		'contact_page_3_id' => '',
+		'contact_page_3_template' => 'template-contact.php',
+		'contact_page_3_button_label' => 'Contact 3',
+		'contact_page_3_show_hero' => '0',
+		'contact_page_3_show_menu' => '0',
+		'contact_page_3_title' => 'Contact and booking inquiry',
+		'contact_page_3_intro' => '',
+		'contact_page_3_address' => '',
+		'contact_page_3_phone' => '',
+		'contact_page_3_mobile' => '',
+		'contact_page_3_email' => '',
+		'contact_page_3_form_shortcode' => '',
+		'contact_page_3_map_query' => '',
+		'contact_page_3_map_note' => '',
+		'contact_page_3_qr_code_image_id' => '',
+		'contact_page_3_booking_help_lines' => '',
+		'contact_page_3_show_details' => '1',
+		'contact_page_3_show_booking_help' => '1',
+		'contact_page_3_show_map' => '1',
+		'contact_page_3_show_content' => '1',
+		'contact_page_3_show_form' => '1',
+		'contact_page_3_show_map_note' => '1',
 	);
 }
 
@@ -477,11 +643,158 @@ function multirent_companion_settings() {
 	return wp_parse_args( is_array( $settings ) ? $settings : array(), multirent_companion_default_settings() );
 }
 
+function multirent_companion_page_slot_count() {
+	return 3;
+}
+
+function multirent_companion_page_slot( $type, $index, $settings = null ) {
+	$settings = is_array( $settings ) ? $settings : multirent_companion_settings();
+	$index    = min( multirent_companion_page_slot_count(), max( 1, absint( $index ) ) );
+	$type     = 'contact' === $type ? 'contact' : 'apartment';
+	$prefix   = $type . '_page_' . $index;
+
+	$legacy_page_key = 'apartment' === $type ? 'apartments_page_id' : 'contact_page_id';
+	$legacy_show_key = 'apartment' === $type ? 'show_apartments_page' : 'show_contact_page';
+
+	$page_id = isset( $settings[ $prefix . '_id' ] ) ? absint( $settings[ $prefix . '_id' ] ) : 0;
+	if ( 1 === $index && ! $page_id && ! empty( $settings[ $legacy_page_key ] ) ) {
+		$page_id = absint( $settings[ $legacy_page_key ] );
+	}
+
+	$enabled = isset( $settings[ $prefix . '_enabled' ] ) ? '1' === (string) $settings[ $prefix . '_enabled' ] : ( 1 === $index && '1' === (string) $settings[ $legacy_show_key ] );
+	$show_menu = isset( $settings[ $prefix . '_show_menu' ] ) ? '1' === (string) $settings[ $prefix . '_show_menu' ] : $enabled;
+	$button_label = isset( $settings[ $prefix . '_button_label' ] ) ? trim( (string) $settings[ $prefix . '_button_label' ] ) : '';
+	$template = isset( $settings[ $prefix . '_template' ] ) ? (string) $settings[ $prefix . '_template' ] : '';
+
+	return array(
+		'type'         => $type,
+		'index'        => $index,
+		'prefix'       => $prefix,
+		'enabled'      => $enabled,
+		'page_id'      => $page_id,
+		'template'     => $template,
+		'button_label' => $button_label,
+		'show_hero'    => ! empty( $settings[ $prefix . '_show_hero' ] ) && '1' === (string) $settings[ $prefix . '_show_hero' ],
+		'show_menu'    => $show_menu,
+	);
+}
+
+function multirent_companion_page_slots( $type, $settings = null ) {
+	$slots = array();
+	for ( $index = 1; $index <= multirent_companion_page_slot_count(); $index++ ) {
+		$slots[] = multirent_companion_page_slot( $type, $index, $settings );
+	}
+	return $slots;
+}
+
+function multirent_companion_slot_setting_keys() {
+	$keys = array();
+	for ( $index = 1; $index <= multirent_companion_page_slot_count(); $index++ ) {
+		foreach ( array( 'enabled', 'id', 'template', 'button_label', 'show_hero', 'show_menu' ) as $suffix ) {
+			$keys[] = 'apartment_page_' . $index . '_' . $suffix;
+		}
+
+		foreach ( array( 'enabled', 'id', 'template', 'button_label', 'show_hero', 'show_menu', 'title', 'intro', 'address', 'phone', 'mobile', 'email', 'form_shortcode', 'map_query', 'map_note', 'qr_code_image_id', 'booking_help_lines', 'show_details', 'show_booking_help', 'show_map', 'show_content', 'show_form', 'show_map_note' ) as $suffix ) {
+			$keys[] = 'contact_page_' . $index . '_' . $suffix;
+		}
+	}
+	return $keys;
+}
+
+function multirent_companion_copy_setting_if_unset( &$settings, $target_key, $source_key ) {
+	if ( array_key_exists( $target_key, $settings ) && '' !== (string) $settings[ $target_key ] ) {
+		return false;
+	}
+
+	if ( ! array_key_exists( $source_key, $settings ) || '' === (string) $settings[ $source_key ] ) {
+		return false;
+	}
+
+	$settings[ $target_key ] = $settings[ $source_key ];
+	return true;
+}
+
+function multirent_companion_migrate_page_slots() {
+	$migration_key = 'multirent_page_slots_migrated_0_1_39';
+	if ( get_option( $migration_key ) ) {
+		return;
+	}
+
+	$settings = get_option( 'multirent_settings', array() );
+	$settings = is_array( $settings ) ? $settings : array();
+	$changed  = false;
+
+	$changed = multirent_companion_copy_setting_if_unset( $settings, 'apartment_page_1_id', 'apartments_page_id' ) || $changed;
+	$changed = multirent_companion_copy_setting_if_unset( $settings, 'apartment_page_1_enabled', 'show_apartments_page' ) || $changed;
+	$changed = multirent_companion_copy_setting_if_unset( $settings, 'apartment_page_1_button_label', 'hero_button_text' ) || $changed;
+	if ( empty( $settings['apartment_page_1_template'] ) ) {
+		$apartment_page_id = ! empty( $settings['apartment_page_1_id'] ) ? absint( $settings['apartment_page_1_id'] ) : 0;
+		$template          = $apartment_page_id ? get_post_meta( $apartment_page_id, '_wp_page_template', true ) : '';
+		$settings['apartment_page_1_template'] = isset( multirent_companion_apartments_page_templates()[ $template ] ) ? $template : 'template-apartments-grid.php';
+		$changed = true;
+	}
+	if ( ! array_key_exists( 'apartment_page_1_show_hero', $settings ) ) {
+		$settings['apartment_page_1_show_hero'] = '1';
+		$changed = true;
+	}
+	if ( ! array_key_exists( 'apartment_page_1_show_menu', $settings ) ) {
+		$settings['apartment_page_1_show_menu'] = ! empty( $settings['apartment_page_1_enabled'] ) ? '1' : '0';
+		$changed = true;
+	}
+
+	$contact_map = array(
+		'contact_page_1_id'                 => 'contact_page_id',
+		'contact_page_1_enabled'            => 'show_contact_page',
+		'contact_page_1_button_label'       => 'contact_button_text',
+		'contact_page_1_title'              => 'contact_page_title',
+		'contact_page_1_intro'              => 'contact_page_intro',
+		'contact_page_1_address'            => 'contact_address',
+		'contact_page_1_phone'              => 'contact_phone',
+		'contact_page_1_mobile'             => 'contact_mobile',
+		'contact_page_1_email'              => 'contact_email',
+		'contact_page_1_form_shortcode'     => 'contact_form_shortcode',
+		'contact_page_1_map_query'          => 'contact_map_query',
+		'contact_page_1_map_note'           => 'contact_map_note',
+		'contact_page_1_qr_code_image_id'   => 'contact_qr_code_image_id',
+		'contact_page_1_booking_help_lines' => 'booking_help_lines',
+		'contact_page_1_show_details'       => 'show_contact_details',
+		'contact_page_1_show_booking_help'  => 'show_booking_help',
+		'contact_page_1_show_map'           => 'show_contact_map',
+		'contact_page_1_show_content'       => 'show_contact_content',
+		'contact_page_1_show_form'          => 'show_contact_form',
+		'contact_page_1_show_map_note'      => 'show_contact_map_note',
+	);
+	foreach ( $contact_map as $target_key => $source_key ) {
+		$changed = multirent_companion_copy_setting_if_unset( $settings, $target_key, $source_key ) || $changed;
+	}
+	if ( empty( $settings['contact_page_1_template'] ) ) {
+		$contact_page_id = ! empty( $settings['contact_page_1_id'] ) ? absint( $settings['contact_page_1_id'] ) : 0;
+		$template        = $contact_page_id ? get_post_meta( $contact_page_id, '_wp_page_template', true ) : '';
+		$settings['contact_page_1_template'] = isset( multirent_companion_contact_page_templates()[ $template ] ) ? $template : 'template-contact.php';
+		$changed = true;
+	}
+	if ( ! array_key_exists( 'contact_page_1_show_hero', $settings ) ) {
+		$settings['contact_page_1_show_hero'] = ! empty( $settings['contact_page_1_enabled'] ) ? '1' : '0';
+		$changed = true;
+	}
+	if ( ! array_key_exists( 'contact_page_1_show_menu', $settings ) ) {
+		$settings['contact_page_1_show_menu'] = ! empty( $settings['contact_page_1_enabled'] ) ? '1' : '0';
+		$changed = true;
+	}
+
+	if ( $changed ) {
+		update_option( 'multirent_settings', $settings );
+		multirent_companion_save_slot_page_templates( wp_parse_args( $settings, multirent_companion_default_settings() ) );
+	}
+
+	update_option( $migration_key, '1' );
+}
+add_action( 'admin_init', 'multirent_companion_migrate_page_slots', 5 );
+
 function multirent_companion_admin_menu() {
 	add_menu_page( esc_html__( 'MultiRent Setup', 'multirent-companion' ), esc_html__( 'MultiRent Setup', 'multirent-companion' ), 'manage_options', 'multirent-setup', 'multirent_companion_render_setup_page', plugins_url( 'assets/images/multirent-admin-icon.svg', __FILE__ ), 58 );
 	add_submenu_page( 'multirent-setup', esc_html__( 'Website Setup', 'multirent-companion' ), esc_html__( 'Website Setup', 'multirent-companion' ), 'manage_options', 'multirent-setup', 'multirent_companion_render_setup_page' );
-	add_submenu_page( 'multirent-setup', esc_html__( 'Apartments Page', 'multirent-companion' ), esc_html__( 'Apartments Page', 'multirent-companion' ), 'manage_options', 'multirent-apartments-page', 'multirent_companion_render_apartments_page' );
-	add_submenu_page( 'multirent-setup', esc_html__( 'Contact Page', 'multirent-companion' ), esc_html__( 'Contact Page', 'multirent-companion' ), 'manage_options', 'multirent-contact-page', 'multirent_companion_render_contact_page' );
+	add_submenu_page( 'multirent-setup', esc_html__( 'Pages & Buttons', 'multirent-companion' ), esc_html__( 'Pages & Buttons', 'multirent-companion' ), 'manage_options', 'multirent-pages-buttons', 'multirent_companion_render_pages_buttons_page' );
 	add_submenu_page( 'multirent-setup', esc_html__( 'Local Page', 'multirent-companion' ), esc_html__( 'Local Page', 'multirent-companion' ), 'manage_options', 'multirent-local-page', 'multirent_companion_render_local_page' );
 	add_submenu_page( 'multirent-setup', esc_html__( 'Amenities', 'multirent-companion' ), esc_html__( 'Amenities', 'multirent-companion' ), 'manage_categories', 'edit-tags.php?taxonomy=rental_amenity&post_type=rental_unit' );
 	add_submenu_page( 'multirent-setup', esc_html__( 'Demo Content', 'multirent-companion' ), esc_html__( 'Demo Content', 'multirent-companion' ), 'manage_options', 'multirent-demo-content', 'multirent_companion_render_demo_content_page' );
@@ -512,7 +825,7 @@ function multirent_companion_order_admin_submenus() {
 		} elseif ( 'edit.php?post_type=rental_unit' === $submenu_slug ) {
 			$submenu_item[0] = esc_html__( 'Rental Units', 'multirent-companion' );
 			$rental_items[] = $submenu_item;
-		} elseif ( in_array( $submenu_slug, array( 'multirent-apartments-page', 'multirent-contact-page', 'multirent-local-page' ), true ) ) {
+		} elseif ( in_array( $submenu_slug, array( 'multirent-pages-buttons', 'multirent-local-page' ), true ) ) {
 			$page_items[] = $submenu_item;
 		} elseif ( 'multirent-demo-content' === $submenu_slug ) {
 			$demo_items[] = $submenu_item;
@@ -687,7 +1000,7 @@ function multirent_companion_admin_assets( $hook_suffix ) {
 		wp_enqueue_script(
 			'multirent-companion-unit-sidebar',
 			plugins_url( 'assets/js/unit-sidebar.js', __FILE__ ),
-			array( 'wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-core-data', 'wp-i18n', 'wp-block-editor' ),
+			array( 'wp-plugins', 'wp-edit-post', 'wp-editor', 'wp-element', 'wp-components', 'wp-data', 'wp-core-data', 'wp-i18n', 'wp-block-editor' ),
 			MULTIRENT_COMPANION_VERSION,
 			true
 		);
@@ -695,15 +1008,20 @@ function multirent_companion_admin_assets( $hook_suffix ) {
 			'multirent-companion-unit-sidebar',
 			'MultiRentUnitSidebar',
 			array(
-				'fields'       => multirent_companion_unit_sidebar_fields(),
-				'qrImageKey'   => '_qr_code_image_id',
-				'qrImageLabel' => esc_html__( 'QR code image', 'multirent-companion' ),
-				'qrImageHelp'  => esc_html__( 'Optional QR code image shown in an extra tile on the apartment detail page.', 'multirent-companion' ),
-				'qrImageButton'=> esc_html__( 'Choose QR code image', 'multirent-companion' ),
-				'qrImageRemove'=> esc_html__( 'Remove QR code image', 'multirent-companion' ),
-				'panelTitle'   => esc_html__( 'Apartment Details', 'multirent-companion' ),
-				'imageHelp'    => esc_html__( 'Use the Apartment Images box below the editor for the main apartment photo and extra gallery photos. The QR code image, video link, and apartment map fields are in Apartment Details. Gallery images can be reordered before saving.', 'multirent-companion' ),
-				'publishHelp'  => esc_html__( 'After filling these fields, click Publish or Update.', 'multirent-companion' ),
+				'fields'              => multirent_companion_unit_sidebar_fields(),
+				'apartmentPageKey'    => '_multirent_apartment_page_ids',
+				'apartmentPages'      => multirent_companion_apartment_page_options_for_editor(),
+				'apartmentPanelTitle' => esc_html__( 'Apartment Page Assignment', 'multirent-companion' ),
+				'apartmentPanelHelp'  => esc_html__( 'Choose which apartment overview pages should show this rental unit. If nothing is selected, the unit belongs to Apartment Page 1.', 'multirent-companion' ),
+				'noApartmentPages'    => esc_html__( 'No enabled apartment pages are configured yet. Add them in MultiRent Setup > Pages & Buttons.', 'multirent-companion' ),
+				'qrImageKey'          => '_qr_code_image_id',
+				'qrImageLabel'        => esc_html__( 'QR code image', 'multirent-companion' ),
+				'qrImageHelp'         => esc_html__( 'Optional QR code image shown in an extra tile on the apartment detail page.', 'multirent-companion' ),
+				'qrImageButton'       => esc_html__( 'Choose QR code image', 'multirent-companion' ),
+				'qrImageRemove'       => esc_html__( 'Remove QR code image', 'multirent-companion' ),
+				'panelTitle'          => esc_html__( 'Apartment Details', 'multirent-companion' ),
+				'imageHelp'           => esc_html__( 'Use the Apartment Images box below the editor for the main apartment photo and extra gallery photos. The QR code image, video link, and apartment map fields are in Apartment Details. Gallery images can be reordered before saving.', 'multirent-companion' ),
+				'publishHelp'         => esc_html__( 'After filling these fields, click Publish or Update.', 'multirent-companion' ),
 			)
 		);
 	}
@@ -847,15 +1165,15 @@ function multirent_companion_sanitize_settings( $input, $scope = null ) {
 		}
 
 		$value = isset( $input[ $key ] ) ? wp_unslash( $input[ $key ] ) : $default;
-		if ( in_array( $key, array( 'show_hero_section', 'show_intro_section', 'show_stats_section', 'show_front_page_rentals', 'show_reviews', 'show_seo_note', 'show_migration_note', 'show_contact_cta', 'show_apartments_page', 'show_contact_page', 'show_local_page', 'show_contact_details', 'show_booking_help', 'show_contact_map', 'show_contact_content', 'show_contact_form', 'show_contact_map_note', 'show_local_guides', 'show_local_highlights', 'show_local_activities', 'show_local_links', 'show_local_content', 'use_custom_colors' ), true ) ) {
+		if ( in_array( $key, array( 'show_hero_section', 'show_intro_section', 'show_stats_section', 'show_front_page_rentals', 'show_reviews', 'show_seo_note', 'show_migration_note', 'show_contact_cta', 'show_apartments_page', 'show_contact_page', 'show_local_page', 'show_contact_details', 'show_booking_help', 'show_contact_map', 'show_contact_content', 'show_contact_form', 'show_contact_map_note', 'show_local_guides', 'show_local_highlights', 'show_local_activities', 'show_local_links', 'show_local_content', 'use_custom_colors' ), true ) || preg_match( '/^(apartment|contact)_page_\d+_(enabled|show_hero|show_menu)$/', $key ) || preg_match( '/^contact_page_\d+_show_/', $key ) ) {
 			$output[ $key ] = ! empty( $input[ $key ] ) ? '1' : '0';
 		} elseif ( 'front_page_rental_count' === $key ) {
 			$output[ $key ] = (string) min( 50, max( 1, absint( $value ) ) );
-		} elseif ( in_array( $key, array( 'apartments_page_id', 'contact_page_id', 'local_page_id', 'contact_qr_code_image_id' ), true ) ) {
+		} elseif ( in_array( $key, array( 'apartments_page_id', 'contact_page_id', 'local_page_id', 'contact_qr_code_image_id' ), true ) || preg_match( '/^(apartment|contact)_page_\d+_id$/', $key ) || preg_match( '/^contact_page_\d+_qr_code_image_id$/', $key ) ) {
 			$output[ $key ] = (string) absint( $value );
 		} elseif ( in_array( $key, array( 'hero_image', 'page_logo' ), true ) ) {
 			$output[ $key ] = absint( $value );
-		} elseif ( 'contact_email' === $key ) {
+		} elseif ( 'contact_email' === $key || preg_match( '/^contact_page_\d+_email$/', $key ) ) {
 			$output[ $key ] = sanitize_email( $value );
 		} elseif ( str_starts_with( $key, 'color_' ) ) {
 			$output[ $key ] = sanitize_hex_color( $value );
@@ -877,12 +1195,16 @@ function multirent_companion_handle_setup_actions() {
 	$action = sanitize_key( wp_unslash( $_POST['multirent_action'] ) );
 	$scope  = isset( $_POST['multirent_settings_scope'] ) ? array_filter( array_map( 'trim', explode( ',', sanitize_text_field( wp_unslash( $_POST['multirent_settings_scope'] ) ) ) ) ) : null;
 
-	if ( in_array( $action, array( 'save_settings', 'save_apartments_page', 'save_contact_page', 'save_local_page' ), true ) ) {
+	if ( in_array( $action, array( 'save_settings', 'save_page_slots', 'save_apartments_page', 'save_contact_page', 'save_local_page' ), true ) ) {
 		$settings = isset( $_POST['multirent_settings'] ) && is_array( $_POST['multirent_settings'] ) ? multirent_companion_sanitize_settings( $_POST['multirent_settings'], $scope ) : multirent_companion_settings();
 		update_option( 'multirent_settings', $settings );
 		multirent_companion_sync_optional_page_visibility( $settings );
 
-		if ( 'save_apartments_page' === $action ) {
+		if ( 'save_page_slots' === $action ) {
+			multirent_companion_save_slot_page_templates( $settings );
+			multirent_companion_apply_top_menu( $settings['menu_items'] );
+			add_settings_error( 'multirent_messages', 'page_slots_saved', esc_html__( 'Page and hero button settings saved.', 'multirent-companion' ), 'updated' );
+		} elseif ( 'save_apartments_page' === $action ) {
 			$template_result = isset( $_POST['multirent_apartments_template'] ) ? multirent_companion_save_apartments_page_template( $_POST['multirent_apartments_template'] ) : null;
 			if ( is_wp_error( $template_result ) ) {
 				add_settings_error( 'multirent_messages', 'apartments_template_error', $template_result->get_error_message(), 'error' );
@@ -1009,6 +1331,39 @@ function multirent_companion_sync_optional_page_visibility( $settings = null ) {
 				'post_status' => '1' === (string) $settings[ $role_config['show_key'] ] ? 'publish' : 'draft',
 			)
 		);
+	}
+
+	foreach ( array( 'apartment', 'contact' ) as $slot_type ) {
+		foreach ( multirent_companion_page_slots( $slot_type, $settings ) as $slot ) {
+			$page = multirent_companion_page_exists( $slot['page_id'] );
+			if ( ! $page ) {
+				continue;
+			}
+
+			wp_update_post(
+				array(
+					'ID'          => $page->ID,
+					'post_status' => $slot['enabled'] ? 'publish' : 'draft',
+				)
+			);
+		}
+	}
+}
+
+function multirent_companion_save_slot_page_templates( $settings = null ) {
+	$settings = is_array( $settings ) ? $settings : multirent_companion_settings();
+
+	foreach ( array( 'apartment', 'contact' ) as $slot_type ) {
+		$role = 'apartment' === $slot_type ? 'apartments' : 'contact';
+		$templates = multirent_companion_role_page_templates( $role );
+		foreach ( multirent_companion_page_slots( $slot_type, $settings ) as $slot ) {
+			$page = multirent_companion_page_exists( $slot['page_id'] );
+			if ( ! $page || empty( $templates[ $slot['template'] ] ) ) {
+				continue;
+			}
+
+			update_post_meta( $page->ID, '_wp_page_template', $slot['template'] );
+		}
 	}
 }
 
@@ -1321,6 +1676,7 @@ function multirent_companion_parse_menu_items( $menu_items_text ) {
 
 function multirent_companion_apply_top_menu( $menu_items_text ) {
 	$items = multirent_companion_parse_menu_items( $menu_items_text );
+	$items = multirent_companion_merge_unique_menu_items( $items, multirent_companion_slot_menu_items( multirent_companion_settings() ) );
 	if ( ! $items ) {
 		return;
 	}
@@ -1361,9 +1717,66 @@ function multirent_companion_apply_top_menu( $menu_items_text ) {
 	set_theme_mod( 'nav_menu_locations', $locations );
 }
 
+function multirent_companion_menu_item_key( $url ) {
+	$path = wp_parse_url( $url, PHP_URL_PATH );
+	if ( $path ) {
+		return '/' . trim( (string) $path, '/' ) . '/';
+	}
+
+	return strtolower( trim( (string) $url ) );
+}
+
+function multirent_companion_merge_unique_menu_items( $items, $extra_items ) {
+	$seen = array();
+	foreach ( $items as $item ) {
+		$seen[ multirent_companion_menu_item_key( $item['url'] ) ] = true;
+	}
+
+	foreach ( $extra_items as $item ) {
+		$key = multirent_companion_menu_item_key( $item['url'] );
+		if ( isset( $seen[ $key ] ) ) {
+			continue;
+		}
+
+		$items[]      = $item;
+		$seen[ $key ] = true;
+	}
+
+	return $items;
+}
+
+function multirent_companion_slot_menu_items( $settings = null ) {
+	$settings = is_array( $settings ) ? $settings : multirent_companion_settings();
+	$items    = array();
+
+	foreach ( array( 'apartment', 'contact' ) as $slot_type ) {
+		foreach ( multirent_companion_page_slots( $slot_type, $settings ) as $slot ) {
+			if ( ! $slot['enabled'] || ! $slot['show_menu'] || ! $slot['page_id'] ) {
+				continue;
+			}
+
+			$permalink = get_permalink( $slot['page_id'] );
+			if ( ! $permalink ) {
+				continue;
+			}
+
+			$items[] = array(
+				'label' => $slot['button_label'] ? $slot['button_label'] : get_the_title( $slot['page_id'] ),
+				'url'   => $permalink,
+			);
+		}
+	}
+
+	return $items;
+}
+
 function multirent_companion_filter_hidden_menu_items( $items, $settings ) {
 	$hidden_paths = array();
 	foreach ( multirent_companion_page_roles() as $role => $role_config ) {
+		if ( in_array( $role, array( 'apartments', 'contact' ), true ) ) {
+			continue;
+		}
+
 		if ( '1' === (string) $settings[ $role_config['show_key'] ] ) {
 			continue;
 		}
@@ -1377,6 +1790,24 @@ function multirent_companion_filter_hidden_menu_items( $items, $settings ) {
 			}
 		}
 	}
+
+	foreach ( array( 'apartment', 'contact' ) as $slot_type ) {
+		foreach ( multirent_companion_page_slots( $slot_type, $settings ) as $slot ) {
+			if ( $slot['enabled'] && $slot['show_menu'] ) {
+				continue;
+			}
+
+			if ( ! $slot['page_id'] ) {
+				continue;
+			}
+
+			$path = wp_parse_url( get_permalink( $slot['page_id'] ), PHP_URL_PATH );
+			if ( $path ) {
+				$hidden_paths[] = '/' . trim( (string) $path, '/' ) . '/';
+			}
+		}
+	}
+
 	$hidden_paths = array_values( array_unique( $hidden_paths ) );
 
 	if ( ! $hidden_paths ) {
@@ -1498,7 +1929,7 @@ function multirent_companion_render_setup_page() {
 			</table>
 
 			<h2><?php esc_html_e( 'Page Administration', 'multirent-companion' ); ?></h2>
-			<p><?php esc_html_e( 'Landing page settings stay here because the landing page is mandatory. Optional pages have their own admin screens in the MultiRent Setup menu: Apartments Page, Contact Page, and Local Page.', 'multirent-companion' ); ?></p>
+			<p><?php esc_html_e( 'Landing page settings stay here because the landing page is mandatory. Use Pages & Buttons for apartment and contact pages. Use Local Page for local information.', 'multirent-companion' ); ?></p>
 
 			<h2><?php esc_html_e( 'Top Menu Builder', 'multirent-companion' ); ?></h2>
 			<p><?php esc_html_e( 'Add one menu link per line using this simple format: Label | URL. Use / for home, /rentals/ for the rental archive, #contact for homepage sections, or a full external URL.', 'multirent-companion' ); ?></p>
@@ -1571,6 +2002,178 @@ function multirent_companion_render_demo_content_page() {
 		<p><?php esc_html_e( 'Open the public demo to preview apartment pages, galleries, maps, QR examples, contact details, local guide sections, and the finished theme layout before adding your own content.', 'multirent-companion' ); ?></p>
 		<p><a class="button button-primary" href="https://demo.multirent.online" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Open Public Demo', 'multirent-companion' ); ?></a></p>
 		<p class="description"><?php esc_html_e( 'Use Website Setup to create starter pages, menu, amenities, and rental units for this site.', 'multirent-companion' ); ?></p>
+	</div>
+	<?php
+}
+
+function multirent_companion_page_select_any_field( $field_name, $selected_page_id, $field_id ) {
+	$pages = get_pages(
+		array(
+			'post_status' => 'publish,draft,pending,private',
+			'sort_column' => 'post_title',
+		)
+	);
+	?>
+	<select name="<?php echo esc_attr( $field_name ); ?>" id="<?php echo esc_attr( $field_id ); ?>">
+		<option value="0"><?php esc_html_e( 'Select a page', 'multirent-companion' ); ?></option>
+		<?php foreach ( $pages as $page ) : ?>
+			<option value="<?php echo esc_attr( $page->ID ); ?>" <?php selected( absint( $selected_page_id ), $page->ID ); ?>><?php echo esc_html( $page->post_title . ' (#' . $page->ID . ')' ); ?></option>
+		<?php endforeach; ?>
+	</select>
+	<?php
+}
+
+function multirent_companion_render_slot_page_select( $prefix, $page_id ) {
+	multirent_companion_page_select_any_field( 'multirent_settings[' . $prefix . '_id]', $page_id, 'multirent-' . $prefix . '-id' );
+}
+
+function multirent_companion_render_apartment_slot_panel( $slot, $templates ) {
+	$prefix = $slot['prefix'];
+	?>
+	<details class="multirent-slot-panel">
+		<summary><?php echo esc_html( sprintf( __( 'Apartment Page %d', 'multirent-companion' ), $slot['index'] ) ); ?><?php echo $slot['page_id'] ? ' - ' . esc_html( get_the_title( $slot['page_id'] ) ) : ''; ?></summary>
+		<div class="multirent-slot-panel-body">
+			<p><label><input name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_enabled]" type="checkbox" value="1" <?php checked( $slot['enabled'] ); ?>> <?php esc_html_e( 'Enable this apartment page', 'multirent-companion' ); ?></label></p>
+			<p><label><input name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_show_menu]" type="checkbox" value="1" <?php checked( $slot['show_menu'] ); ?>> <?php esc_html_e( 'Show in top menu', 'multirent-companion' ); ?></label></p>
+			<div class="multirent-field-row">
+				<label for="multirent-<?php echo esc_attr( $prefix ); ?>-id"><?php esc_html_e( 'WordPress page', 'multirent-companion' ); ?></label>
+				<?php multirent_companion_render_slot_page_select( $prefix, $slot['page_id'] ); ?>
+			</div>
+			<div class="multirent-field-row">
+				<label for="multirent-<?php echo esc_attr( $prefix ); ?>-template"><?php esc_html_e( 'Apartment template', 'multirent-companion' ); ?></label>
+				<select id="multirent-<?php echo esc_attr( $prefix ); ?>-template" name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_template]">
+					<?php foreach ( $templates as $template_file => $template_data ) : ?>
+						<option value="<?php echo esc_attr( $template_file ); ?>" <?php selected( $slot['template'], $template_file ); ?>><?php echo esc_html( $template_data['label'] ); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+			<?php if ( $slot['page_id'] ) : ?><p><a class="button button-secondary" href="<?php echo esc_url( get_permalink( $slot['page_id'] ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview page', 'multirent-companion' ); ?></a></p><?php endif; ?>
+		</div>
+	</details>
+	<?php
+}
+
+function multirent_companion_render_contact_slot_panel( $slot, $templates, $settings ) {
+	$prefix = $slot['prefix'];
+	?>
+	<details class="multirent-slot-panel">
+		<summary><?php echo esc_html( sprintf( __( 'Contact Page %d', 'multirent-companion' ), $slot['index'] ) ); ?><?php echo $slot['page_id'] ? ' - ' . esc_html( get_the_title( $slot['page_id'] ) ) : ''; ?></summary>
+		<div class="multirent-slot-panel-body">
+			<p><label><input name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_enabled]" type="checkbox" value="1" <?php checked( $slot['enabled'] ); ?>> <?php esc_html_e( 'Enable this contact page', 'multirent-companion' ); ?></label></p>
+			<p><label><input name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_show_menu]" type="checkbox" value="1" <?php checked( $slot['show_menu'] ); ?>> <?php esc_html_e( 'Show in top menu', 'multirent-companion' ); ?></label></p>
+			<div class="multirent-field-grid">
+				<div class="multirent-field-row"><label for="multirent-<?php echo esc_attr( $prefix ); ?>-id"><?php esc_html_e( 'WordPress page', 'multirent-companion' ); ?></label><?php multirent_companion_render_slot_page_select( $prefix, $slot['page_id'] ); ?></div>
+				<div class="multirent-field-row"><label for="multirent-<?php echo esc_attr( $prefix ); ?>-template"><?php esc_html_e( 'Contact template', 'multirent-companion' ); ?></label><select id="multirent-<?php echo esc_attr( $prefix ); ?>-template" name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_template]">
+					<?php foreach ( $templates as $template_file => $template_data ) : ?>
+						<option value="<?php echo esc_attr( $template_file ); ?>" <?php selected( $slot['template'], $template_file ); ?>><?php echo esc_html( $template_data['label'] ); ?></option>
+					<?php endforeach; ?>
+				</select></div>
+			</div>
+
+			<details class="multirent-inner-panel" open><summary><?php esc_html_e( 'Basic', 'multirent-companion' ); ?></summary>
+				<?php foreach ( array( 'title', 'intro' ) as $suffix ) : ?>
+					<?php multirent_companion_render_slot_text_field( $prefix, $suffix, $settings, in_array( $suffix, array( 'intro' ), true ) ); ?>
+				<?php endforeach; ?>
+			</details>
+			<details class="multirent-inner-panel"><summary><?php esc_html_e( 'Contact Details', 'multirent-companion' ); ?></summary>
+				<?php foreach ( array( 'address', 'phone', 'mobile', 'email' ) as $suffix ) : ?>
+					<?php multirent_companion_render_slot_text_field( $prefix, $suffix, $settings, 'address' === $suffix ); ?>
+				<?php endforeach; ?>
+			</details>
+			<details class="multirent-inner-panel"><summary><?php esc_html_e( 'Map & QR', 'multirent-companion' ); ?></summary>
+				<?php foreach ( array( 'map_query', 'map_note' ) as $suffix ) : ?>
+					<?php multirent_companion_render_slot_text_field( $prefix, $suffix, $settings, 'map_note' === $suffix ); ?>
+				<?php endforeach; ?>
+				<p><?php esc_html_e( 'QR code image', 'multirent-companion' ); ?></p>
+				<?php multirent_companion_media_field( 'multirent_settings[' . $prefix . '_qr_code_image_id]', absint( $settings[ $prefix . '_qr_code_image_id' ] ), __( 'Choose QR code image', 'multirent-companion' ), __( 'Remove QR code image', 'multirent-companion' ) ); ?>
+			</details>
+			<details class="multirent-inner-panel"><summary><?php esc_html_e( 'Form & Booking Help', 'multirent-companion' ); ?></summary>
+				<?php foreach ( array( 'form_shortcode', 'booking_help_lines' ) as $suffix ) : ?>
+					<?php multirent_companion_render_slot_text_field( $prefix, $suffix, $settings, 'booking_help_lines' === $suffix ); ?>
+				<?php endforeach; ?>
+			</details>
+			<details class="multirent-inner-panel"><summary><?php esc_html_e( 'Visibility', 'multirent-companion' ); ?></summary>
+				<div class="multirent-slot-checkboxes">
+					<?php foreach ( array( 'details' => __( 'Details', 'multirent-companion' ), 'booking_help' => __( 'Booking help', 'multirent-companion' ), 'map' => __( 'Map', 'multirent-companion' ), 'content' => __( 'Page content', 'multirent-companion' ), 'form' => __( 'Form', 'multirent-companion' ), 'map_note' => __( 'Map note', 'multirent-companion' ) ) as $suffix => $label ) : ?>
+						<p><label><input name="multirent_settings[<?php echo esc_attr( $prefix . '_show_' . $suffix ); ?>]" type="checkbox" value="1" <?php checked( $settings[ $prefix . '_show_' . $suffix ], '1' ); ?>> <?php echo esc_html( $label ); ?></label></p>
+					<?php endforeach; ?>
+				</div>
+			</details>
+			<?php if ( $slot['page_id'] ) : ?><p><a class="button button-secondary" href="<?php echo esc_url( get_permalink( $slot['page_id'] ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview page', 'multirent-companion' ); ?></a></p><?php endif; ?>
+		</div>
+	</details>
+	<?php
+}
+
+function multirent_companion_render_slot_text_field( $prefix, $suffix, $settings, $textarea = false ) {
+	$key   = $prefix . '_' . $suffix;
+	$label = ucwords( str_replace( '_', ' ', $suffix ) );
+	?>
+	<p class="multirent-field-row"><label for="multirent-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label>
+	<?php if ( $textarea ) : ?>
+		<textarea class="large-text" rows="3" id="multirent-<?php echo esc_attr( $key ); ?>" name="multirent_settings[<?php echo esc_attr( $key ); ?>]"><?php echo esc_textarea( $settings[ $key ] ); ?></textarea>
+	<?php else : ?>
+		<input class="regular-text" id="multirent-<?php echo esc_attr( $key ); ?>" name="multirent_settings[<?php echo esc_attr( $key ); ?>]" type="text" value="<?php echo esc_attr( $settings[ $key ] ); ?>">
+	<?php endif; ?></p>
+	<?php
+}
+
+function multirent_companion_render_pages_buttons_page() {
+	$settings            = multirent_companion_settings();
+	$apartment_templates = multirent_companion_apartments_page_templates();
+	$contact_templates   = multirent_companion_contact_page_templates();
+	$scope               = implode( ',', multirent_companion_slot_setting_keys() );
+	settings_errors( 'multirent_messages' );
+	?>
+	<div class="wrap">
+		<h1><?php esc_html_e( 'Pages & Buttons', 'multirent-companion' ); ?></h1>
+		<p><?php esc_html_e( 'Configure up to three apartment pages and three contact pages. Use the tabs below to keep setup readable.', 'multirent-companion' ); ?></p>
+		<form method="post" action="">
+			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
+			<input type="hidden" name="multirent_action" value="save_page_slots">
+			<input type="hidden" name="multirent_settings_scope" value="<?php echo esc_attr( $scope ); ?>">
+			<div class="multirent-tabs">
+				<input type="radio" id="multirent-tab-apartments" name="multirent_pages_tab" checked>
+				<label for="multirent-tab-apartments"><?php esc_html_e( 'Apartment Pages', 'multirent-companion' ); ?></label>
+				<input type="radio" id="multirent-tab-contacts" name="multirent_pages_tab">
+				<label for="multirent-tab-contacts"><?php esc_html_e( 'Contact Pages', 'multirent-companion' ); ?></label>
+				<input type="radio" id="multirent-tab-hero" name="multirent_pages_tab">
+				<label for="multirent-tab-hero"><?php esc_html_e( 'Hero Buttons', 'multirent-companion' ); ?></label>
+				<input type="radio" id="multirent-tab-help" name="multirent_pages_tab">
+				<label for="multirent-tab-help"><?php esc_html_e( 'Help', 'multirent-companion' ); ?></label>
+
+				<section class="multirent-tab-panel multirent-tab-panel-apartments">
+					<?php foreach ( multirent_companion_page_slots( 'apartment', $settings ) as $slot ) : ?>
+						<?php multirent_companion_render_apartment_slot_panel( $slot, $apartment_templates ); ?>
+					<?php endforeach; ?>
+				</section>
+				<section class="multirent-tab-panel multirent-tab-panel-contacts">
+					<?php foreach ( multirent_companion_page_slots( 'contact', $settings ) as $slot ) : ?>
+						<?php multirent_companion_render_contact_slot_panel( $slot, $contact_templates, $settings ); ?>
+					<?php endforeach; ?>
+				</section>
+				<section class="multirent-tab-panel multirent-tab-panel-hero">
+					<p><?php esc_html_e( 'Choose which enabled pages appear as buttons under the homepage hero image.', 'multirent-companion' ); ?></p>
+					<div class="multirent-hero-button-list">
+						<?php foreach ( array_merge( multirent_companion_page_slots( 'apartment', $settings ), multirent_companion_page_slots( 'contact', $settings ) ) as $slot ) : ?>
+							<?php $prefix = $slot['prefix']; ?>
+							<div class="multirent-hero-button-row">
+								<label><input name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_show_hero]" type="checkbox" value="1" <?php checked( $slot['show_hero'] ); ?>> <?php echo esc_html( sprintf( '%s Page %d', 'apartment' === $slot['type'] ? __( 'Apartment', 'multirent-companion' ) : __( 'Contact', 'multirent-companion' ), $slot['index'] ) ); ?></label>
+								<input class="regular-text" name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_button_label]" type="text" value="<?php echo esc_attr( $slot['button_label'] ); ?>" placeholder="<?php esc_attr_e( 'Button label', 'multirent-companion' ); ?>">
+							</div>
+						<?php endforeach; ?>
+					</div>
+				</section>
+				<section class="multirent-tab-panel multirent-tab-panel-help">
+					<div class="notice-card">
+						<h2><?php esc_html_e( 'How this works', 'multirent-companion' ); ?></h2>
+						<p><?php esc_html_e( 'Older single Apartments and Contact pages migrate into Page 1. Rental units with no assignment appear on Apartment Page 1.', 'multirent-companion' ); ?></p>
+						<p><?php esc_html_e( 'Assign rental units from each Rental Unit editor. Enabled apartment page slots can show different groups of units.', 'multirent-companion' ); ?></p>
+					</div>
+				</section>
+			</div>
+			<?php submit_button( esc_html__( 'Save Pages & Buttons', 'multirent-companion' ) ); ?>
+		</form>
 	</div>
 	<?php
 }

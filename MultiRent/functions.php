@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.1.38' );
+define( 'MULTIRENT_VERSION', '0.2.0' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -69,6 +69,7 @@ function multirent_menu_items() {
 	$items           = array();
 	$lines           = preg_split( '/\r\n|\r|\n/', (string) $menu_items_text );
 	$hidden_paths    = multirent_hidden_menu_paths();
+	$seen            = array();
 
 	foreach ( $lines as $line ) {
 		$line = trim( $line );
@@ -90,6 +91,53 @@ function multirent_menu_items() {
 			'label' => sanitize_text_field( $parts[0] ),
 			'url'   => $url,
 		);
+		$seen[ multirent_menu_item_key( $url ) ] = true;
+	}
+
+	foreach ( multirent_slot_menu_items() as $item ) {
+		if ( multirent_is_hidden_menu_url( $item['url'], $hidden_paths ) ) {
+			continue;
+		}
+
+		$key = multirent_menu_item_key( $item['url'] );
+		if ( isset( $seen[ $key ] ) ) {
+			continue;
+		}
+
+		$items[]      = $item;
+		$seen[ $key ] = true;
+	}
+
+	return $items;
+}
+
+function multirent_menu_item_key( $url ) {
+	$path = wp_parse_url( $url, PHP_URL_PATH );
+	if ( $path ) {
+		return '/' . trim( (string) $path, '/' ) . '/';
+	}
+
+	return strtolower( trim( (string) $url ) );
+}
+
+function multirent_slot_menu_items() {
+	$items = array();
+	foreach ( array( 'apartment', 'contact' ) as $slot_type ) {
+		foreach ( multirent_page_slots( $slot_type ) as $slot ) {
+			if ( ! $slot['enabled'] || ! $slot['show_menu'] || ! $slot['page_id'] ) {
+				continue;
+			}
+
+			$permalink = get_permalink( $slot['page_id'] );
+			if ( ! $permalink ) {
+				continue;
+			}
+
+			$items[] = array(
+				'label' => $slot['button_label'] ? $slot['button_label'] : get_the_title( $slot['page_id'] ),
+				'url'   => $permalink,
+			);
+		}
 	}
 
 	return $items;
@@ -98,8 +146,6 @@ function multirent_menu_items() {
 function multirent_hidden_menu_paths() {
 	$settings = multirent_plugin_settings();
 	$roles    = array(
-		array( 'show_key' => 'show_apartments_page', 'page_id_key' => 'apartments_page_id', 'path' => '/apartments/' ),
-		array( 'show_key' => 'show_contact_page', 'page_id_key' => 'contact_page_id', 'path' => '/contact/' ),
 		array( 'show_key' => 'show_local_page', 'page_id_key' => 'local_page_id', 'path' => '/local/' ),
 	);
 
@@ -113,6 +159,23 @@ function multirent_hidden_menu_paths() {
 		$page_id        = isset( $settings[ $role['page_id_key'] ] ) ? absint( $settings[ $role['page_id_key'] ] ) : 0;
 		if ( $page_id ) {
 			$path = wp_parse_url( get_permalink( $page_id ), PHP_URL_PATH );
+			if ( $path ) {
+				$hidden_paths[] = '/' . trim( (string) $path, '/' ) . '/';
+			}
+		}
+	}
+
+	foreach ( array( 'apartment', 'contact' ) as $slot_type ) {
+		foreach ( multirent_page_slots( $slot_type ) as $slot ) {
+			if ( $slot['enabled'] && $slot['show_menu'] ) {
+				continue;
+			}
+
+			if ( ! $slot['page_id'] ) {
+				continue;
+			}
+
+			$path = wp_parse_url( get_permalink( $slot['page_id'] ), PHP_URL_PATH );
 			if ( $path ) {
 				$hidden_paths[] = '/' . trim( (string) $path, '/' ) . '/';
 			}
@@ -214,6 +277,173 @@ function multirent_display_option( $key, $default = '' ) {
 	}
 
 	return multirent_option( $key, $default );
+}
+
+function multirent_page_slot_count() {
+	return 3;
+}
+
+function multirent_page_slot( $type, $index ) {
+	$settings = multirent_plugin_settings();
+	$type     = 'contact' === $type ? 'contact' : 'apartment';
+	$index    = min( multirent_page_slot_count(), max( 1, absint( $index ) ) );
+	$prefix   = $type . '_page_' . $index;
+
+	$legacy_page_key = 'apartment' === $type ? 'apartments_page_id' : 'contact_page_id';
+	$legacy_show_key = 'apartment' === $type ? 'show_apartments_page' : 'show_contact_page';
+
+	$page_id = isset( $settings[ $prefix . '_id' ] ) ? absint( $settings[ $prefix . '_id' ] ) : 0;
+	if ( 1 === $index && ! $page_id && ! empty( $settings[ $legacy_page_key ] ) ) {
+		$page_id = absint( $settings[ $legacy_page_key ] );
+	}
+
+	$enabled = isset( $settings[ $prefix . '_enabled' ] ) ? '1' === (string) $settings[ $prefix . '_enabled' ] : ( 1 === $index && '1' === (string) ( $settings[ $legacy_show_key ] ?? '1' ) );
+	$show_menu = isset( $settings[ $prefix . '_show_menu' ] ) ? '1' === (string) $settings[ $prefix . '_show_menu' ] : $enabled;
+
+	return array(
+		'type'         => $type,
+		'index'        => $index,
+		'prefix'       => $prefix,
+		'enabled'      => $enabled,
+		'page_id'      => $page_id,
+		'button_label' => trim( (string) ( $settings[ $prefix . '_button_label' ] ?? '' ) ),
+		'show_hero'    => ! empty( $settings[ $prefix . '_show_hero' ] ) && '1' === (string) $settings[ $prefix . '_show_hero' ],
+		'show_menu'    => $show_menu,
+	);
+}
+
+function multirent_page_slots( $type ) {
+	$slots = array();
+	for ( $index = 1; $index <= multirent_page_slot_count(); $index++ ) {
+		$slots[] = multirent_page_slot( $type, $index );
+	}
+	return $slots;
+}
+
+function multirent_current_page_slot( $type ) {
+	$page_id = get_queried_object_id();
+	foreach ( multirent_page_slots( $type ) as $slot ) {
+		if ( $slot['page_id'] && absint( $slot['page_id'] ) === absint( $page_id ) ) {
+			return $slot;
+		}
+	}
+	return multirent_page_slot( $type, 1 );
+}
+
+function multirent_contact_display_option( $key, $default = '' ) {
+	$slot = multirent_current_page_slot( 'contact' );
+	$settings = multirent_plugin_settings();
+	$map = array(
+		'contact_page_title' => 'title',
+		'contact_page_intro' => 'intro',
+		'contact_address' => 'address',
+		'contact_phone' => 'phone',
+		'contact_mobile' => 'mobile',
+		'contact_email' => 'email',
+		'contact_form_shortcode' => 'form_shortcode',
+		'contact_map_query' => 'map_query',
+		'contact_map_note' => 'map_note',
+		'contact_qr_code_image_id' => 'qr_code_image_id',
+		'booking_help_lines' => 'booking_help_lines',
+		'show_contact_details' => 'show_details',
+		'show_booking_help' => 'show_booking_help',
+		'show_contact_map' => 'show_map',
+		'show_contact_content' => 'show_content',
+		'show_contact_form' => 'show_form',
+		'show_contact_map_note' => 'show_map_note',
+	);
+
+	if ( isset( $map[ $key ] ) ) {
+		$slot_key = $slot['prefix'] . '_' . $map[ $key ];
+		if ( isset( $settings[ $slot_key ] ) && '' !== $settings[ $slot_key ] ) {
+			return $settings[ $slot_key ];
+		}
+	}
+
+	return multirent_display_option( $key, $default );
+}
+
+function multirent_current_apartment_page_query_args() {
+	$slot = multirent_current_page_slot( 'apartment' );
+	$page_id = absint( $slot['page_id'] );
+	$args = array(
+		'post_type'      => 'rental_unit',
+		'posts_per_page' => -1,
+		'orderby'        => 'menu_order title',
+		'order'          => 'ASC',
+	);
+
+	if ( ! $page_id ) {
+		return $args;
+	}
+
+	$meta_query = array(
+		array(
+			'key'     => '_multirent_apartment_page_ids',
+			'value'   => ',' . $page_id . ',',
+			'compare' => 'LIKE',
+		),
+	);
+
+	if ( 1 === absint( $slot['index'] ) ) {
+		$meta_query = array(
+			'relation' => 'OR',
+			$meta_query[0],
+			array(
+				'key'     => '_multirent_apartment_page_ids',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => '_multirent_apartment_page_ids',
+				'value'   => '',
+				'compare' => '=',
+			),
+		);
+	}
+
+	$args['meta_query'] = $meta_query;
+	return $args;
+}
+
+function multirent_hero_buttons() {
+	$buttons = array();
+	foreach ( array( 'apartment', 'contact' ) as $type ) {
+		foreach ( multirent_page_slots( $type ) as $slot ) {
+			if ( ! $slot['enabled'] || ! $slot['show_hero'] || ! $slot['page_id'] ) {
+				continue;
+			}
+			$label = $slot['button_label'] ? $slot['button_label'] : get_the_title( $slot['page_id'] );
+			$buttons[] = array(
+				'label' => $label,
+				'url'   => get_permalink( $slot['page_id'] ),
+				'type'  => $type,
+			);
+		}
+	}
+
+	if ( ! $buttons ) {
+		$buttons[] = array(
+			'label' => multirent_display_option( 'hero_button_text', __( 'View rentals', 'multirent' ) ),
+			'url'   => multirent_display_option( 'hero_button_url', '#rentals' ),
+			'type'  => 'apartment',
+		);
+	}
+
+	return $buttons;
+}
+
+function multirent_render_hero_buttons() {
+	$buttons = multirent_hero_buttons();
+	if ( ! $buttons ) {
+		return;
+	}
+	?>
+	<div class="hero-actions">
+		<?php foreach ( $buttons as $button ) : ?>
+			<a class="button<?php echo 'contact' === $button['type'] ? ' button-light' : ''; ?>" href="<?php echo esc_url( $button['url'] ); ?>"><?php echo esc_html( $button['label'] ); ?></a>
+		<?php endforeach; ?>
+	</div>
+	<?php
 }
 
 function multirent_color_schemes() {

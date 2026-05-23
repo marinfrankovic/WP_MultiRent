@@ -19,7 +19,7 @@ $hero_style     = $hero_image_url ? ' style="background-image: linear-gradient(9
 				<p class="eyebrow"><?php esc_html_e( 'Multi-unit rental website', 'multirent' ); ?></p>
 				<h1><?php echo esc_html( multirent_display_option( 'hero_title', __( 'Flexible stays for every guest', 'multirent' ) ) ); ?></h1>
 				<p><?php echo esc_html( multirent_display_option( 'hero_text', __( 'Showcase apartments, rooms, villas, or holiday homes with clear details and easy inquiry paths.', 'multirent' ) ) ); ?></p>
-				<a class="button" href="<?php echo esc_url( multirent_display_option( 'hero_button_url', '#rentals' ) ); ?>"><?php echo esc_html( multirent_display_option( 'hero_button_text', __( 'View rentals', 'multirent' ) ) ); ?></a>
+				<?php multirent_render_hero_buttons(); ?>
 			</div>
 		</section>
 	<?php endif; ?>

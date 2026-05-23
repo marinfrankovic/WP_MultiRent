@@ -34,6 +34,8 @@ Do not commit:
 
 GitHub Releases should contain the latest packaged theme ZIP, plugin ZIP, and combined template ZIP. Public install documentation should link to the latest release asset downloads for those packages.
 
+Version 0.2.0 adds flexible Apartment Page 1-3 and Contact Page 1-3 slots, per-slot **Show in top menu** controls, homepage hero-button controls, explicit migration from the old single Apartments/Contact pages into Page 1 slots, and a rental-unit editor right-sidebar **Apartment Page Assignment** panel.
+
 Unreleased updates keep the public documentation hero call-to-action buttons inline at desktop widths and horizontally scrollable on very small screens.
 
 Version 0.1.38 marks the theme and companion plugin as tested through WordPress 7.0, refreshes public package links, and removes deprecated HTML5 `style` / `script` theme support while keeping normal asset enqueues unchanged.

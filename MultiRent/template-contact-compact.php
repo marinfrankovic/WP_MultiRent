@@ -7,17 +7,17 @@
 
 get_header();
 
-$contact_title  = multirent_display_option( 'contact_page_title', __( 'Contact', 'multirent' ) );
-$contact_intro  = multirent_display_option( 'contact_page_intro', __( 'Send your dates, guest count, and preferred rental unit so the owner can reply with availability.', 'multirent' ) );
-$address        = multirent_display_option( 'contact_address', '' );
-$phone          = multirent_display_option( 'contact_phone', '' );
-$mobile         = multirent_display_option( 'contact_mobile', '' );
-$email          = multirent_display_option( 'contact_email', '' );
-$form_shortcode = trim( multirent_display_option( 'contact_form_shortcode', '' ) );
-$map_query      = trim( multirent_display_option( 'contact_map_query', '' ) );
-$map_note       = multirent_display_option( 'contact_map_note', '' );
-$contact_qr_code_image_id = absint( multirent_display_option( 'contact_qr_code_image_id', '' ) );
-$booking_lines  = multirent_lines_to_items( multirent_display_option( 'booking_help_lines', '' ) );
+$contact_title  = multirent_contact_display_option( 'contact_page_title', __( 'Contact', 'multirent' ) );
+$contact_intro  = multirent_contact_display_option( 'contact_page_intro', __( 'Send your dates, guest count, and preferred rental unit so the owner can reply with availability.', 'multirent' ) );
+$address        = multirent_contact_display_option( 'contact_address', '' );
+$phone          = multirent_contact_display_option( 'contact_phone', '' );
+$mobile         = multirent_contact_display_option( 'contact_mobile', '' );
+$email          = multirent_contact_display_option( 'contact_email', '' );
+$form_shortcode = trim( multirent_contact_display_option( 'contact_form_shortcode', '' ) );
+$map_query      = trim( multirent_contact_display_option( 'contact_map_query', '' ) );
+$map_note       = multirent_contact_display_option( 'contact_map_note', '' );
+$contact_qr_code_image_id = absint( multirent_contact_display_option( 'contact_qr_code_image_id', '' ) );
+$booking_lines  = multirent_lines_to_items( multirent_contact_display_option( 'booking_help_lines', '' ) );
 ?>
 
 <main id="primary" class="site-main">
@@ -35,7 +35,7 @@ $booking_lines  = multirent_lines_to_items( multirent_display_option( 'booking_h
 
 		<section class="section contact-section contact-template-compact">
 			<div class="container narrow-content contact-compact-stack">
-				<?php if ( '1' === (string) multirent_display_option( 'show_contact_details', '1' ) ) : ?>
+				<?php if ( '1' === (string) multirent_contact_display_option( 'show_contact_details', '1' ) ) : ?>
 					<section class="contact-card">
 						<h2><?php esc_html_e( 'Contact details', 'multirent' ); ?></h2>
 						<?php if ( $address ) : ?>
@@ -57,7 +57,7 @@ $booking_lines  = multirent_lines_to_items( multirent_display_option( 'booking_h
 
 				<?php multirent_render_qr_map_tile( array( 'qr_image_id' => $contact_qr_code_image_id, 'title' => __( 'Quick booking QR', 'multirent' ), 'qr_label' => __( 'Contact QR code', 'multirent' ), 'class' => 'contact-qr-card' ) ); ?>
 
-				<?php if ( '1' === (string) multirent_display_option( 'show_booking_help', '1' ) && $booking_lines ) : ?>
+				<?php if ( '1' === (string) multirent_contact_display_option( 'show_booking_help', '1' ) && $booking_lines ) : ?>
 					<section class="booking-help-panel">
 						<p class="eyebrow"><?php esc_html_e( 'Booking inquiry', 'multirent' ); ?></p>
 						<h2><?php esc_html_e( 'Details that help with a faster reply', 'multirent' ); ?></h2>
@@ -69,21 +69,21 @@ $booking_lines  = multirent_lines_to_items( multirent_display_option( 'booking_h
 					</section>
 				<?php endif; ?>
 
-				<?php if ( '1' === (string) multirent_display_option( 'show_contact_content', '1' ) && trim( get_the_content() ) ) : ?>
+				<?php if ( '1' === (string) multirent_contact_display_option( 'show_contact_content', '1' ) && trim( get_the_content() ) ) : ?>
 					<div class="entry-content content-card"><?php the_content(); ?></div>
 				<?php endif; ?>
 
-				<?php if ( '1' === (string) multirent_display_option( 'show_contact_form', '1' ) && $form_shortcode ) : ?>
+				<?php if ( '1' === (string) multirent_contact_display_option( 'show_contact_form', '1' ) && $form_shortcode ) : ?>
 					<div class="plugin-form content-card"><?php echo do_shortcode( wp_kses_post( $form_shortcode ) ); ?></div>
 				<?php endif; ?>
 
-				<?php if ( '1' === (string) multirent_display_option( 'show_contact_map', '1' ) && $map_query ) : ?>
+				<?php if ( '1' === (string) multirent_contact_display_option( 'show_contact_map', '1' ) && $map_query ) : ?>
 					<div class="contact-map-card">
 						<iframe title="<?php esc_attr_e( 'Property map', 'multirent' ); ?>" src="<?php echo esc_url( 'https://www.google.com/maps?q=' . rawurlencode( $map_query ) . '&output=embed' ); ?>" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 					</div>
 				<?php endif; ?>
 
-				<?php if ( '1' === (string) multirent_display_option( 'show_contact_map_note', '1' ) && $map_note ) : ?>
+				<?php if ( '1' === (string) multirent_contact_display_option( 'show_contact_map_note', '1' ) && $map_note ) : ?>
 					<p class="contact-map-note"><?php echo esc_html( $map_note ); ?></p>
 				<?php endif; ?>
 			</div>

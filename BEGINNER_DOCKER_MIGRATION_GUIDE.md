@@ -2,7 +2,7 @@
 
 This guide is for a user with no Docker or WordPress development knowledge. It assumes you are **not cloning the WP MultiRent repository**. Instead, you will use a small local Docker folder with Docker files, install the packaged **Multi Apartment Rental** theme ZIP and **MultiRent Companion** plugin ZIP, back up the finished work with **All-in-One WP Migration and Backup**, and restore it on a live website.
 
-This guide does not explain how to use every MultiRent field after installation. For the theme setup screens, use the existing theme and companion documentation.
+This guide does not explain how to use every MultiRent field after installation. For the theme setup screens, use the existing theme and companion documentation. For flexible apartment/contact structure, use **MultiRent Setup > Pages & Buttons** after installing the companion plugin.
 
 ## What You Will Create
 
@@ -12,10 +12,12 @@ You will create a private WordPress site on your own computer:
 - Local WordPress admin: `http://localhost:8082/wp-admin`
 - Database: stored inside Docker on your computer
 - Docker files: `compose.yaml` and `uploads.ini`
-- Theme ZIP: [multirent-theme-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-theme-upload-0.1.38.zip)
-- Plugin ZIP: [multirent-companion-plugin-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-companion-plugin-upload-0.1.38.zip)
+- Theme ZIP: [multirent-theme-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-theme-upload-0.2.0.zip)
+- Plugin ZIP: [multirent-companion-plugin-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-companion-plugin-upload-0.2.0.zip)
 
 At the end, you will export the local site to one backup file and import that file into the live WordPress site.
+
+MultiRent can manage up to three apartment overview pages and three contact pages. Each can have its own template, its own **Show in top menu** checkbox, and an optional button under the homepage hero image. The **Pages & Buttons** screen uses tabs so users do not need to edit one large unreadable form.
 
 ## Important Safety Notes
 
@@ -54,8 +56,8 @@ You do not need to download or clone any source code for this guide. You only ne
 - A folder on your computer for the local WordPress Docker site
 - `compose.yaml`
 - `uploads.ini`
-- [multirent-theme-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-theme-upload-0.1.38.zip)
-- [multirent-companion-plugin-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-companion-plugin-upload-0.1.38.zip)
+- [multirent-theme-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-theme-upload-0.2.0.zip)
+- [multirent-companion-plugin-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-companion-plugin-upload-0.2.0.zip)
 
 If you received a ready-made Docker folder, use that folder and check that it contains `compose.yaml` and `uploads.ini`. If you did not receive those Docker files, create them manually with the steps below.
 
@@ -174,17 +176,17 @@ http://localhost:8082/wp-admin
 
 Use the packaged ZIP files from the latest GitHub release assets:
 
-- [multirent-theme-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-theme-upload-0.1.38.zip)
-- [multirent-companion-plugin-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-companion-plugin-upload-0.1.38.zip)
+- [multirent-theme-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-theme-upload-0.2.0.zip)
+- [multirent-companion-plugin-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-companion-plugin-upload-0.2.0.zip)
 
-If you received [multirent-complete-package-extract-first-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-complete-package-extract-first-0.1.38.zip), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
+If you received [multirent-complete-package-extract-first-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-complete-package-extract-first-0.2.0.zip), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
 
 ### Install The Theme
 
 1. In WordPress admin, open **Appearance > Themes**.
 2. Click **Add New**.
 3. Click **Upload Theme**.
-4. Choose [multirent-theme-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-theme-upload-0.1.38.zip).
+4. Choose [multirent-theme-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-theme-upload-0.2.0.zip).
 5. Click **Install Now**.
 6. Click **Activate**.
 
@@ -192,7 +194,7 @@ If you received [multirent-complete-package-extract-first-0.1.38.zip](https://gi
 
 1. In WordPress admin, open **Plugins > Add New**.
 2. Click **Upload Plugin**.
-3. Choose [multirent-companion-plugin-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-companion-plugin-upload-0.1.38.zip).
+3. Choose [multirent-companion-plugin-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-companion-plugin-upload-0.2.0.zip).
 4. Click **Install Now**.
 5. Click **Activate Plugin**.
 
@@ -201,7 +203,7 @@ If you received [multirent-complete-package-extract-first-0.1.38.zip](https://gi
 1. In the left WordPress admin menu, open **MultiRent Setup**.
 2. Click **Create Starter Pages, Menu, Amenities, and Rental Units** if this is a fresh site. This creates the Apartments page and four starter rental units.
 3. Rename, add, or edit the rental units you need under **MultiRent Setup > Rental Units**.
-4. Use **MultiRent Setup > Apartments Page**, **Contact Page**, and **Local Page** to choose which WordPress page is assigned to each role and which template layout it uses.
+4. Use **MultiRent Setup > Pages & Buttons** to choose apartment/contact pages, decide which page slots show in the top menu, and configure hero buttons. Use **MultiRent Setup > Local Page** for the local information page.
 5. Open **Settings > Permalinks**.
 6. Click **Save Changes** once. You do not need to change anything on the page.
 

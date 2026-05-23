@@ -9,14 +9,14 @@ Multi Apartment Rental is a clean WordPress theme for apartment, room, villa, an
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload [multirent-theme-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-theme-upload-0.1.38.zip).
+2. Upload [multirent-theme-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-theme-upload-0.2.0.zip).
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload [multirent-companion-plugin-upload-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-companion-plugin-upload-0.1.38.zip).
+5. Upload [multirent-companion-plugin-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-companion-plugin-upload-0.2.0.zip).
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received [multirent-complete-package-extract-first-0.1.38.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.1.38/multirent-complete-package-extract-first-0.1.38.zip), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
+If you received [multirent-complete-package-extract-first-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-complete-package-extract-first-0.2.0.zip), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
 
 ## Intended Use
 
@@ -35,6 +35,8 @@ Users can manage:
 - Amenities
 - Reviews shortcode
 - Contact call to action
+- Up to three apartment overview pages and three contact pages through the companion plugin
+- Configurable hero buttons for enabled apartment/contact page slots
 - Ready-made Apartments, Contact, and Local page templates
 - Configurable Contact page sections
 - Configurable Local information page sections
@@ -42,7 +44,8 @@ Users can manage:
 - Homepage apartment-card visibility and count controls
 - Apartment tile images managed from each apartment editor
 - Starter pages, menu, and demo rental units
-- Separate page administration for Apartments, Contact, and Local pages
+- Pages & Buttons administration for up to three Apartment pages, three Contact pages, per-slot top-menu visibility, and hero buttons
+- Separate Local Page administration, with apartment/contact compatibility handlers kept internal
 - Show/hide controls for optional pages
 
 ## Main Theme Functions
@@ -51,7 +54,7 @@ Users can manage:
 
 The homepage is built for rental businesses and uses editable content from **MultiRent Setup**:
 
-- Hero section
+- Hero section with configurable buttons from enabled apartment/contact page slots
 - Hero image
 - Property intro eyebrow, heading, and text
 - Stats strip
@@ -66,21 +69,19 @@ Rental cards are generated from **Rental Units**, which are managed by the compa
 
 ### Apartments Page Templates
 
-The theme includes ready-made page templates for Apartments, Contact, and Local pages. Choose the assigned WordPress page and template from the matching MultiRent Setup admin screen, then use the preview button under the template dropdown to open the selected page.
+The theme includes ready-made page templates for Apartments, Contact, and Local pages. Choose apartment/contact assigned pages and templates from **MultiRent Setup > Pages & Buttons**, then use the preview button to open the selected page.
 
-### Apartments Page Templates
-
-Choose the Apartments page template from **MultiRent Setup > Apartments Page**:
+Choose the Apartments page template from the **Apartment Pages** area in **MultiRent Setup > Pages & Buttons**:
 
 - **Apartments - Grid**: simple card grid similar to the apartment overview on the original local rental site.
 - **Apartments - Featured Guide**: intro text plus the same apartment card grid, useful when the page should explain how to choose a unit.
 - **Apartments - Compact List**: tighter horizontal cards for sites with many apartments or when quick comparison matters.
 
-All Apartments templates pull published **Rental Units** automatically and use the rental image fields plus the right-sidebar Apartment Details fields. To hide an apartment from the public Apartments page, change the rental unit to draft, private, or another non-public status.
+All Apartments templates pull published **Rental Units** assigned to the current apartment page slot and use the rental image fields plus the right-sidebar **Apartment Page Assignment** and **Apartment Details** fields. Existing rental units default to Apartment Page 1. To hide an apartment from all public Apartments pages, change the rental unit to draft, private, or another non-public status.
 
 ### Contact Page Templates
 
-Choose the Contact page and template from **MultiRent Setup > Contact Page**:
+Choose contact pages and templates from **MultiRent Setup > Pages & Buttons**. Each enabled contact page slot can have its own contact details, form shortcode, map, QR image, section visibility, **Show in top menu** checkbox, and hero button. Older single Contact page settings migrate into Contact Page 1.
 
 - **Contact / Booking Inquiry**: balanced details, inquiry, map, content, and form layout.
 - **Contact - Split Map**: map-forward layout for arrival context before inquiry details.
@@ -114,17 +115,26 @@ To edit text on an existing page:
 4. Use the **+** button to add more blocks.
 5. Click **Update**.
 
-Homepage fields, including the property tagline, optional page logo, and intro eyebrow above the property intro heading, are edited from **MultiRent Setup > Website Setup**. Companion settings take precedence over overlapping default WordPress settings in theme output: Property name wins over Site Title, Property tagline wins over Tagline in the header, Page logo wins over the WordPress Custom Logo, and Header menu links win over Appearance > Menus for the primary menu. That screen also has homepage section visibility checkboxes for Hero, Intro, Stats, Apartment cards, Reviews, admin-only reminders, and the Contact call-to-action, so sections can be hidden without deleting their saved text or images. Contact page fields are edited from **MultiRent Setup > Contact Page**. Local page fields are edited from **MultiRent Setup > Local Page**.
+Homepage fields, including the property tagline, optional page logo, and intro eyebrow above the property intro heading, are edited from **MultiRent Setup > Website Setup**. Companion settings take precedence over overlapping default WordPress settings in theme output: Property name wins over Site Title, Property tagline wins over Tagline in the header, Page logo wins over the WordPress Custom Logo, and Header menu links win over Appearance > Menus for the primary menu. That screen also has homepage section visibility checkboxes for Hero, Intro, Stats, Apartment cards, Reviews, admin-only reminders, and the Contact call-to-action, so sections can be hidden without deleting their saved text or images. Apartment/contact page slots, top-menu slot visibility, and hero buttons are edited from **MultiRent Setup > Pages & Buttons**. Local page fields are edited from **MultiRent Setup > Local Page**.
 
 ### Separate Page Administration
 
-The landing page is the only mandatory page. Optional pages have their own admin screens under **MultiRent Setup**:
+The landing page is the only mandatory page. New flexible page setup is managed under **MultiRent Setup > Pages & Buttons**, which is organized into tabs for readability. Apartment and Contact page panels start collapsed so users can scan the slots first and open only the page they want to edit:
 
-- **Apartments Page**: choose which WordPress page is the Apartments page, show/hide it, choose the visual template, and open the assigned page preview from the template section.
-- **Contact Page**: choose which WordPress page is the Contact page, show/hide it, choose the visual template, and control contact details, booking checklist, map, optional QR code tile, content, form, and map note.
+- **Apartment Pages**: choose up to three WordPress pages and Apartments templates, then decide whether each page appears in the top menu.
+- **Contact Pages**: choose up to three WordPress pages and Contact templates, decide whether each page appears in the top menu, then fill each page's own contact details, map, QR, form, and visibility options.
+- **Hero Buttons**: choose which enabled apartment/contact pages appear as homepage hero buttons and edit their labels.
+- **Help**: explains rental-unit assignment and upgrade behavior.
+
+Older single-page Apartments and Contact settings migrate into Apartment Page 1 and Contact Page 1. Existing rental units with no assignment remain visible on Apartment Page 1.
+
+The remaining separate optional page screen is:
+
 - **Local Page**: choose which WordPress page is the Local page, show/hide it, choose the visual template, and control guide cards, highlights, activities, useful links, and page content.
 
-When an optional assigned page is hidden, the companion plugin changes that selected page to draft and removes matching default page paths from the generated top menu. The standard WordPress page editor is still available for custom page content, and pages can be deleted or recreated like normal WordPress pages.
+The old single Apartments and Contact page handlers stay in the code for upgrade compatibility, but they are not shown as separate admin menu items.
+
+When an optional assigned page is hidden, the companion plugin changes that selected page to draft and removes matching default page paths from the generated top menu. When a page remains enabled but **Show in top menu** is unchecked, the page stays published but is removed from the generated/header menu. The standard WordPress page editor is still available for custom page content, and pages can be deleted or recreated like normal WordPress pages.
 
 ### Adding Images And Linking Them
 
@@ -164,6 +174,8 @@ Booking Terms | /booking-terms/
 
 Click **Save and Apply Top Menu**.
 
+Apartment and Contact page slots can also add themselves to the header automatically. Use **MultiRent Setup > Pages & Buttons** and check **Show in top menu** for each apartment/contact page that should appear. Unchecking it keeps the page available but removes it from the generated/header menu.
+
 The standard WordPress method also works: open **Appearance > Menus**, add pages to the menu, drag them into the preferred order, assign the menu to **Primary menu**, and click **Save Menu**.
 
 ### Single Apartment Pages
@@ -190,7 +202,7 @@ Apartment images work in three places:
 6. In the auto-expanded **Apartment Images** box below the editor, use **Apartment Tile Image** to choose the apartment tile image.
 7. In the auto-expanded **Apartment Images** box below the editor, use **Apartment Gallery Images** to choose the gallery photos for the apartment detail page, reorder them with **Move up** and **Move down**, and remove any images you do not want.
 8. Add optional extra photos in the main editor with **Image** or **Gallery** blocks only when they should appear inside the written description.
-9. In the right sidebar, open **Apartment Details** and fill in guest capacity, bedrooms, bathrooms, size, optional price note, booking or inquiry URL, optional YouTube video URL, optional map address/coordinates, and optional QR code image. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile, and leave QR/map fields empty to hide the compact QR/map tile.
+9. In the right sidebar, open **Apartment Page Assignment** and choose which apartment pages should show this unit. If a WordPress editor variation does not show the custom sidebar panel, use the right-side **Apartment Page Assignment** meta box on the same rental-unit edit screen. Then open **Apartment Details** and fill in guest capacity, bedrooms, bathrooms, size, optional price note, booking or inquiry URL, optional YouTube video URL, optional map address/coordinates, and optional QR code image. Guest capacity appears on apartment cards and detail pages; public summary badges display only the number or range. Leave price note empty to hide the price tile, and leave QR/map fields empty to hide the compact QR/map tile.
 10. Select amenities in the **Amenities** checkbox list. The standard options are Parking, WiFi, Balcony, Bathroom, Air Condition, TV, Sat TV, BBQ, Terrace, No-Smoking, Kitchen, Separate entrance, Dishwasher, Coffee machine, Microwave, Washing machine, Iron, Hair dryer, Baby cot, EV charger, Pets allowed, and Pets not allowed.
 11. Click **Publish**.
 12. View the apartment page and the Apartments listing page to confirm the card, image, gallery order, optional video lightbox, optional QR/map tile, details, amenities, and booking link are correct.
@@ -248,9 +260,9 @@ Local field meanings:
 
 ### Header Menu
 
-The theme supports a primary header menu. The top header row stays fixed while visitors scroll, so the property name and menu remain visible. Users can manage the menu through standard WordPress menus or through the simpler **Top Menu Builder** in MultiRent Companion.
+The theme supports a primary header menu. The top header row stays fixed while visitors scroll, so the property name and menu remain visible. Users can manage the menu through standard WordPress menus, through the simpler **Top Menu Builder** in MultiRent Companion, or through the per-slot **Show in top menu** checkboxes in **Pages & Buttons**.
 
-Generated top-menu items receive the same active-menu styling as normal WordPress menus. Apartment and rental-unit detail pages keep the Apartments/Rentals menu item highlighted so guests can see they are still inside the apartment listing area.
+Generated top-menu items receive the same active-menu styling as normal WordPress menus. Apartment and Contact page slots are added only when their **Show in top menu** checkbox is enabled, and duplicate URLs are skipped when the same page is already listed in the Top Menu Builder. Apartment and rental-unit detail pages keep the Apartments/Rentals menu item highlighted so guests can see they are still inside the apartment listing area.
 
 The public theme typography uses Inter for body text and Playfair Display for headings and the site title, matching the original apartment-site styling used during the Brajkovic migration sandbox.
 
