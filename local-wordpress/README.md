@@ -2,6 +2,8 @@
 
 This folder contains the local Docker setup for testing the Multi Apartment Rental theme and MultiRent Companion plugin from this repository.
 
+For a beginner-friendly Docker walkthrough that does not assume repository source files, use the [Beginner Docker, backup, and live restore guide](../BEGINNER_DOCKER_MIGRATION_GUIDE.md).
+
 The local site runs at:
 
 ```text

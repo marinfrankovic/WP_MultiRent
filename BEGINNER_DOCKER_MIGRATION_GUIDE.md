@@ -2,7 +2,7 @@
 
 This guide is for a user with no Docker or WordPress development knowledge. It assumes you are **not cloning the WP MultiRent repository**. Instead, you will use a small local Docker folder with Docker files, install the packaged **Multi Apartment Rental** theme ZIP and **MultiRent Companion** plugin ZIP, back up the finished work with **All-in-One WP Migration and Backup**, and restore it on a live website.
 
-This guide does not explain how to use every MultiRent field after installation. For the theme setup screens, use the existing theme and companion documentation. For flexible apartment/contact structure, use **MultiRent Setup > Pages & Buttons** after installing the companion plugin.
+This guide does not explain how to use every MultiRent field after installation. After Docker and WordPress are running, use the [MultiRent Complete User Guide](docs/MULTIRENT_USER_GUIDE.md) for the full site-building workflow, including Website Setup, Pages & Buttons, rental units, amenities, contact pages, local pages, menus, backup, deployment, and process diagrams.
 
 ## What You Will Create
 
@@ -12,8 +12,8 @@ You will create a private WordPress site on your own computer:
 - Local WordPress admin: `http://localhost:8082/wp-admin`
 - Database: stored inside Docker on your computer
 - Docker files: `compose.yaml` and `uploads.ini`
-- Theme ZIP: [multirent-theme-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-theme-upload-0.2.1.zip)
-- Plugin ZIP: [multirent-companion-plugin-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-companion-plugin-upload-0.2.1.zip)
+- Theme ZIP: download the theme upload ZIP from the [latest GitHub release](https://github.com/marinfrankovic/WP_MultiRent/releases/latest)
+- Plugin ZIP: download the companion plugin upload ZIP from the [latest GitHub release](https://github.com/marinfrankovic/WP_MultiRent/releases/latest)
 
 At the end, you will export the local site to one backup file and import that file into the live WordPress site.
 
@@ -56,8 +56,8 @@ You do not need to download or clone any source code for this guide. You only ne
 - A folder on your computer for the local WordPress Docker site
 - `compose.yaml`
 - `uploads.ini`
-- [multirent-theme-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-theme-upload-0.2.1.zip)
-- [multirent-companion-plugin-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-companion-plugin-upload-0.2.1.zip)
+- the theme upload ZIP from the [latest GitHub release](https://github.com/marinfrankovic/WP_MultiRent/releases/latest)
+- the companion plugin upload ZIP from the [latest GitHub release](https://github.com/marinfrankovic/WP_MultiRent/releases/latest)
 
 If you received a ready-made Docker folder, use that folder and check that it contains `compose.yaml` and `uploads.ini`. If you did not receive those Docker files, create them manually with the steps below.
 
@@ -174,19 +174,19 @@ http://localhost:8082/wp-admin
 
 ## Part 5: Install The MultiRent Theme And Companion Plugin
 
-Use the packaged ZIP files from the latest GitHub release assets:
+Use the packaged ZIP files from the [latest GitHub release](https://github.com/marinfrankovic/WP_MultiRent/releases/latest):
 
-- [multirent-theme-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-theme-upload-0.2.1.zip)
-- [multirent-companion-plugin-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-companion-plugin-upload-0.2.1.zip)
+- the theme upload ZIP
+- the companion plugin upload ZIP
 
-If you received [multirent-complete-package-extract-first-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-complete-package-extract-first-0.2.1.zip), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
+If you received the complete package ZIP from the [latest GitHub release](https://github.com/marinfrankovic/WP_MultiRent/releases/latest), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
 
 ### Install The Theme
 
 1. In WordPress admin, open **Appearance > Themes**.
 2. Click **Add New**.
 3. Click **Upload Theme**.
-4. Choose [multirent-theme-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-theme-upload-0.2.1.zip).
+4. Choose the theme upload ZIP downloaded from the [latest GitHub release](https://github.com/marinfrankovic/WP_MultiRent/releases/latest).
 5. Click **Install Now**.
 6. Click **Activate**.
 
@@ -194,7 +194,7 @@ If you received [multirent-complete-package-extract-first-0.2.1.zip](https://git
 
 1. In WordPress admin, open **Plugins > Add New**.
 2. Click **Upload Plugin**.
-3. Choose [multirent-companion-plugin-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-companion-plugin-upload-0.2.1.zip).
+3. Choose the companion plugin upload ZIP downloaded from the [latest GitHub release](https://github.com/marinfrankovic/WP_MultiRent/releases/latest).
 4. Click **Install Now**.
 5. Click **Activate Plugin**.
 

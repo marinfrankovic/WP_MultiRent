@@ -8,7 +8,7 @@ MultiRent Companion includes a **MultiRent Setup > Demo Content** screen, placed
 
 The public demo is hosted separately so released plugin installs stay light and do not download sample media, generate QR placeholders, or create demo pages and apartments on customer sites.
 
-The theme uses WordPress UTF-8 output and has been checked with Croatian characters (`ČĆŽŠĐ čćžšđ`) against the local Docker `utf8mb4` database.
+The theme uses WordPress UTF-8 output and has been checked with Croatian characters (`ČĆŽŠĐ čćžšđ`) against the local Docker `utf8mb4` database. For the local Docker workflow, see the [Beginner Docker, backup, and live restore guide](../BEGINNER_DOCKER_MIGRATION_GUIDE.md).
 
 Do not edit demo content into real production content. Remove the demo set first, then create or import real apartments and pages.
 
@@ -32,7 +32,7 @@ Do not commit:
 
 ## Release Notes
 
-GitHub Releases should contain the latest packaged theme ZIP, plugin ZIP, and combined template ZIP. Public install documentation should link to the latest release asset downloads for those packages.
+GitHub Releases should contain the latest packaged theme ZIP, plugin ZIP, and combined template ZIP. Public install documentation should link to the [latest GitHub release](https://github.com/marinfrankovic/WP_MultiRent/releases/latest) for those packages, not versioned asset URLs.
 
 Version 0.2.1 bundles local font files, exposes a global site font dropdown plus optional homepage hero title-size controls in Website Setup / Customizer, changes the Hero Buttons admin UI to use page dropdown destinations instead of literal URL fields, removes the redundant homepage contact CTA band, and tightens mobile hero wrapping/button layout.
 

@@ -6,9 +6,9 @@
 
 WP MultiRent contains the **Multi Apartment Rental** WordPress theme and the **MultiRent Companion** plugin.
 
-MultiRent is built for apartment, room, villa, and multi-unit rental websites. It helps site owners manage listings, images, amenities, maps, QR codes, local information, menus, colors, and contact details from the WordPress dashboard without editing theme files. Sites can use up to three apartment overview pages and three contact pages, each with its own template and optional homepage hero button.
+Use the [MultiRent Complete User Guide](docs/MULTIRENT_USER_GUIDE.md) as the primary instructions file for building a WordPress rental website. It includes the full step-by-step workflow, in-text Mermaid process diagrams, and links to editable Draw.io diagrams.
 
-MultiRent supports Croatian characters such as `Ä`, `Ä‡`, `Å¾`, `Å¡`, and `Ä‘` in titles, menus, settings, and rental content.
+MultiRent is built for apartment, room, villa, and multi-unit rental websites. It helps site owners manage listings, images, amenities, maps, QR codes, local information, menus, colors, and contact details from the WordPress dashboard without editing theme files.
 
 - Promotional site: [https://multirent.online](https://multirent.online)
 - Demo site: [https://demo.multirent.online](https://demo.multirent.online)
@@ -17,54 +17,33 @@ MultiRent supports Croatian characters such as `Ä`, `Ä‡`, `Å¾`, `Å¡`, 
 
 - `MultiRent/`: WordPress theme source.
 - `multirent-companion/`: companion plugin for setup screens, rental units, amenities, menus, colors, starter content, hosted demo preview links, and in-admin help.
-- `local-wordpress/`: Docker-based local WordPress setup for testing the theme and plugin from this repository.
 - `release-assets/`: latest packaged ZIP files for WordPress upload.
+- `docs/MULTIRENT_USER_GUIDE.md`: primary setup and user documentation.
+- `docs/diagrams/`: Draw.io diagram files for the documented workflows.
 
-## Start Locally
+## Optional Local Docker Workflow
 
-Install Docker Desktop, then start the local WordPress site from this repository:
+Docker is optional. Use it when you want a private WordPress site on your own computer before working on a staging or live site.
 
-```powershell
-Set-Location .\local-wordpress
-docker compose up -d
-```
+For a full beginner workflow, including Docker Desktop, local WordPress, backups, and live restore, read the [Beginner Docker, backup, and live restore guide](BEGINNER_DOCKER_MIGRATION_GUIDE.md).
 
-Open the local site at:
-
-- Site: [http://localhost:8082](http://localhost:8082)
-- WordPress admin: [http://localhost:8082/wp-admin](http://localhost:8082/wp-admin)
-
-The Docker setup mounts the repository source folders directly into WordPress, so changes in `MultiRent/` and `multirent-companion/` are visible in the local site.
-
-For a full beginner workflow, including Docker Desktop, local WordPress, backups, and live restore, read [Beginner Docker, backup, and live restore guide](BEGINNER_DOCKER_MIGRATION_GUIDE.md).
+For repository-based testing where the theme and plugin source folders are mounted directly into WordPress, read [Local WordPress Docker setup](local-wordpress/README.md).
 
 ## Compatibility
 
 Version `0.2.1` is tested with WordPress `7.0` and requires PHP `8.4` or newer. The theme and companion plugin are classic WordPress extensions; WordPress 7.0 block-editor and AI additions are optional and do not need extra setup for the public rental pages.
 
-## Install The Theme Files
+## Install
 
-Use the packaged ZIP files from `release-assets/` or the latest GitHub release downloads.
+Use the packaged ZIP files from `release-assets/` or the [latest GitHub release](https://github.com/marinfrankovic/WP_MultiRent/releases/latest).
 
-1. In WordPress admin, open **Appearance > Themes > Add New > Upload Theme**.
-2. Upload and activate [multirent-theme-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-theme-upload-0.2.1.zip).
-3. Open **Plugins > Add New > Upload Plugin**.
-4. Upload and activate [multirent-companion-plugin-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-companion-plugin-upload-0.2.1.zip).
-5. Open **MultiRent Setup** from the WordPress left admin menu.
-6. On a fresh site, use **Create Starter Pages, Menu, Amenities, and Rental Units**. This creates the first Apartments page, first Contact page, Local page, and four starter rental units.
-7. Open **MultiRent Setup > Pages & Buttons** to configure up to three apartment pages, up to three contact pages, which page slots appear in the top menu, and which pages open from the homepage hero buttons. The screen is organized with tabs for Apartment Pages, Contact Pages, Hero Buttons, and Help.
-8. Rename, add, or edit rental units under **MultiRent Setup > Rental Units**. In the rental-unit editor right sidebar, use **Apartment Page Assignment** to assign each unit to one or more configured apartment pages.
-
-The global site font dropdown, homepage hero text, optional hero title size, and the hero image are managed from **MultiRent Setup > Website Setup**. The font choices are bundled inside the theme and do not load from Google Fonts or other external font services. The global font applies across public typography, while the hero title size affects only the large homepage headline.
-
-If you received [multirent-complete-package-extract-first-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-complete-package-extract-first-0.2.1.zip), extract it first. Then upload the theme ZIP and plugin ZIP individually.
-
-The Apartments page templates list published **Rental Unit** posts assigned to the current apartment page slot. Existing units default to Apartment Page 1. If an apartment is missing from a public Apartments page, check that the rental unit is published, that the selected Apartments page still exists, uses one of the Apartments templates, and is assigned from the rental-unit editor right sidebar under **Apartment Page Assignment**.
+For the full installation and site-building workflow, follow the [MultiRent Complete User Guide](docs/MULTIRENT_USER_GUIDE.md).
 
 ## Documentation
 
-- [MultiRent Companion setup README](multirent-companion/README.md): full no-code setup workflow and admin-screen reference.
-- [Multi Apartment Rental theme README](MultiRent/README.md): theme templates, header behavior, colors, apartment pages, and package notes.
+- [MultiRent Complete User Guide](docs/MULTIRENT_USER_GUIDE.md): primary step-by-step site-building guide with in-text Mermaid process diagrams and Draw.io diagram files.
+- [Beginner Docker, backup, and live restore guide](BEGINNER_DOCKER_MIGRATION_GUIDE.md): local Docker setup, backup, and live restore workflow.
+- [MultiRent Companion README](multirent-companion/README.md): plugin/admin reference used by the in-admin Help / README screen.
 - [Local WordPress Docker setup](local-wordpress/README.md): local commands, seeding, stopping, and volume cleanup.
 - [Project notes](docs/PROJECT_NOTES.md): maintainer notes, update safety, release notes, warranty, and support notes.
 - [Release policy](RELEASE_POLICY.md): maintainer packaging and release-retention notes.
