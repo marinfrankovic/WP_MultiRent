@@ -6,14 +6,14 @@ The plugin is designed for rental-property owners who want to manage apartments,
 
 ## Install Order
 
-1. Install and activate [multirent-theme-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-theme-upload-0.2.0.zip) in **Appearance > Themes > Add New > Upload Theme**.
-2. Install and activate [multirent-companion-plugin-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-companion-plugin-upload-0.2.0.zip) in **Plugins > Add New > Upload Plugin**.
+1. Install and activate [multirent-theme-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-theme-upload-0.2.1.zip) in **Appearance > Themes > Add New > Upload Theme**.
+2. Install and activate [multirent-companion-plugin-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-companion-plugin-upload-0.2.1.zip) in **Plugins > Add New > Upload Plugin**.
 3. Open **MultiRent Setup** in the left WordPress admin menu.
 4. Click **Create Starter Pages, Menu, Amenities, and Rental Units** if this is a fresh site. This creates the Apartments page and four starter rental units.
 5. Rename, add, or edit each rental unit under **MultiRent Setup > Rental Units**.
 6. Review **Settings > Permalinks** and click **Save Changes** once if rental links do not open correctly.
 
-For convenience, [multirent-complete-package-extract-first-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-complete-package-extract-first-0.2.0.zip) contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
+For convenience, [multirent-complete-package-extract-first-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-complete-package-extract-first-0.2.1.zip) contains both the theme ZIP and plugin ZIP. Extract it first, then upload the theme and plugin separately in the order above.
 
 ## What This Plugin Adds
 
@@ -44,14 +44,14 @@ The **Website Setup** screen starts with **Starter Content** for fresh sites, th
 - Property name
 - Property tagline
 - Optional page logo shown left of the property name
+- Global site font dropdown with bundled local fonts
 - Homepage section visibility checkboxes
 - Hero title and hero text
-- Legacy hero button label and link, used only when no page-slot hero buttons are enabled
+- Optional hero title size
 - Homepage intro eyebrow, title, and text
 - Stats lines, such as unit count, distance, or service notes
 - Homepage apartment-card number of apartments to show
 - Reviews shortcode field
-- Contact call-to-action title, text, button label, and button link
 
 The landing page is the only mandatory page. Apartment, Contact, and Local pages are optional. New sites should use **Pages & Buttons** to manage up to three apartment pages and three contact pages.
 
@@ -59,9 +59,9 @@ The landing page is the only mandatory page. Apartment, Contact, and Local pages
 
 The **Pages & Buttons** screen is the primary interface for flexible site structure. It uses tabs for readability: **Apartment Pages**, **Contact Pages**, **Hero Buttons**, and **Help**. Apartment and Contact page panels are collapsed by default so users can scan all configured slots before opening the one they want to edit. It has fixed slots rather than unlimited page builders, so non-technical users can stay oriented:
 
-- **Apartment Pages tab**: enable Apartment Page 1-3, choose a WordPress page, choose an Apartments template, and decide whether each page should show in the top menu.
-- **Contact Pages tab**: enable Contact Page 1-3, choose a WordPress page, choose a Contact template, decide whether each page should show in the top menu, and fill each page's own contact details, form shortcode, map, QR image, and section visibility. Each contact page uses collapsible subsections for Basic, Contact Details, Map & QR, Form & Booking Help, and Visibility.
-- **Hero Buttons tab**: decide which enabled apartment/contact pages appear as buttons under the homepage hero, and edit each button label in one place.
+- **Apartment Pages tab**: enable Apartment Page 1-3, choose a WordPress page, choose an Apartments template, and decide whether each page should show in the top menu. Each field includes helper text explaining what the choice controls.
+- **Contact Pages tab**: enable Contact Page 1-3, choose a WordPress page, choose a Contact template, decide whether each page should show in the top menu, and fill each page's own contact details, form shortcode, map, QR image, and section visibility. Each contact page uses collapsible subsections for Basic, Contact Details, Map & QR, Form & Booking Help, and Visibility, with helper text under each field and option.
+- **Hero Buttons tab**: decide which enabled apartment/contact pages appear as buttons under the homepage hero, edit each button label, and choose the WordPress page each button opens. Starter content enables Apartment Page 1 and Contact Page 1 as the initial hero buttons.
 
 Older single-page settings are migrated once into the new model. The old Apartments page becomes Apartment Page 1, the old Contact page becomes Contact Page 1, and old Contact fields are copied into Contact Page 1 fields. Existing rental units with no page assignment continue to appear on Apartment Page 1.
 
@@ -70,11 +70,12 @@ Older single-page settings are migrated once into the new model. The old Apartme
 - **Property name**: public property or rental-business name shown in the header and key theme areas. It takes precedence over the default WordPress Site Title in theme output.
 - **Property tagline**: optional short tagline shown under the property name in the site header. It takes precedence over the default WordPress Tagline in the theme header.
 - **Page logo**: optional image shown to the left of the property name in the site header. Leave empty to show the property name without any logo.
-- **Homepage section visibility**: checkboxes that show or hide full homepage blocks: Hero, Intro, Stats, Apartment cards, Reviews, admin-only SEO reminder, admin-only backup reminder, and Contact call-to-action. Hidden blocks keep their saved text and image settings so they can be turned back on later.
+- **Global site font**: applies across body text, headings, menus, buttons, cards, and hero text. Font files are bundled with the theme and do not load from external services.
+- **Homepage section visibility**: checkboxes that show or hide full homepage blocks: Hero, Intro, Stats, Apartment cards, Reviews, admin-only SEO reminder, and admin-only backup reminder. Hidden blocks keep their saved text and image settings so they can be turned back on later.
 - **Hero title**: main landing-page headline. Use a short phrase that explains the stay you offer.
 - **Hero text**: short landing-page introduction below the headline.
+- **Hero title size**: optionally set a fixed homepage headline size in centimeters. Leave the size empty to keep the responsive theme default.
 - **Hero image**: large visual image used on the landing page hero.
-- **Hero button text / URL**: legacy fallback button used when no apartment/contact page-slot hero buttons are enabled.
 - **Intro eyebrow**: small label shown above the landing-page intro heading.
 - **Intro title**: heading for the landing-page intro section below the hero.
 - **Intro text**: text for the landing-page intro section.
@@ -84,7 +85,6 @@ Older single-page settings are migrated once into the new model. The old Apartme
 - **Reviews shortcode**: shortcode from a reviews plugin. The Reviews section checkbox must also be enabled in Homepage section visibility.
 - **SEO reminder checkbox**: shows a private admin-only reminder to configure SEO metadata.
 - **Backup reminder checkbox**: shows a private admin-only reminder to create backups before major changes.
-- **Contact title/text/button fields**: content for the landing-page contact call-to-action band, not the full Contact page. The Contact call-to-action checkbox controls whether this band appears.
 - **Header menu links**: top menu links, one per line, using `Label | URL`.
 - **Color scheme**: preset color palette used by the theme.
 - **Use custom colors**: enables the custom color pickers.
@@ -96,7 +96,7 @@ Use **Pages & Buttons** for apartment/contact setup. The older single Apartments
 
 Optional page administration is split like this:
 
-- **Pages & Buttons**: manage Apartment Page 1-3, Contact Page 1-3, top-menu visibility for those page slots, and homepage hero buttons.
+- **Pages & Buttons**: manage Apartment Page 1-3, Contact Page 1-3, top-menu visibility for those page slots, and homepage hero buttons with page dropdown destinations.
 - **Local Page**: choose which WordPress page is the Local page, show or hide it, choose a Local template, open the assigned page preview from the template section, and control guide cards, highlights, activities, useful links, and page content.
 
 When an optional page or page slot is hidden, MultiRent changes that page to draft and removes matching paths from the generated top menu. When **Show in top menu** is unchecked for an enabled apartment/contact slot, the page stays published but is removed from the generated/header menu. The Home/Landing page remains mandatory.
@@ -208,7 +208,7 @@ The top menu builder lets users create a header menu using one line per link:
 ```text
 Home | /
 Rentals | /rentals/
-Contact | #contact
+Contact | /contact/
 Book Now | https://example.com/book
 ```
 
@@ -334,7 +334,7 @@ The plugin includes a **MultiRent Setup > Demo Content** screen with a link to t
 
 Use the public demo to preview apartment pages, galleries, maps, QR examples, contact details, local guide sections, and the finished theme layout before adding real property content. Use **Website Setup** on the local site to create starter pages, menu links, amenities, and rental units.
 
-The theme and companion plugin preserve Croatian characters such as `č`, `ć`, `ž`, `š`, and `đ` in settings, titles, rental content, and menus on standard WordPress installations.
+The theme and companion plugin preserve Croatian characters such as `Ä`, `Ä‡`, `Å¾`, `Å¡`, and `Ä‘` in settings, titles, rental content, and menus on standard WordPress installations.
 
 Starter and demo pages, generated demo apartments, generated demo images, and starter rental units are assigned to the **MultiRent** WordPress author so packaged example content is clearly separated from real site-owner content.
 
@@ -470,24 +470,9 @@ Backup/migration plugins are not listed as live-site detected plugins because th
 
 1. Install and configure a reviews plugin manually, such as **Rich Showcase for Google Reviews**.
 2. Copy the reviews shortcode from that plugin.
-3. Go to **MultiRent Setup > Website Setup**.
-4. Paste the shortcode into **Reviews shortcode**.
-5. Enable the **Google Reviews** checkbox under **Plugin Placeholders**.
-6. Save settings.
 
-If the checkbox is off, the theme will not show the reviews section even if a shortcode is saved.
-
-## Backup and SEO Notes
-
-The SEO and backup checkboxes do not install plugins and do not change plugin settings. They only show private admin reminders to logged-in managers so the setup workflow is easier to remember.
-
-## Uninstall Notes
-
-Deactivating the plugin does not delete rental units or settings. This protects user content during troubleshooting or theme changes.
 
 ## Privacy
-
-The plugin ships with placeholder content only. It does not include real property photos, owner details, booking IDs, review IDs, private API keys, or account-specific plugin configuration.
 
 ## Disclaimer
 

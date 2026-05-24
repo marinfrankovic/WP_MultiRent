@@ -9,14 +9,14 @@ Multi Apartment Rental is a clean WordPress theme for apartment, room, villa, an
 ## Installation
 
 1. In WordPress admin, go to **Appearance > Themes > Add New > Upload Theme**.
-2. Upload [multirent-theme-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-theme-upload-0.2.0.zip).
+2. Upload [multirent-theme-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-theme-upload-0.2.1.zip).
 3. Activate **Multi Apartment Rental**.
 4. Go to **Plugins > Add New > Upload Plugin**.
-5. Upload [multirent-companion-plugin-upload-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-companion-plugin-upload-0.2.0.zip).
+5. Upload [multirent-companion-plugin-upload-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-companion-plugin-upload-0.2.1.zip).
 6. Activate **MultiRent Companion**.
 7. Open **MultiRent Setup** from the left WordPress admin menu.
 
-If you received [multirent-complete-package-extract-first-0.2.0.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.0/multirent-complete-package-extract-first-0.2.0.zip), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
+If you received [multirent-complete-package-extract-first-0.2.1.zip](https://github.com/marinfrankovic/WP_MultiRent/releases/download/v0.2.1/multirent-complete-package-extract-first-0.2.1.zip), unzip it first. Then upload the theme ZIP and plugin ZIP individually.
 
 ## Intended Use
 
@@ -115,15 +115,15 @@ To edit text on an existing page:
 4. Use the **+** button to add more blocks.
 5. Click **Update**.
 
-Homepage fields, including the property tagline, optional page logo, and intro eyebrow above the property intro heading, are edited from **MultiRent Setup > Website Setup**. Companion settings take precedence over overlapping default WordPress settings in theme output: Property name wins over Site Title, Property tagline wins over Tagline in the header, Page logo wins over the WordPress Custom Logo, and Header menu links win over Appearance > Menus for the primary menu. That screen also has homepage section visibility checkboxes for Hero, Intro, Stats, Apartment cards, Reviews, admin-only reminders, and the Contact call-to-action, so sections can be hidden without deleting their saved text or images. Apartment/contact page slots, top-menu slot visibility, and hero buttons are edited from **MultiRent Setup > Pages & Buttons**. Local page fields are edited from **MultiRent Setup > Local Page**.
+Homepage fields, including the property tagline, optional page logo, global site font, hero title, hero text, optional hero title size, and intro eyebrow above the property intro heading, are edited from **MultiRent Setup > Website Setup**. The global font choices are bundled locally in the theme so the public site does not depend on external font services. Companion settings take precedence over overlapping default WordPress settings in theme output: Property name wins over Site Title, Property tagline wins over Tagline in the header, Page logo wins over the WordPress Custom Logo, and Header menu links win over Appearance > Menus for the primary menu. That screen also has homepage section visibility checkboxes for Hero, Intro, Stats, Apartment cards, Reviews, and admin-only reminders, so sections can be hidden without deleting their saved text or images. Apartment/contact page slots, top-menu slot visibility, and hero buttons are edited from **MultiRent Setup > Pages & Buttons**. Local page fields are edited from **MultiRent Setup > Local Page**.
 
 ### Separate Page Administration
 
 The landing page is the only mandatory page. New flexible page setup is managed under **MultiRent Setup > Pages & Buttons**, which is organized into tabs for readability. Apartment and Contact page panels start collapsed so users can scan the slots first and open only the page they want to edit:
 
-- **Apartment Pages**: choose up to three WordPress pages and Apartments templates, then decide whether each page appears in the top menu.
-- **Contact Pages**: choose up to three WordPress pages and Contact templates, decide whether each page appears in the top menu, then fill each page's own contact details, map, QR, form, and visibility options.
-- **Hero Buttons**: choose which enabled apartment/contact pages appear as homepage hero buttons and edit their labels.
+- **Apartment Pages**: choose up to three WordPress pages and Apartments templates, then decide whether each page appears in the top menu. Helper text under each field explains the expected selection.
+- **Contact Pages**: choose up to three WordPress pages and Contact templates, decide whether each page appears in the top menu, then fill each page's own contact details, map, QR, form, and visibility options. Helper text under each field explains what appears publicly.
+- **Hero Buttons**: choose which enabled apartment/contact pages appear as homepage hero buttons, edit their labels, and choose the WordPress page each button opens.
 - **Help**: explains rental-unit assignment and upgrade behavior.
 
 Older single-page Apartments and Contact settings migrate into Apartment Page 1 and Contact Page 1. Existing rental units with no assignment remain visible on Apartment Page 1.

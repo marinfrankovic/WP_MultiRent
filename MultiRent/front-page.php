@@ -9,7 +9,7 @@ get_header();
 
 $hero_image_id  = absint( multirent_display_option( 'hero_image', 0 ) );
 $hero_image_url = $hero_image_id ? wp_get_attachment_image_url( $hero_image_id, 'full' ) : '';
-$hero_style     = $hero_image_url ? ' style="background-image: linear-gradient(90deg, rgba(7, 31, 54, 0.86), rgba(16, 94, 125, 0.48)), url(' . esc_url( $hero_image_url ) . ');"' : '';
+$hero_style     = multirent_hero_style_attr( $hero_image_url );
 ?>
 
 <main id="primary" class="site-main">
@@ -121,17 +121,6 @@ $hero_style     = $hero_image_url ? ' style="background-image: linear-gradient(9
 		</section>
 	<?php endif; ?>
 
-	<?php if ( '1' === (string) multirent_display_option( 'show_contact_cta', '1' ) ) : ?>
-		<section id="contact" class="section cta-section">
-			<div class="container cta-panel">
-				<div>
-					<h2><?php echo esc_html( multirent_display_option( 'contact_title', __( 'Ready to receive inquiries?', 'multirent' ) ) ); ?></h2>
-					<p><?php echo esc_html( multirent_display_option( 'contact_text', __( 'Connect this section to your contact page, booking form, or external reservation system.', 'multirent' ) ) ); ?></p>
-				</div>
-				<a class="button button-light" href="<?php echo esc_url( multirent_display_option( 'contact_button_url', '#contact' ) ); ?>"><?php echo esc_html( multirent_display_option( 'contact_button_text', __( 'Contact us', 'multirent' ) ) ); ?></a>
-			</div>
-		</section>
-	<?php endif; ?>
 </main>
 
 <?php

@@ -273,6 +273,11 @@
 	gap: 6px;
 }
 
+.multirent-field-description {
+	display: block;
+	margin-top: 4px;
+}
+
 .multirent-slot-checkboxes {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -282,18 +287,31 @@
 .multirent-hero-button-list {
 	display: grid;
 	gap: 10px;
-	max-width: 780px;
+	max-width: 100%;
 }
 
 .multirent-hero-button-row {
 	display: grid;
-	grid-template-columns: minmax(180px, 0.4fr) minmax(220px, 1fr);
+	grid-template-columns: minmax(150px, 0.75fr) minmax(240px, 1fr) minmax(220px, 0.95fr);
 	gap: 12px;
 	align-items: center;
+	width: min(100%, 980px);
 	padding: 12px;
 	border: 1px solid #dcdcde;
 	border-radius: 6px;
 	background: #fff;
+}
+
+.multirent-hero-button-row .regular-text,
+.multirent-hero-button-row select {
+	width: 100%;
+	max-width: none;
+}
+
+@media (max-width: 900px) {
+	.multirent-hero-button-row {
+		grid-template-columns: minmax(140px, 0.7fr) minmax(200px, 1fr) minmax(190px, 0.9fr);
+	}
 }
 
 @media (max-width: 782px) {

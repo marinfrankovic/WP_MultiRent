@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.2.0' );
+define( 'MULTIRENT_VERSION', '0.2.1' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -33,7 +33,7 @@ function multirent_setup() {
 add_action( 'after_setup_theme', 'multirent_setup' );
 
 function multirent_enqueue_assets() {
-	wp_enqueue_style( 'multirent-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap', array(), null );
+	wp_enqueue_style( 'multirent-fonts', MULTIRENT_URI . '/assets/fonts/fonts.css', array(), MULTIRENT_VERSION );
 	wp_enqueue_style( 'multirent-theme', MULTIRENT_URI . '/assets/css/theme.css', array( 'multirent-fonts' ), MULTIRENT_VERSION );
 	wp_add_inline_style( 'multirent-theme', multirent_custom_color_css() );
 	wp_enqueue_script( 'multirent-navigation', MULTIRENT_URI . '/assets/js/navigation.js', array(), MULTIRENT_VERSION, true );
@@ -41,12 +41,78 @@ function multirent_enqueue_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'multirent_enqueue_assets' );
 
+function multirent_global_font_choices() {
+	return array(
+		'theme-default' => array( 'label' => esc_html__( 'Theme default', 'multirent' ), 'css' => '' ),
+		'playfair'      => array( 'label' => esc_html__( 'Playfair Display', 'multirent' ), 'css' => '"Playfair Display", Georgia, serif' ),
+		'inter'         => array( 'label' => esc_html__( 'Inter', 'multirent' ), 'css' => '"Inter", Arial, sans-serif' ),
+		'poppins'       => array( 'label' => esc_html__( 'Poppins', 'multirent' ), 'css' => '"Poppins", Arial, sans-serif' ),
+		'montserrat'    => array( 'label' => esc_html__( 'Montserrat', 'multirent' ), 'css' => '"Montserrat", Arial, sans-serif' ),
+		'lora'          => array( 'label' => esc_html__( 'Lora', 'multirent' ), 'css' => '"Lora", Georgia, serif' ),
+		'merriweather'  => array( 'label' => esc_html__( 'Merriweather', 'multirent' ), 'css' => '"Merriweather", Georgia, serif' ),
+		'raleway'       => array( 'label' => esc_html__( 'Raleway', 'multirent' ), 'css' => '"Raleway", Arial, sans-serif' ),
+		'oswald'        => array( 'label' => esc_html__( 'Oswald', 'multirent' ), 'css' => '"Oswald", Arial, sans-serif' ),
+		'nunito-sans'   => array( 'label' => esc_html__( 'Nunito Sans', 'multirent' ), 'css' => '"Nunito Sans", Arial, sans-serif' ),
+		'source-sans-3' => array( 'label' => esc_html__( 'Source Sans 3', 'multirent' ), 'css' => '"Source Sans 3", Arial, sans-serif' ),
+	);
+}
+
+function multirent_sanitize_global_font( $value ) {
+	$value   = sanitize_key( $value );
+	$choices = multirent_global_font_choices();
+	return isset( $choices[ $value ] ) ? $value : 'theme-default';
+}
+
+function multirent_sanitize_hero_title_size( $value ) {
+	$value = is_string( $value ) ? trim( $value ) : $value;
+	if ( '' === $value ) {
+		return '';
+	}
+
+	$size = (float) $value;
+	if ( $size <= 0 ) {
+		return '';
+	}
+
+	return (string) min( 5, max( 0.8, round( $size, 2 ) ) );
+}
+
+function multirent_global_font_css_vars() {
+	$font    = multirent_sanitize_global_font( multirent_display_option( 'global_font', 'theme-default' ) );
+	$choices = multirent_global_font_choices();
+	$stack   = $choices[ $font ]['css'];
+	if ( '' === $stack ) {
+		return '';
+	}
+
+	return '--font-body:' . $stack . ';--font-heading:' . $stack . ';';
+}
+
+function multirent_hero_style_attr( $hero_image_url = '' ) {
+	$styles = array();
+
+	$size = multirent_sanitize_hero_title_size( multirent_display_option( 'hero_title_size', '' ) );
+	if ( '' !== $size ) {
+		$styles[] = '--hero-title-size:' . $size . 'cm';
+	}
+
+	if ( $hero_image_url ) {
+		$styles[] = 'background-image:linear-gradient(90deg, rgba(7, 31, 54, 0.86), rgba(16, 94, 125, 0.48)), url(' . esc_url_raw( $hero_image_url ) . ')';
+	}
+
+	if ( ! $styles ) {
+		return '';
+	}
+
+	return ' style="' . esc_attr( implode( ';', $styles ) ) . '"';
+}
+
 function multirent_default_menu() {
 	?>
 	<ul id="primary-menu" class="menu">
 		<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'multirent' ); ?></a></li>
 		<li><a href="<?php echo esc_url( home_url( '/rentals/' ) ); ?>"><?php esc_html_e( 'Rentals', 'multirent' ); ?></a></li>
-		<li><a href="<?php echo esc_url( multirent_display_option( 'contact_button_url', '#contact' ) ); ?>"><?php esc_html_e( 'Contact', 'multirent' ); ?></a></li>
+		<li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'Contact', 'multirent' ); ?></a></li>
 	</ul>
 	<?php
 }
@@ -507,6 +573,7 @@ function multirent_color_tokens() {
 
 function multirent_custom_color_css() {
 	$tokens = multirent_color_tokens();
+	$font_css_vars = multirent_global_font_css_vars();
 	return sprintf(
 		':root{--ink:%1$s;--muted:%2$s;--sea:%3$s;--sea-dark:%4$s;--paper:%5$s;--sky:%6$s;}',
 		esc_html( $tokens['ink'] ),
@@ -515,7 +582,7 @@ function multirent_custom_color_css() {
 		esc_html( $tokens['dark'] ),
 		esc_html( $tokens['surface'] ),
 		esc_html( $tokens['accent'] )
-	);
+	) . ( $font_css_vars ? ':root{' . $font_css_vars . '}' : '' );
 }
 
 function multirent_customize_register( $wp_customize ) {
@@ -531,8 +598,10 @@ function multirent_customize_register( $wp_customize ) {
 	$settings = array(
 		'property_name'       => array( 'label' => esc_html__( 'Property name', 'multirent' ), 'default' => esc_html__( 'Your Rental Property', 'multirent' ), 'type' => 'text' ),
 		'property_tagline'    => array( 'label' => esc_html__( 'Property tagline', 'multirent' ), 'default' => '', 'type' => 'text' ),
+		'global_font'         => array( 'label' => esc_html__( 'Global site font', 'multirent' ), 'default' => 'theme-default', 'type' => 'select' ),
 		'hero_title'          => array( 'label' => esc_html__( 'Hero title', 'multirent' ), 'default' => esc_html__( 'Flexible stays for every guest', 'multirent' ), 'type' => 'text' ),
 		'hero_text'           => array( 'label' => esc_html__( 'Hero text', 'multirent' ), 'default' => esc_html__( 'Showcase apartments, rooms, villas, or holiday homes with clear details and easy inquiry paths.', 'multirent' ), 'type' => 'textarea' ),
+		'hero_title_size'     => array( 'label' => esc_html__( 'Hero title size in cm', 'multirent' ), 'default' => '', 'type' => 'number' ),
 		'hero_button_text'    => array( 'label' => esc_html__( 'Hero button text', 'multirent' ), 'default' => esc_html__( 'View rentals', 'multirent' ), 'type' => 'text' ),
 		'hero_button_url'     => array( 'label' => esc_html__( 'Hero button URL', 'multirent' ), 'default' => '#rentals', 'type' => 'url' ),
 		'intro_eyebrow'       => array( 'label' => esc_html__( 'Intro eyebrow', 'multirent' ), 'default' => esc_html__( 'About the property', 'multirent' ), 'type' => 'text' ),
@@ -540,20 +609,25 @@ function multirent_customize_register( $wp_customize ) {
 		'intro_text'          => array( 'label' => esc_html__( 'Intro text', 'multirent' ), 'default' => esc_html__( 'Add rental units, amenities, photos, capacity, booking links, and guest-facing details from the WordPress dashboard.', 'multirent' ), 'type' => 'textarea' ),
 		'stats_lines'         => array( 'label' => esc_html__( 'Homepage stats, one per line: value | label', 'multirent' ), 'default' => "4 | Rental units\n100 m | Example distance\n24/7 | Self-managed content", 'type' => 'textarea' ),
 		'reviews_shortcode'   => array( 'label' => esc_html__( 'Reviews shortcode', 'multirent' ), 'default' => '', 'type' => 'text' ),
-		'contact_title'       => array( 'label' => esc_html__( 'Contact title', 'multirent' ), 'default' => esc_html__( 'Ready to receive inquiries?', 'multirent' ), 'type' => 'text' ),
-		'contact_text'        => array( 'label' => esc_html__( 'Contact text', 'multirent' ), 'default' => esc_html__( 'Connect this section to your contact page, booking form, or external reservation system.', 'multirent' ), 'type' => 'textarea' ),
-		'contact_button_text' => array( 'label' => esc_html__( 'Contact button text', 'multirent' ), 'default' => esc_html__( 'Contact us', 'multirent' ), 'type' => 'text' ),
-		'contact_button_url'  => array( 'label' => esc_html__( 'Contact button URL', 'multirent' ), 'default' => '#contact', 'type' => 'url' ),
 		'color_scheme'        => array( 'label' => esc_html__( 'Color scheme', 'multirent' ), 'default' => 'coastal', 'type' => 'select' ),
 		'use_custom_colors'   => array( 'label' => esc_html__( 'Use custom colors', 'multirent' ), 'default' => '0', 'type' => 'checkbox' ),
 	);
 
 	foreach ( $settings as $key => $config ) {
+		$sanitize_callback = 'sanitize_textarea_field';
+		if ( 'url' === $config['type'] ) {
+			$sanitize_callback = 'esc_url_raw';
+		} elseif ( 'global_font' === $key ) {
+			$sanitize_callback = 'multirent_sanitize_global_font';
+		} elseif ( 'hero_title_size' === $key ) {
+			$sanitize_callback = 'multirent_sanitize_hero_title_size';
+		}
+
 		$wp_customize->add_setting(
 			$key,
 			array(
 				'default'           => $config['default'],
-				'sanitize_callback' => 'url' === $config['type'] ? 'esc_url_raw' : 'sanitize_textarea_field',
+				'sanitize_callback' => $sanitize_callback,
 			)
 		);
 		$control_args = array(
@@ -564,6 +638,16 @@ function multirent_customize_register( $wp_customize ) {
 
 		if ( 'color_scheme' === $key ) {
 			$control_args['choices'] = wp_list_pluck( multirent_color_schemes(), 'label' );
+		} elseif ( 'global_font' === $key ) {
+			$control_args['choices'] = wp_list_pluck( multirent_global_font_choices(), 'label' );
+			$control_args['description'] = esc_html__( 'Applies to body text, headings, navigation, buttons, cards, and the hero headline. Fonts are bundled locally in the theme.', 'multirent' );
+		} elseif ( 'hero_title_size' === $key ) {
+			$control_args['description'] = esc_html__( 'Leave empty to use the responsive theme default. Suggested range: 1.0 to 3.0 cm.', 'multirent' );
+			$control_args['input_attrs'] = array(
+				'min'  => '0.8',
+				'max'  => '5',
+				'step' => '0.1',
+			);
 		}
 
 		$wp_customize->add_control( $key, $control_args );
