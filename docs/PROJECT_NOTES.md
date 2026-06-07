@@ -34,6 +34,8 @@ Do not commit:
 
 GitHub Releases should contain the latest packaged theme ZIP, plugin ZIP, and combined template ZIP. Public install documentation should link to the [latest GitHub release](https://github.com/marinfrankovic/WP_MultiRent/releases/latest) for those packages, not versioned asset URLs.
 
+Version 0.2.2 fixes the Pages & Buttons admin so each Contact/Apartment page slot keeps its selected WordPress page (a duplicate hero-tab page dropdown shared the same field name and silently reset slots 2 and 3), makes Contact pages 2 and 3 fully independent so empty slot fields are never inherited from the legacy global Contact settings (e.g. a leftover map no longer leaks onto a contact page that has no map), and replaces the footer tagline with a right-aligned "Made with MultiRent" credit linking to multirent.online while the property name stays left-aligned.
+
 Version 0.2.1 bundles local font files, exposes a global site font dropdown plus optional homepage hero title-size controls in Website Setup / Customizer, changes the Hero Buttons admin UI to use page dropdown destinations instead of literal URL fields, removes the redundant homepage contact CTA band, and tightens mobile hero wrapping/button layout.
 
 Version 0.2.0 adds flexible Apartment Page 1-3 and Contact Page 1-3 slots, per-slot **Show in top menu** controls, homepage hero-button controls, explicit migration from the old single Apartments/Contact pages into Page 1 slots, and a rental-unit editor right-sidebar **Apartment Page Assignment** panel.

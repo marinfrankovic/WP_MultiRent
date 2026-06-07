@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.2.1' );
+define( 'MULTIRENT_VERSION', '0.2.2' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -423,6 +423,12 @@ function multirent_contact_display_option( $key, $default = '' ) {
 		$slot_key = $slot['prefix'] . '_' . $map[ $key ];
 		if ( isset( $settings[ $slot_key ] ) && '' !== $settings[ $slot_key ] ) {
 			return $settings[ $slot_key ];
+		}
+		// Slots 2 and 3 are independent: an empty slot field stays empty and never
+		// inherits the legacy/global contact value. Only slot 1 keeps that fallback
+		// for backward compatibility with pre-slot single-contact migrations.
+		if ( isset( $slot['index'] ) && 1 !== absint( $slot['index'] ) ) {
+			return $default;
 		}
 	}
 

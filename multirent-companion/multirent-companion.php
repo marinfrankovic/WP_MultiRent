@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.2.1
+ * Version: 0.2.2
  * Requires at least: 6.5
  * Tested up to: 7.0
  * Requires PHP: 8.4
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.2.1' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.2.2' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -2270,7 +2270,7 @@ function multirent_companion_render_pages_buttons_page() {
 							<div class="multirent-hero-button-row">
 								<label><input name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_show_hero]" type="checkbox" value="1" <?php checked( $slot['show_hero'] ); ?>> <?php echo esc_html( sprintf( '%s Page %d', 'apartment' === $slot['type'] ? __( 'Apartment', 'multirent-companion' ) : __( 'Contact', 'multirent-companion' ), $slot['index'] ) ); ?></label>
 								<input class="regular-text" name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_button_label]" type="text" value="<?php echo esc_attr( $slot['button_label'] ); ?>" placeholder="<?php esc_attr_e( 'Button label', 'multirent-companion' ); ?>" aria-label="<?php esc_attr_e( 'Button label', 'multirent-companion' ); ?>">
-								<?php multirent_companion_render_slot_page_select( $prefix, $slot['page_id'] ); ?>
+								<span class="multirent-hero-button-page description"><?php echo $slot['page_id'] ? esc_html( get_the_title( $slot['page_id'] ) . ' (#' . $slot['page_id'] . ')' ) : esc_html__( 'No page assigned yet', 'multirent-companion' ); ?></span>
 							</div>
 						<?php endforeach; ?>
 					</div>

@@ -8,9 +8,8 @@
 ?>
 	<footer class="site-footer">
 		<div class="container footer-inner">
-			<div>
+			<div class="footer-brand">
 				<strong><?php echo esc_html( multirent_display_option( 'property_name', get_bloginfo( 'name' ) ) ); ?></strong>
-				<p><?php esc_html_e( 'A configurable rental website powered by Multi Apartment Rental.', 'multirent' ); ?></p>
 			</div>
 			<?php
 			wp_nav_menu(
@@ -21,6 +20,13 @@
 				)
 			);
 			?>
+			<p class="footer-credit"><?php
+			printf(
+				/* translators: %s: MultiRent project link. */
+				esc_html__( 'Made with %s', 'multirent' ),
+				'<a href="' . esc_url( 'http://multirent.online/' ) . '" target="_blank" rel="noopener">' . esc_html__( 'MultiRent', 'multirent' ) . '</a>'
+			);
+			?></p>
 		</div>
 	</footer>
 </div>
