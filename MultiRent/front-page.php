@@ -16,8 +16,14 @@ $hero_style     = multirent_hero_style_attr( $hero_image_url );
 	<?php if ( '1' === (string) multirent_display_option( 'show_hero_section', '1' ) ) : ?>
 		<section class="hero"<?php echo $hero_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 			<div class="container hero-inner">
-				<?php $hero_eyebrow = multirent_display_option( 'hero_eyebrow', __( 'Multi-unit rental website', 'multirent' ) ); ?>
-				<?php if ( '' !== trim( (string) $hero_eyebrow ) ) : ?>
+				<?php
+				// Respect an explicitly saved Hero eyebrow value (including an empty string to hide it). Fall back to the default only when the setting has never been saved.
+				$hero_eyebrow_settings = multirent_plugin_settings();
+				$hero_eyebrow          = array_key_exists( 'hero_eyebrow', $hero_eyebrow_settings )
+					? (string) $hero_eyebrow_settings['hero_eyebrow']
+					: multirent_display_option( 'hero_eyebrow', __( 'Multi-unit rental website', 'multirent' ) );
+				?>
+				<?php if ( '' !== trim( $hero_eyebrow ) ) : ?>
 					<p class="eyebrow"><?php echo esc_html( $hero_eyebrow ); ?></p>
 				<?php endif; ?>
 				<h1><?php echo esc_html( multirent_display_option( 'hero_title', __( 'Flexible stays for every guest', 'multirent' ) ) ); ?></h1>
