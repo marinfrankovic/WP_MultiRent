@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.2.3
+ * Version: 0.2.4
  * Requires at least: 6.5
  * Tested up to: 7.0
  * Requires PHP: 8.4
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.2.3' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.2.4' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -319,6 +319,7 @@ function multirent_companion_field_descriptions() {
 		'property_tagline'    => esc_html__( 'Optional short tagline shown under the property name in the site header. This overrides the default WordPress tagline for the theme header.', 'multirent-companion' ),
 		'page_logo'           => esc_html__( 'Optional logo image shown to the left of the property name in the site header. Leave empty to show the property name without any logo.', 'multirent-companion' ),
 		'global_font'         => esc_html__( 'Font used across the public site for body text, headings, menus, cards, buttons, and hero text. Fonts are bundled with the theme and do not load from external services.', 'multirent-companion' ),
+		'hero_eyebrow'        => esc_html__( 'Small uppercase label shown above the landing-page headline. Leave empty to hide it.', 'multirent-companion' ),
 		'hero_title'          => esc_html__( 'Main landing-page headline. Use a short phrase that explains the stay you offer.', 'multirent-companion' ),
 		'hero_text'           => esc_html__( 'Short landing-page introduction below the headline.', 'multirent-companion' ),
 		'hero_title_size'     => esc_html__( 'Optional hero headline size in centimeters. Leave empty to use the responsive theme default.', 'multirent-companion' ),
@@ -518,6 +519,7 @@ function multirent_companion_default_settings() {
 		'property_tagline'    => '',
 		'page_logo'           => '',
 		'global_font'         => 'theme-default',
+		'hero_eyebrow'        => 'Multi-unit rental website',
 		'hero_title'          => 'Flexible stays for every guest',
 		'hero_text'           => 'Showcase apartments, rooms, villas, or holiday homes with clear details and easy inquiry paths.',
 		'hero_title_size'     => '',
@@ -1899,7 +1901,7 @@ function multirent_companion_render_setup_page() {
 		<form method="post" action="">
 			<?php wp_nonce_field( 'multirent_setup_action', 'multirent_setup_nonce' ); ?>
 			<input type="hidden" name="multirent_action" value="save_settings">
-			<input type="hidden" name="multirent_settings_scope" value="property_name,property_tagline,page_logo,global_font,show_hero_section,hero_title,hero_text,hero_title_size,hero_image,show_intro_section,intro_eyebrow,intro_title,intro_text,show_stats_section,stats_lines,show_front_page_rentals,front_page_rental_count,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
+			<input type="hidden" name="multirent_settings_scope" value="property_name,property_tagline,page_logo,global_font,show_hero_section,hero_eyebrow,hero_title,hero_text,hero_title_size,hero_image,show_intro_section,intro_eyebrow,intro_title,intro_text,show_stats_section,stats_lines,show_front_page_rentals,front_page_rental_count,reviews_shortcode,show_reviews,show_seo_note,show_migration_note,menu_items,color_scheme,use_custom_colors,color_primary,color_dark,color_surface,color_accent">
 			<h2><?php esc_html_e( 'Homepage and Brand', 'multirent-companion' ); ?></h2>
 			<table class="form-table" role="presentation">
 				<tr>
@@ -1928,7 +1930,7 @@ function multirent_companion_render_setup_page() {
 						<?php multirent_companion_description( 'global_font' ); ?>
 					</td>
 				</tr>
-				<?php foreach ( array( 'property_name', 'property_tagline', 'hero_title', 'hero_text', 'intro_eyebrow', 'intro_title', 'intro_text', 'stats_lines', 'reviews_shortcode' ) as $key ) : ?>
+				<?php foreach ( array( 'property_name', 'property_tagline', 'hero_eyebrow', 'hero_title', 'hero_text', 'intro_eyebrow', 'intro_title', 'intro_text', 'stats_lines', 'reviews_shortcode' ) as $key ) : ?>
 					<tr>
 						<th scope="row"><label for="multirent-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( ucwords( str_replace( '_', ' ', $key ) ) ); ?></label></th>
 						<td>
