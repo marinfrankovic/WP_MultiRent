@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.2.2' );
+define( 'MULTIRENT_VERSION', '0.2.3' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -605,6 +605,7 @@ function multirent_customize_register( $wp_customize ) {
 		'property_name'       => array( 'label' => esc_html__( 'Property name', 'multirent' ), 'default' => esc_html__( 'Your Rental Property', 'multirent' ), 'type' => 'text' ),
 		'property_tagline'    => array( 'label' => esc_html__( 'Property tagline', 'multirent' ), 'default' => '', 'type' => 'text' ),
 		'global_font'         => array( 'label' => esc_html__( 'Global site font', 'multirent' ), 'default' => 'theme-default', 'type' => 'select' ),
+		'hero_eyebrow'        => array( 'label' => esc_html__( 'Hero eyebrow', 'multirent' ), 'default' => esc_html__( 'Multi-unit rental website', 'multirent' ), 'type' => 'text' ),
 		'hero_title'          => array( 'label' => esc_html__( 'Hero title', 'multirent' ), 'default' => esc_html__( 'Flexible stays for every guest', 'multirent' ), 'type' => 'text' ),
 		'hero_text'           => array( 'label' => esc_html__( 'Hero text', 'multirent' ), 'default' => esc_html__( 'Showcase apartments, rooms, villas, or holiday homes with clear details and easy inquiry paths.', 'multirent' ), 'type' => 'textarea' ),
 		'hero_title_size'     => array( 'label' => esc_html__( 'Hero title size in cm', 'multirent' ), 'default' => '', 'type' => 'number' ),

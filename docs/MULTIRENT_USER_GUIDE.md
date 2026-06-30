@@ -166,6 +166,18 @@ Controls which homepage sections appear:
 
 Hidden sections keep their saved settings so you can turn them back on later.
 
+### Hero Eyebrow
+
+Small uppercase label shown above the hero title. Use it for a short category or tagline.
+
+```text
+Multi-unit rental website
+Seaside apartments
+Holiday homes in Dalmatia
+```
+
+Leave it empty to hide the label entirely.
+
 ### Hero Title
 
 Large homepage headline.

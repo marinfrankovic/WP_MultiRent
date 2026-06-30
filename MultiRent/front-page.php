@@ -16,7 +16,10 @@ $hero_style     = multirent_hero_style_attr( $hero_image_url );
 	<?php if ( '1' === (string) multirent_display_option( 'show_hero_section', '1' ) ) : ?>
 		<section class="hero"<?php echo $hero_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 			<div class="container hero-inner">
-				<p class="eyebrow"><?php esc_html_e( 'Multi-unit rental website', 'multirent' ); ?></p>
+				<?php $hero_eyebrow = multirent_display_option( 'hero_eyebrow', __( 'Multi-unit rental website', 'multirent' ) ); ?>
+				<?php if ( '' !== trim( (string) $hero_eyebrow ) ) : ?>
+					<p class="eyebrow"><?php echo esc_html( $hero_eyebrow ); ?></p>
+				<?php endif; ?>
 				<h1><?php echo esc_html( multirent_display_option( 'hero_title', __( 'Flexible stays for every guest', 'multirent' ) ) ); ?></h1>
 				<p><?php echo esc_html( multirent_display_option( 'hero_text', __( 'Showcase apartments, rooms, villas, or holiday homes with clear details and easy inquiry paths.', 'multirent' ) ) ); ?></p>
 				<?php multirent_render_hero_buttons(); ?>
