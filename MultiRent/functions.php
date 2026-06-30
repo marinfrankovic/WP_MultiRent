@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_VERSION', '0.2.4' );
+define( 'MULTIRENT_VERSION', '0.2.5' );
 define( 'MULTIRENT_DIR', get_template_directory() );
 define( 'MULTIRENT_URI', get_template_directory_uri() );
 
@@ -668,7 +668,7 @@ function multirent_customize_register( $wp_customize ) {
 				'sanitize_callback' => 'sanitize_hex_color',
 			)
 		);
-		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'color_' . $color_key, array( 'label' => sprintf( esc_html__( 'Custom %s color', 'multirent' ), $color_key ), 'section' => 'multirent_home' ) ) );
+		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'color_' . $color_key, array( 'label' => sprintf( /* translators: %s: color role name such as primary, dark, surface, or accent. */ esc_html__( 'Custom %s color', 'multirent' ), $color_key ), 'section' => 'multirent_home' ) ) );
 	}
 
 	$wp_customize->add_setting( 'hero_image', array( 'sanitize_callback' => 'absint' ) );

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MultiRent Companion
  * Description: End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme.
- * Version: 0.2.4
+ * Version: 0.2.5
  * Requires at least: 6.5
  * Tested up to: 7.0
  * Requires PHP: 8.4
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MULTIRENT_COMPANION_VERSION', '0.2.4' );
+define( 'MULTIRENT_COMPANION_VERSION', '0.2.5' );
 
 function multirent_companion_default_amenities() {
 	return array(
@@ -291,7 +291,7 @@ function multirent_companion_apartment_page_options_for_editor() {
 
 		$options[] = array(
 			'id'    => absint( $slot['page_id'] ),
-			'label' => $slot['button_label'] ? $slot['button_label'] : sprintf( __( 'Apartment Page %d', 'multirent-companion' ), $slot['index'] ),
+			'label' => $slot['button_label'] ? $slot['button_label'] : sprintf( /* translators: %d: apartment page slot number. */ __( 'Apartment Page %d', 'multirent-companion' ), $slot['index'] ),
 			'title' => get_the_title( $slot['page_id'] ),
 			'index' => absint( $slot['index'] ),
 		);
@@ -868,14 +868,14 @@ function multirent_companion_order_admin_submenus() {
 		}
 	}
 
-	$submenu['multirent-setup'] = array_values( array_merge( $website_items, $rental_items, $page_items, $other_items, $demo_items, $help_items ) );
+	$submenu['multirent-setup'] = array_values( array_merge( $website_items, $rental_items, $page_items, $other_items, $demo_items, $help_items ) ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentional reordering of this plugin's own submenu items.
 }
 add_action( 'admin_menu', 'multirent_companion_order_admin_submenus', 99 );
 
 function multirent_companion_admin_parent_file( $parent_file ) {
 	global $pagenow;
 
-	$taxonomy = isset( $_GET['taxonomy'] ) ? sanitize_key( wp_unslash( $_GET['taxonomy'] ) ) : '';
+	$taxonomy = isset( $_GET['taxonomy'] ) ? sanitize_key( wp_unslash( $_GET['taxonomy'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin menu highlight, no state change.
 	if ( 'edit-tags.php' === $pagenow && 'rental_amenity' === $taxonomy ) {
 		return 'multirent-setup';
 	}
@@ -887,7 +887,7 @@ add_filter( 'parent_file', 'multirent_companion_admin_parent_file' );
 function multirent_companion_admin_submenu_file( $submenu_file ) {
 	global $pagenow;
 
-	$taxonomy = isset( $_GET['taxonomy'] ) ? sanitize_key( wp_unslash( $_GET['taxonomy'] ) ) : '';
+	$taxonomy = isset( $_GET['taxonomy'] ) ? sanitize_key( wp_unslash( $_GET['taxonomy'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin menu highlight, no state change.
 	if ( 'edit-tags.php' === $pagenow && 'rental_amenity' === $taxonomy ) {
 		return 'edit-tags.php?taxonomy=rental_amenity&post_type=rental_unit';
 	}
@@ -2140,7 +2140,7 @@ function multirent_companion_render_apartment_slot_panel( $slot, $templates ) {
 	$prefix = $slot['prefix'];
 	?>
 	<details class="multirent-slot-panel">
-		<summary><?php echo esc_html( sprintf( __( 'Apartment Page %d', 'multirent-companion' ), $slot['index'] ) ); ?><?php echo $slot['page_id'] ? ' - ' . esc_html( get_the_title( $slot['page_id'] ) ) : ''; ?></summary>
+		<summary><?php echo esc_html( sprintf( /* translators: %d: apartment page slot number. */ __( 'Apartment Page %d', 'multirent-companion' ), $slot['index'] ) ); ?><?php echo $slot['page_id'] ? ' - ' . esc_html( get_the_title( $slot['page_id'] ) ) : ''; ?></summary>
 		<div class="multirent-slot-panel-body">
 			<p><label><input name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_enabled]" type="checkbox" value="1" <?php checked( $slot['enabled'] ); ?>> <?php esc_html_e( 'Enable this apartment page', 'multirent-companion' ); ?></label><?php multirent_companion_slot_description( 'enabled', 'apartment' ); ?></p>
 			<p><label><input name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_show_menu]" type="checkbox" value="1" <?php checked( $slot['show_menu'] ); ?>> <?php esc_html_e( 'Show in top menu', 'multirent-companion' ); ?></label><?php multirent_companion_slot_description( 'show_menu', 'apartment' ); ?></p>
@@ -2168,7 +2168,7 @@ function multirent_companion_render_contact_slot_panel( $slot, $templates, $sett
 	$prefix = $slot['prefix'];
 	?>
 	<details class="multirent-slot-panel">
-		<summary><?php echo esc_html( sprintf( __( 'Contact Page %d', 'multirent-companion' ), $slot['index'] ) ); ?><?php echo $slot['page_id'] ? ' - ' . esc_html( get_the_title( $slot['page_id'] ) ) : ''; ?></summary>
+		<summary><?php echo esc_html( sprintf( /* translators: %d: contact page slot number. */ __( 'Contact Page %d', 'multirent-companion' ), $slot['index'] ) ); ?><?php echo $slot['page_id'] ? ' - ' . esc_html( get_the_title( $slot['page_id'] ) ) : ''; ?></summary>
 		<div class="multirent-slot-panel-body">
 			<p><label><input name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_enabled]" type="checkbox" value="1" <?php checked( $slot['enabled'] ); ?>> <?php esc_html_e( 'Enable this contact page', 'multirent-companion' ); ?></label><?php multirent_companion_slot_description( 'enabled', 'contact' ); ?></p>
 			<p><label><input name="multirent_settings[<?php echo esc_attr( $prefix ); ?>_show_menu]" type="checkbox" value="1" <?php checked( $slot['show_menu'] ); ?>> <?php esc_html_e( 'Show in top menu', 'multirent-companion' ); ?></label><?php multirent_companion_slot_description( 'show_menu', 'contact' ); ?></p>

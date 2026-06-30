@@ -31,7 +31,7 @@ For repository-based testing where the theme and plugin source folders are mount
 
 ## Compatibility
 
-Version `0.2.4` is tested with WordPress `7.0` and requires PHP `8.4` or newer. The theme and companion plugin are classic WordPress extensions; WordPress 7.0 block-editor and AI additions are optional and do not need extra setup for the public rental pages.
+Version `0.2.5` is tested with WordPress `7.0` and requires PHP `8.4` or newer. The theme and companion plugin are classic WordPress extensions; WordPress 7.0 block-editor and AI additions are optional and do not need extra setup for the public rental pages.
 
 ## Install
 
