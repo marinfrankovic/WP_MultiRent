@@ -25,6 +25,6 @@
         "lint": "find MultiRent multirent-companion -name '*.php' -print0 | xargs -0 -n1 -P4 php -l",
         "phpcs": "phpcs",
         "phpcbf": "phpcbf",
-        "phpstan": "phpstan analyse --memory-limit=512M"
+        "phpstan": "phpstan analyse --memory-limit=2G"
     }
 }
