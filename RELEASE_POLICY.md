@@ -14,7 +14,7 @@ The public install documentation should link to the latest GitHub release page f
 
 ## Retention
 
-Keep the latest 10 releases available on GitHub.
+Keep the latest 5 releases available on GitHub.
 
 For future releases:
 
@@ -23,7 +23,7 @@ For future releases:
 3. Mark the newest release as latest.
 4. Verify documentation links for theme, companion plugin, and complete package ZIPs point to the latest GitHub release page, not versioned asset URLs.
 5. List releases newest-first.
-6. Delete releases older than the newest 10.
+6. Delete releases older than the newest 5.
 7. Delete old local ZIP files from `release-assets/` after the new release is published so only the newest theme, companion plugin, and combined template packages remain locally.
 
 ## Local Source Safety
