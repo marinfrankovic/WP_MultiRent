@@ -1,0 +1,15 @@
+parameters:
+	level: 5
+	paths:
+		- MultiRent
+		- multirent-companion
+	excludePaths:
+		- vendor
+		- release-assets
+		- local-wordpress
+	treatPhpDocTypesAsCertain: false
+	reportUnmatchedIgnoredErrors: false
+
+includes:
+	- phpstan-baseline.neon
+

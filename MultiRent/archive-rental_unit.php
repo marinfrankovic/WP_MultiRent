@@ -14,7 +14,10 @@ get_header();
 	</div>
 	<div class="container rental-grid">
 		<?php if ( have_posts() ) : ?>
-			<?php while ( have_posts() ) : the_post(); ?>
+			<?php
+			while ( have_posts() ) :
+				the_post();
+				?>
 				<?php get_template_part( 'template-parts/content', 'rental-card' ); ?>
 			<?php endwhile; ?>
 			<?php the_posts_navigation(); ?>

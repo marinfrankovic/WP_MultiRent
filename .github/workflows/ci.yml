@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyse:
+    name: Lint and static analysis
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [ '8.4', '8.5' ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: PHP lint (php -l)
+        run: |
+          find MultiRent multirent-companion -name '*.php' -print0 \
+            | xargs -0 -n1 -P4 php -l
+
+      - name: PHP_CodeSniffer (WordPress + PHP compatibility)
+        run: vendor/bin/phpcs
+
+      - name: PHPStan static analysis
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=512M

@@ -58,3 +58,10 @@ check-menu-order.php
 *.zip
 !release-assets/*.zip
 release-assets/*/
+
+# PHP dev tooling (composer deps and analysis caches)
+/vendor/
+composer.lock
+.phpcs.cache
+.phpunit.result.cache
+

@@ -68,7 +68,7 @@ $hero_style     = multirent_hero_style_attr( $hero_image_url );
 				<h2><?php esc_html_e( 'Choose what fits your stay', 'multirent' ); ?></h2>
 			</div>
 			<?php if ( post_type_exists( 'rental_unit' ) ) : ?>
-			<?php $front_page_rental_count = min( 50, max( 1, absint( multirent_display_option( 'front_page_rental_count', 12 ) ) ) ); ?>
+				<?php $front_page_rental_count = min( 50, max( 1, absint( multirent_display_option( 'front_page_rental_count', 12 ) ) ) ); ?>
 			<div class="container rental-grid">
 				<?php
 				$units = new WP_Query(

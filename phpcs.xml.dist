@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<ruleset name="MultiRent">
+	<description>Coding standards for the MultiRent theme and MultiRent Companion plugin.</description>
+
+	<!-- Scan the theme and companion plugin only. -->
+	<file>MultiRent</file>
+	<file>multirent-companion</file>
+
+	<!-- Ignore build, tooling, and local runtime paths. -->
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/release-assets/*</exclude-pattern>
+	<exclude-pattern>*/local-wordpress/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<!-- WordPress standard (core, docs, extra). -->
+	<rule ref="WordPress-Extra"/>
+
+	<!-- Verify compatibility with the supported PHP range (8.4+, including 8.5). -->
+	<config name="testVersion" value="8.4-"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<!-- Text domains used by the project. -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="multirent"/>
+				<element value="multirent-companion"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!--
+		Documented intentional exceptions (see report):
+		- Custom post type template files must keep the underscore (single-rental_unit.php,
+		  archive-rental_unit.php) to match the "rental_unit" post type slug.
+		- Short ternaries and for-loop count calls are used deliberately and safely.
+		- The $default parameter name matches a long-standing public helper signature.
+	-->
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+		<exclude-pattern>*/single-rental_unit.php</exclude-pattern>
+		<exclude-pattern>*/archive-rental_unit.php</exclude-pattern>
+	</rule>
+	<rule ref="Universal.Operators.DisallowShortTernary.Found">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.defaultFound">
+		<severity>0</severity>
+	</rule>
+</ruleset>

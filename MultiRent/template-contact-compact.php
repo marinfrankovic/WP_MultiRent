@@ -7,17 +7,17 @@
 
 get_header();
 
-$contact_title  = multirent_contact_display_option( 'contact_page_title', __( 'Contact', 'multirent' ) );
-$contact_intro  = multirent_contact_display_option( 'contact_page_intro', __( 'Send your dates, guest count, and preferred rental unit so the owner can reply with availability.', 'multirent' ) );
-$address        = multirent_contact_display_option( 'contact_address', '' );
-$phone          = multirent_contact_display_option( 'contact_phone', '' );
-$mobile         = multirent_contact_display_option( 'contact_mobile', '' );
-$email          = multirent_contact_display_option( 'contact_email', '' );
-$form_shortcode = trim( multirent_contact_display_option( 'contact_form_shortcode', '' ) );
-$map_query      = trim( multirent_contact_display_option( 'contact_map_query', '' ) );
-$map_note       = multirent_contact_display_option( 'contact_map_note', '' );
+$contact_title            = multirent_contact_display_option( 'contact_page_title', __( 'Contact', 'multirent' ) );
+$contact_intro            = multirent_contact_display_option( 'contact_page_intro', __( 'Send your dates, guest count, and preferred rental unit so the owner can reply with availability.', 'multirent' ) );
+$address                  = multirent_contact_display_option( 'contact_address', '' );
+$phone                    = multirent_contact_display_option( 'contact_phone', '' );
+$mobile                   = multirent_contact_display_option( 'contact_mobile', '' );
+$email                    = multirent_contact_display_option( 'contact_email', '' );
+$form_shortcode           = trim( multirent_contact_display_option( 'contact_form_shortcode', '' ) );
+$map_query                = trim( multirent_contact_display_option( 'contact_map_query', '' ) );
+$map_note                 = multirent_contact_display_option( 'contact_map_note', '' );
 $contact_qr_code_image_id = absint( multirent_contact_display_option( 'contact_qr_code_image_id', '' ) );
-$booking_lines  = multirent_lines_to_items( multirent_contact_display_option( 'booking_help_lines', '' ) );
+$booking_lines            = multirent_lines_to_items( multirent_contact_display_option( 'booking_help_lines', '' ) );
 ?>
 
 <main id="primary" class="site-main">
@@ -55,7 +55,16 @@ $booking_lines  = multirent_lines_to_items( multirent_contact_display_option( 'b
 					</section>
 				<?php endif; ?>
 
-				<?php multirent_render_qr_map_tile( array( 'qr_image_id' => $contact_qr_code_image_id, 'title' => __( 'Quick booking QR', 'multirent' ), 'qr_label' => __( 'Contact QR code', 'multirent' ), 'class' => 'contact-qr-card' ) ); ?>
+				<?php
+				multirent_render_qr_map_tile(
+					array(
+						'qr_image_id' => $contact_qr_code_image_id,
+						'title'       => __( 'Quick booking QR', 'multirent' ),
+						'qr_label'    => __( 'Contact QR code', 'multirent' ),
+						'class'       => 'contact-qr-card',
+					)
+				);
+				?>
 
 				<?php if ( '1' === (string) multirent_contact_display_option( 'show_booking_help', '1' ) && $booking_lines ) : ?>
 					<section class="booking-help-panel">

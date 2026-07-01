@@ -1,0 +1,1383 @@
+# Copyright (C) 2026 MultiRent Project
+# This file is distributed under the Proprietary private-use license.
+msgid ""
+msgstr ""
+"Project-Id-Version: MultiRent Companion 0.2.6\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/multirent-companion\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-07-01T06:44:45+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: multirent-companion\n"
+
+#. Plugin Name of the plugin
+#: multirent-companion.php
+msgid "MultiRent Companion"
+msgstr ""
+
+#. Description of the plugin
+#: multirent-companion.php
+msgid "End-to-end setup tools, rental unit management, amenities, and GUI settings for the Multi Apartment Rental theme."
+msgstr ""
+
+#. Author of the plugin
+#: multirent-companion.php
+msgid "MultiRent Project"
+msgstr ""
+
+#: multirent-companion.php:124
+#: multirent-companion.php:128
+#: multirent-companion.php:865
+msgid "Rental Units"
+msgstr ""
+
+#: multirent-companion.php:125
+msgid "Rental Unit"
+msgstr ""
+
+#: multirent-companion.php:126
+msgid "Add New Rental Unit"
+msgstr ""
+
+#: multirent-companion.php:127
+msgid "Edit Rental Unit"
+msgstr ""
+
+#: multirent-companion.php:144
+#: multirent-companion.php:838
+msgid "Amenities"
+msgstr ""
+
+#: multirent-companion.php:145
+msgid "Amenity"
+msgstr ""
+
+#: multirent-companion.php:162
+msgid "Guest capacity"
+msgstr ""
+
+#: multirent-companion.php:163
+msgid "Bedrooms"
+msgstr ""
+
+#: multirent-companion.php:164
+msgid "Bathrooms"
+msgstr ""
+
+#: multirent-companion.php:165
+msgid "Size"
+msgstr ""
+
+#: multirent-companion.php:166
+msgid "Price note"
+msgstr ""
+
+#: multirent-companion.php:167
+msgid "Booking or inquiry URL"
+msgstr ""
+
+#: multirent-companion.php:168
+msgid "YouTube video URL"
+msgstr ""
+
+#: multirent-companion.php:169
+msgid "Apartment map address"
+msgstr ""
+
+#: multirent-companion.php:170
+msgid "Apartment map coordinates"
+msgstr ""
+
+#. translators: %d: apartment page slot number.
+#: multirent-companion.php:302
+#: multirent-companion.php:1977
+#, php-format
+msgid "Apartment Page %d"
+msgstr ""
+
+#: multirent-companion.php:326
+msgid "Public property or rental-business name shown in the header and key theme areas."
+msgstr ""
+
+#: multirent-companion.php:327
+msgid "Optional short tagline shown under the property name in the site header. This overrides the default WordPress tagline for the theme header."
+msgstr ""
+
+#: multirent-companion.php:328
+msgid "Optional logo image shown to the left of the property name in the site header. Leave empty to show the property name without any logo."
+msgstr ""
+
+#: multirent-companion.php:329
+msgid "Font used across the public site for body text, headings, menus, cards, buttons, and hero text. Fonts are bundled with the theme and do not load from external services."
+msgstr ""
+
+#: multirent-companion.php:330
+msgid "Small uppercase label shown above the landing-page headline. Leave empty to hide it."
+msgstr ""
+
+#: multirent-companion.php:331
+msgid "Main landing-page headline. Use a short phrase that explains the stay you offer."
+msgstr ""
+
+#: multirent-companion.php:332
+msgid "Short landing-page introduction below the headline."
+msgstr ""
+
+#: multirent-companion.php:333
+msgid "Optional hero headline size in centimeters. Leave empty to use the responsive theme default."
+msgstr ""
+
+#: multirent-companion.php:334
+msgid "Text shown on the main landing-page call-to-action button."
+msgstr ""
+
+#: multirent-companion.php:335
+msgid "Where the hero button opens. Use a page path such as /apartments/ or a full URL."
+msgstr ""
+
+#: multirent-companion.php:336
+msgid "Small label shown above the landing-page intro heading."
+msgstr ""
+
+#: multirent-companion.php:337
+msgid "Heading for the landing-page intro section below the hero."
+msgstr ""
+
+#: multirent-companion.php:338
+msgid "Text for the landing-page intro section. Explain what guests can manage or discover."
+msgstr ""
+
+#: multirent-companion.php:339
+msgid "Landing-page facts, one per line, using value | label. Example: 4 | Apartments."
+msgstr ""
+
+#: multirent-companion.php:340
+msgid "When enabled, rental-unit cards appear on the homepage below the intro and stats."
+msgstr ""
+
+#: multirent-companion.php:341
+msgid "Maximum number of rental units shown on the homepage. Use the Apartments page for the full list."
+msgstr ""
+
+#: multirent-companion.php:342
+msgid "Shortcode from a reviews plugin. The Reviews section checkbox must also be enabled in Homepage section visibility."
+msgstr ""
+
+#: multirent-companion.php:343
+msgid "Header menu links, one per line, using Label | URL. The order here is the order shown in the menu."
+msgstr ""
+
+#: multirent-companion.php:344
+msgid "Preset color palette used by the theme unless custom colors are enabled."
+msgstr ""
+
+#: multirent-companion.php:345
+msgid "Enable this when you want the custom color pickers to override the selected preset."
+msgstr ""
+
+#: multirent-companion.php:346
+msgid "Main action color used for buttons, links, and highlights."
+msgstr ""
+
+#: multirent-companion.php:347
+msgid "Dark brand color used for headers, footers, and dark sections."
+msgstr ""
+
+#: multirent-companion.php:348
+msgid "Light page background color."
+msgstr ""
+
+#: multirent-companion.php:349
+msgid "Soft accent background color used for highlighted navigation and panels."
+msgstr ""
+
+#: multirent-companion.php:350
+msgid "Show or hide the large homepage hero section."
+msgstr ""
+
+#: multirent-companion.php:351
+msgid "Show or hide the homepage introduction section."
+msgstr ""
+
+#: multirent-companion.php:352
+msgid "Show or hide the homepage facts strip."
+msgstr ""
+
+#: multirent-companion.php:353
+msgid "When enabled, the Apartments page is published and kept in the generated top menu."
+msgstr ""
+
+#: multirent-companion.php:354
+msgid "When enabled, the Contact page is published and kept in the generated top menu."
+msgstr ""
+
+#: multirent-companion.php:355
+msgid "When enabled, the Local page is published and kept in the generated top menu."
+msgstr ""
+
+#: multirent-companion.php:356
+msgid "Main heading shown at the top of the Contact page."
+msgstr ""
+
+#: multirent-companion.php:357
+msgid "Intro text shown under the Contact page heading."
+msgstr ""
+
+#: multirent-companion.php:358
+msgid "Address block shown in the contact details card. Use one line per address line."
+msgstr ""
+
+#: multirent-companion.php:359
+msgid "Primary phone number shown on the Contact page. Leave empty to hide it."
+msgstr ""
+
+#: multirent-companion.php:360
+msgid "Mobile phone number shown on the Contact page. Leave empty to hide it."
+msgstr ""
+
+#: multirent-companion.php:361
+msgid "Email address shown on the Contact page. Leave empty to hide it."
+msgstr ""
+
+#: multirent-companion.php:362
+msgid "Shortcode from a contact-form plugin, for example [contact-form-7 id=\"123\"]. Leave empty if no form is used."
+msgstr ""
+
+#: multirent-companion.php:363
+msgid "Search text used to build the embedded Google map, such as a property name, street address, city, and country. It is not a special code."
+msgstr ""
+
+#: multirent-companion.php:364
+msgid "Short note below the map, useful for parking, arrival instructions, or map corrections."
+msgstr ""
+
+#: multirent-companion.php:365
+msgid "Optional QR code image for the Contact page. When empty, the QR tile is hidden."
+msgstr ""
+
+#: multirent-companion.php:366
+msgid "Checklist shown to guests before they send an inquiry. Add one requested detail per line."
+msgstr ""
+
+#: multirent-companion.php:367
+msgid "Main heading shown at the top of the Local page."
+msgstr ""
+
+#: multirent-companion.php:368
+msgid "Intro text shown under the Local page heading."
+msgstr ""
+
+#: multirent-companion.php:369
+msgid "Guest guide cards, one per line, using Title | text."
+msgstr ""
+
+#: multirent-companion.php:370
+msgid "Quick local highlights, one per line, using Title | text."
+msgstr ""
+
+#: multirent-companion.php:371
+msgid "Activity cards, one per line, using Title | text."
+msgstr ""
+
+#: multirent-companion.php:372
+msgid "Useful links, one per line, using Label | URL."
+msgstr ""
+
+#: multirent-companion.php:373
+msgid "Guest capacity shown on apartment cards and detail pages, such as 2-4 guests."
+msgstr ""
+
+#: multirent-companion.php:374
+msgid "Number or description of bedrooms, such as 2 or Studio."
+msgstr ""
+
+#: multirent-companion.php:375
+msgid "Number or description of bathrooms."
+msgstr ""
+
+#: multirent-companion.php:376
+msgid "Apartment size, such as 45 m2."
+msgstr ""
+
+#: multirent-companion.php:377
+msgid "Optional short price message, such as On request, From 90 EUR, or Seasonal rates. Leave empty to hide the price tile on the apartment detail page."
+msgstr ""
+
+#: multirent-companion.php:378
+msgid "Link for booking or inquiry button for this apartment. Use a full URL or a site page path."
+msgstr ""
+
+#: multirent-companion.php:379
+msgid "Optional YouTube video link. When set, the video appears as part of the apartment gallery and opens in the gallery lightbox."
+msgstr ""
+
+#: multirent-companion.php:380
+msgid "Optional address for a map specific to this apartment. Leave empty when the property-wide contact map is enough."
+msgstr ""
+
+#: multirent-companion.php:381
+msgid "Optional latitude and longitude for this apartment map, such as 43.2039, 17.1364. Coordinates override the address when both are set."
+msgstr ""
+
+#: multirent-companion.php:387
+msgid "Theme default"
+msgstr ""
+
+#: multirent-companion.php:388
+msgid "Playfair Display"
+msgstr ""
+
+#: multirent-companion.php:389
+msgid "Inter"
+msgstr ""
+
+#: multirent-companion.php:390
+msgid "Poppins"
+msgstr ""
+
+#: multirent-companion.php:391
+msgid "Montserrat"
+msgstr ""
+
+#: multirent-companion.php:392
+msgid "Lora"
+msgstr ""
+
+#: multirent-companion.php:393
+msgid "Merriweather"
+msgstr ""
+
+#: multirent-companion.php:394
+msgid "Raleway"
+msgstr ""
+
+#: multirent-companion.php:395
+msgid "Oswald"
+msgstr ""
+
+#: multirent-companion.php:396
+msgid "Nunito Sans"
+msgstr ""
+
+#: multirent-companion.php:397
+msgid "Source Sans 3"
+msgstr ""
+
+#: multirent-companion.php:434
+msgid "Apartment Images"
+msgstr ""
+
+#: multirent-companion.php:435
+#: multirent-companion.php:1054
+msgid "Apartment Page Assignment"
+msgstr ""
+
+#: multirent-companion.php:445
+#: multirent-companion.php:1055
+msgid "Choose which apartment overview pages should show this rental unit. If nothing is selected, the unit belongs to Apartment Page 1."
+msgstr ""
+
+#: multirent-companion.php:451
+#: multirent-companion.php:1056
+msgid "No enabled apartment pages are configured yet. Add them in MultiRent Setup > Pages & Buttons."
+msgstr ""
+
+#: multirent-companion.php:467
+msgid "Apartment Tile Image"
+msgstr ""
+
+#: multirent-companion.php:468
+msgid "This image is used on apartment cards, previews, and the top of the apartment page."
+msgstr ""
+
+#: multirent-companion.php:469
+msgid "Choose apartment image"
+msgstr ""
+
+#: multirent-companion.php:469
+#: multirent-companion.php:1080
+msgid "Remove image"
+msgstr ""
+
+#: multirent-companion.php:472
+msgid "Apartment Gallery Images"
+msgstr ""
+
+#: multirent-companion.php:473
+msgid "Choose extra apartment photos for the gallery on the rental detail page. Use Move up and Move down to control the public gallery order."
+msgstr ""
+
+#: multirent-companion.php:834
+#: multirent-companion.php:1727
+msgid "MultiRent Setup"
+msgstr ""
+
+#: multirent-companion.php:835
+#: multirent-companion.php:862
+msgid "Website Setup"
+msgstr ""
+
+#: multirent-companion.php:836
+#: multirent-companion.php:2090
+msgid "Pages & Buttons"
+msgstr ""
+
+#: multirent-companion.php:837
+#: multirent-companion.php:2276
+msgid "Local Page"
+msgstr ""
+
+#: multirent-companion.php:839
+#: multirent-companion.php:1899
+msgid "Demo Content"
+msgstr ""
+
+#: multirent-companion.php:840
+msgid "Help & Guides"
+msgstr ""
+
+#: multirent-companion.php:916
+msgid "README file is not available in this plugin package."
+msgstr ""
+
+#: multirent-companion.php:1058
+#: multirent-companion.php:2035
+msgid "QR code image"
+msgstr ""
+
+#: multirent-companion.php:1059
+msgid "Optional QR code image shown in an extra tile on the apartment detail page."
+msgstr ""
+
+#: multirent-companion.php:1060
+#: multirent-companion.php:2036
+msgid "Choose QR code image"
+msgstr ""
+
+#: multirent-companion.php:1061
+#: multirent-companion.php:2036
+msgid "Remove QR code image"
+msgstr ""
+
+#: multirent-companion.php:1062
+msgid "Apartment Details"
+msgstr ""
+
+#: multirent-companion.php:1063
+msgid "Use the Apartment Images box below the editor for the main apartment photo and extra gallery photos. The QR code image, video link, and apartment map fields are in Apartment Details. Gallery images can be reordered before saving."
+msgstr ""
+
+#: multirent-companion.php:1064
+msgid "After filling these fields, click Publish or Update."
+msgstr ""
+
+#: multirent-companion.php:1073
+msgid "Choose image"
+msgstr ""
+
+#: multirent-companion.php:1074
+msgid "Use this image"
+msgstr ""
+
+#: multirent-companion.php:1075
+msgid "Choose apartment gallery images"
+msgstr ""
+
+#: multirent-companion.php:1076
+msgid "Use selected images"
+msgstr ""
+
+#: multirent-companion.php:1077
+#: multirent-companion.php:1128
+msgid "No gallery images selected"
+msgstr ""
+
+#: multirent-companion.php:1078
+#: multirent-companion.php:1120
+msgid "Move up"
+msgstr ""
+
+#: multirent-companion.php:1079
+#: multirent-companion.php:1121
+msgid "Move down"
+msgstr ""
+
+#: multirent-companion.php:1095
+msgid "No image selected"
+msgstr ""
+
+#: multirent-companion.php:1122
+msgid "Remove"
+msgstr ""
+
+#: multirent-companion.php:1132
+msgid "Choose gallery images"
+msgstr ""
+
+#: multirent-companion.php:1133
+msgid "Remove gallery images"
+msgstr ""
+
+#: multirent-companion.php:1167
+msgid "CookieYes - Cookie Banner for Cookie Consent"
+msgstr ""
+
+#: multirent-companion.php:1169
+msgid "Cookie consent banner and GDPR/CCPA cookie notice workflow."
+msgstr ""
+
+#: multirent-companion.php:1172
+msgid "Rank Math SEO"
+msgstr ""
+
+#: multirent-companion.php:1174
+msgid "SEO titles, schema, sitemap, redirects, and search optimization."
+msgstr ""
+
+#: multirent-companion.php:1177
+msgid "Rich Showcase for Google Reviews"
+msgstr ""
+
+#: multirent-companion.php:1179
+msgid "Display Google Reviews through shortcodes and widgets."
+msgstr ""
+
+#: multirent-companion.php:1250
+msgid "Page and hero button settings saved."
+msgstr ""
+
+#: multirent-companion.php:1256
+msgid "Apartments page settings saved."
+msgstr ""
+
+#: multirent-companion.php:1263
+msgid "Contact page settings saved."
+msgstr ""
+
+#: multirent-companion.php:1270
+msgid "Local page settings saved."
+msgstr ""
+
+#: multirent-companion.php:1273
+msgid "MultiRent settings saved."
+msgstr ""
+
+#: multirent-companion.php:1282
+msgid "Top menu updated and assigned to the theme header."
+msgstr ""
+
+#: multirent-companion.php:1287
+msgid "Confirm the starter content action before running it."
+msgstr ""
+
+#: multirent-companion.php:1292
+msgid "Starter pages, menu, amenities, and four rental units created."
+msgstr ""
+
+#: multirent-companion.php:1416
+msgid "Apartments - Grid"
+msgstr ""
+
+#: multirent-companion.php:1417
+msgid "A simple apartment card grid for the clearest overview of all rental units."
+msgstr ""
+
+#: multirent-companion.php:1418
+msgid "Hero title, page intro, then a responsive grid of apartment cards."
+msgstr ""
+
+#: multirent-companion.php:1421
+msgid "Apartments - Featured Guide"
+msgstr ""
+
+#: multirent-companion.php:1422
+msgid "A richer guide-style listing for pages that need intro copy before the rental cards."
+msgstr ""
+
+#: multirent-companion.php:1423
+msgid "Page heading, editor content, featured intro, then apartment cards."
+msgstr ""
+
+#: multirent-companion.php:1426
+msgid "Apartments - Compact List"
+msgstr ""
+
+#: multirent-companion.php:1427
+msgid "A tighter comparison list for scanning many apartments quickly."
+msgstr ""
+
+#: multirent-companion.php:1428
+msgid "Compact rows with apartment image, summary, guest capacity, and details link."
+msgstr ""
+
+#: multirent-companion.php:1436
+msgid "Contact / Booking Inquiry"
+msgstr ""
+
+#: multirent-companion.php:1437
+msgid "A balanced contact page with details beside booking guidance, map, content, and form sections."
+msgstr ""
+
+#: multirent-companion.php:1438
+msgid "Side contact card plus main inquiry, map, page content, and form area."
+msgstr ""
+
+#: multirent-companion.php:1441
+msgid "Contact - Split Map"
+msgstr ""
+
+#: multirent-companion.php:1442
+msgid "A map-forward layout for guests who need arrival context before sending an inquiry."
+msgstr ""
+
+#: multirent-companion.php:1443
+msgid "Large map and arrival note first, followed by contact details and inquiry sections."
+msgstr ""
+
+#: multirent-companion.php:1446
+msgid "Contact - Compact"
+msgstr ""
+
+#: multirent-companion.php:1447
+msgid "A compact stacked layout for simpler sites or shorter contact pages."
+msgstr ""
+
+#: multirent-companion.php:1448
+msgid "Single-column contact details, booking checklist, editor content, form, and optional map."
+msgstr ""
+
+#: multirent-companion.php:1456
+msgid "Local Information"
+msgstr ""
+
+#: multirent-companion.php:1457
+msgid "A full local guide with main content and useful links in a sidebar."
+msgstr ""
+
+#: multirent-companion.php:1458
+msgid "Guide cards, highlights, activities, editor content, and travel links sidebar."
+msgstr ""
+
+#: multirent-companion.php:1461
+msgid "Local - Compact Guide"
+msgstr ""
+
+#: multirent-companion.php:1462
+msgid "A simpler stacked guide for shorter local information pages."
+msgstr ""
+
+#: multirent-companion.php:1463
+msgid "Single-column guide sections, highlights, activities, links, and editor content."
+msgstr ""
+
+#: multirent-companion.php:1466
+msgid "Local - Featured Guide"
+msgstr ""
+
+#: multirent-companion.php:1467
+msgid "A guide-first layout that emphasizes the plan-your-stay cards before other information."
+msgstr ""
+
+#: multirent-companion.php:1468
+msgid "Featured guide cards first, then highlights, activities, travel links, and editor content."
+msgstr ""
+
+#: multirent-companion.php:1504
+msgid "Choose a valid page template."
+msgstr ""
+
+#: multirent-companion.php:1509
+msgid "Choose a WordPress page first."
+msgstr ""
+
+#: multirent-companion.php:1693
+msgid "Apartments"
+msgstr ""
+
+#: multirent-companion.php:1701
+#: multirent-companion.php:2122
+msgid "Contact"
+msgstr ""
+
+#: multirent-companion.php:1728
+msgid "Configure the rental website from one place. No code editing is required."
+msgstr ""
+
+#: multirent-companion.php:1729
+msgid "The landing (home) page is configured here. Apartment and contact pages are managed in Pages & Buttons, and local information in Local Page."
+msgstr ""
+
+#: multirent-companion.php:1731
+msgid "Starter Content"
+msgstr ""
+
+#: multirent-companion.php:1732
+msgid "Use this first on a new site to create Home, Apartments, Contact, and Local pages, assign the Apartments page, create the top menu and amenities, and add four starter rental units you can rename or replace."
+msgstr ""
+
+#: multirent-companion.php:1733
+msgid "On an existing site this can set the front page, assign page templates, update the generated top menu, and publish or draft MultiRent role pages. Review the affected pages before using it outside a fresh setup."
+msgstr ""
+
+#: multirent-companion.php:1737
+msgid "I understand this will create missing starter content and may update the front page, templates, visibility, and generated top menu."
+msgstr ""
+
+#: multirent-companion.php:1738
+msgid "Create Starter Pages, Menu, Amenities, and Rental Units"
+msgstr ""
+
+#: multirent-companion.php:1748
+msgid "Homepage & Brand"
+msgstr ""
+
+#: multirent-companion.php:1749
+msgid "Menu"
+msgstr ""
+
+#: multirent-companion.php:1750
+msgid "Colors"
+msgstr ""
+
+#: multirent-companion.php:1753
+msgid "Homepage and Brand"
+msgstr ""
+
+#: multirent-companion.php:1756
+msgid "Homepage section visibility"
+msgstr ""
+
+#: multirent-companion.php:1758
+msgid "Show Hero section."
+msgstr ""
+
+#: multirent-companion.php:1759
+msgid "Show Intro section."
+msgstr ""
+
+#: multirent-companion.php:1760
+msgid "Show Stats strip."
+msgstr ""
+
+#: multirent-companion.php:1761
+msgid "Show Apartment cards section."
+msgstr ""
+
+#: multirent-companion.php:1762
+msgid "Show Reviews section when a reviews shortcode is entered."
+msgstr ""
+
+#: multirent-companion.php:1763
+msgid "Show admin-only SEO reminder."
+msgstr ""
+
+#: multirent-companion.php:1764
+msgid "Show admin-only backup reminder."
+msgstr ""
+
+#: multirent-companion.php:1765
+msgid "These checkboxes hide or show full homepage blocks. The text and image fields below are kept even when their block is hidden."
+msgstr ""
+
+#: multirent-companion.php:1771
+msgid "Global site font"
+msgstr ""
+
+#: multirent-companion.php:1795
+msgid "Hero title size"
+msgstr ""
+
+#: multirent-companion.php:1797
+msgid "cm"
+msgstr ""
+
+#: multirent-companion.php:1804
+msgid "Page logo"
+msgstr ""
+
+#: multirent-companion.php:1806
+msgid "Choose page logo"
+msgstr ""
+
+#: multirent-companion.php:1806
+msgid "Remove page logo"
+msgstr ""
+
+#: multirent-companion.php:1811
+msgid "Hero image"
+msgstr ""
+
+#: multirent-companion.php:1813
+msgid "Choose hero image"
+msgstr ""
+
+#: multirent-companion.php:1813
+msgid "Remove hero image"
+msgstr ""
+
+#: multirent-companion.php:1814
+msgid "This controls the large homepage image. Users can change it without opening theme files."
+msgstr ""
+
+#: multirent-companion.php:1818
+msgid "Homepage apartments"
+msgstr ""
+
+#: multirent-companion.php:1820
+msgid "Number of apartments to show"
+msgstr ""
+
+#: multirent-companion.php:1829
+msgid "Top Menu Builder"
+msgstr ""
+
+#: multirent-companion.php:1830
+msgid "Add one manual menu link per line using this simple format: Label | URL. Use / for home, /apartments/ or /contact/ for pages, or a full external URL. Apartment and Contact page slots can also add themselves from Pages & Buttons when Show in top menu is checked; duplicate page URLs are skipped."
+msgstr ""
+
+#: multirent-companion.php:1833
+msgid "Header menu links"
+msgstr ""
+
+#: multirent-companion.php:1836
+msgid "Example: Home | /"
+msgstr ""
+
+#: multirent-companion.php:1841
+msgid "Save and Apply Top Menu"
+msgstr ""
+
+#: multirent-companion.php:1842
+msgid "Saves all Website Setup fields and rebuilds the theme header menu from the links above. Use this after editing the menu links or changing which apartment/contact pages appear in the menu. To save without rebuilding the menu, use Save Website Settings below."
+msgstr ""
+
+#: multirent-companion.php:1846
+msgid "Color Scheme"
+msgstr ""
+
+#: multirent-companion.php:1849
+msgid "Preset"
+msgstr ""
+
+#: multirent-companion.php:1860
+msgid "Custom palette"
+msgstr ""
+
+#: multirent-companion.php:1861
+msgid "Use the custom colors below instead of only the preset."
+msgstr ""
+
+#: multirent-companion.php:1871
+msgid "Save Website Settings"
+msgstr ""
+
+#: multirent-companion.php:1872
+msgid "Saves every tab on this page (brand, homepage, menu links, and colors). It does not rebuild the theme header menu — use Save and Apply Top Menu on the Menu tab for that."
+msgstr ""
+
+#: multirent-companion.php:1876
+msgid "Recommended Plugins"
+msgstr ""
+
+#: multirent-companion.php:1877
+msgid "These optional plugins match the tested localhost rental-site setup. MultiRent lists them for convenience but does not install them automatically, avoiding filesystem permission problems and keeping the template clean. ManageWP is not included because it is account-specific."
+msgstr ""
+
+#: multirent-companion.php:1879
+msgid "Plugin"
+msgstr ""
+
+#: multirent-companion.php:1879
+msgid "Purpose"
+msgstr ""
+
+#: multirent-companion.php:1879
+msgid "Status"
+msgstr ""
+
+#: multirent-companion.php:1900
+msgid "The full MultiRent demo is hosted separately so this WordPress site stays light and does not download sample media."
+msgstr ""
+
+#: multirent-companion.php:1901
+msgid "Open the public demo to preview apartment pages, galleries, maps, QR examples, contact details, local guide sections, and the finished theme layout before adding your own content."
+msgstr ""
+
+#: multirent-companion.php:1902
+msgid "Open Public Demo"
+msgstr ""
+
+#: multirent-companion.php:1903
+msgid "Use Website Setup to create starter pages, menu, amenities, and rental units for this site."
+msgstr ""
+
+#: multirent-companion.php:1917
+msgid "Select a page"
+msgstr ""
+
+#: multirent-companion.php:1931
+msgid "Makes this page slot available for public templates, top-menu inclusion, and hero-button selection."
+msgstr ""
+
+#: multirent-companion.php:1932
+msgid "Adds this selected page to the generated/header menu. If the same URL is already listed in Top Menu Builder, it will not be duplicated."
+msgstr ""
+
+#: multirent-companion.php:1933
+msgid "Choose the WordPress page this slot controls. Starter content uses Page 1 as the initial public page."
+msgstr ""
+
+#: multirent-companion.php:1934
+msgid "Choose the public layout used by the selected WordPress page."
+msgstr ""
+
+#: multirent-companion.php:1935
+msgid "Text shown on the homepage hero button for this page slot."
+msgstr ""
+
+#: multirent-companion.php:1936
+msgid "Shows this selected page as a button under the homepage hero."
+msgstr ""
+
+#: multirent-companion.php:1937
+msgid "Main heading shown at the top of this contact page."
+msgstr ""
+
+#: multirent-companion.php:1938
+msgid "Short introduction shown below this contact page heading."
+msgstr ""
+
+#: multirent-companion.php:1939
+msgid "Address block shown in this contact page details card. Use one line per address line."
+msgstr ""
+
+#: multirent-companion.php:1940
+msgid "Primary phone number shown on this contact page. Leave empty to hide it."
+msgstr ""
+
+#: multirent-companion.php:1941
+msgid "Mobile phone number shown on this contact page. Leave empty to hide it."
+msgstr ""
+
+#: multirent-companion.php:1942
+msgid "Email address shown on this contact page. Leave empty to hide it."
+msgstr ""
+
+#: multirent-companion.php:1943
+msgid "Contact-form shortcode rendered on this contact page, for example [contact-form-7 id=\"123\"]."
+msgstr ""
+
+#: multirent-companion.php:1944
+msgid "Search text for the embedded Google map, such as property name, street address, city, and country."
+msgstr ""
+
+#: multirent-companion.php:1945
+msgid "Short note below the map for parking, arrival instructions, or map corrections."
+msgstr ""
+
+#: multirent-companion.php:1946
+msgid "Optional QR code image for this contact page. Leave empty to hide the QR tile."
+msgstr ""
+
+#: multirent-companion.php:1947
+msgid "Checklist shown before guests send an inquiry. Add one requested detail per line."
+msgstr ""
+
+#: multirent-companion.php:1948
+msgid "Shows or hides the contact details card on this contact page."
+msgstr ""
+
+#: multirent-companion.php:1949
+msgid "Shows or hides the booking-help checklist on this contact page."
+msgstr ""
+
+#: multirent-companion.php:1950
+msgid "Shows or hides the embedded map section on this contact page."
+msgstr ""
+
+#: multirent-companion.php:1951
+msgid "Shows or hides normal WordPress page-editor content on this contact page."
+msgstr ""
+
+#: multirent-companion.php:1952
+msgid "Shows or hides the contact form shortcode area on this contact page."
+msgstr ""
+
+#: multirent-companion.php:1953
+msgid "Shows or hides the note below the embedded map."
+msgstr ""
+
+#: multirent-companion.php:1957
+msgid "Choose how rental units assigned to this apartment page are displayed."
+msgstr ""
+
+#: multirent-companion.php:1979
+msgid "Enable this apartment page"
+msgstr ""
+
+#: multirent-companion.php:1980
+#: multirent-companion.php:2011
+msgid "Show in top menu"
+msgstr ""
+
+#: multirent-companion.php:1982
+#: multirent-companion.php:2013
+msgid "WordPress page"
+msgstr ""
+
+#: multirent-companion.php:1987
+msgid "Apartment template"
+msgstr ""
+
+#: multirent-companion.php:1998
+#: multirent-companion.php:2063
+msgid "Preview page"
+msgstr ""
+
+#. translators: %d: contact page slot number.
+#: multirent-companion.php:2008
+#, php-format
+msgid "Contact Page %d"
+msgstr ""
+
+#: multirent-companion.php:2010
+msgid "Enable this contact page"
+msgstr ""
+
+#: multirent-companion.php:2014
+#: multirent-companion.php:2215
+msgid "Contact template"
+msgstr ""
+
+#: multirent-companion.php:2021
+msgid "Basic"
+msgstr ""
+
+#: multirent-companion.php:2026
+msgid "Contact Details"
+msgstr ""
+
+#: multirent-companion.php:2031
+msgid "Map & QR"
+msgstr ""
+
+#: multirent-companion.php:2039
+msgid "Form & Booking Help"
+msgstr ""
+
+#: multirent-companion.php:2044
+msgid "Visibility"
+msgstr ""
+
+#: multirent-companion.php:2048
+msgid "Details"
+msgstr ""
+
+#: multirent-companion.php:2049
+msgid "Booking help"
+msgstr ""
+
+#: multirent-companion.php:2050
+msgid "Map"
+msgstr ""
+
+#: multirent-companion.php:2051
+msgid "Page content"
+msgstr ""
+
+#: multirent-companion.php:2052
+msgid "Form"
+msgstr ""
+
+#: multirent-companion.php:2053
+msgid "Map note"
+msgstr ""
+
+#: multirent-companion.php:2091
+msgid "Configure up to three apartment pages and three contact pages. Use the tabs below to keep setup readable."
+msgstr ""
+
+#: multirent-companion.php:2098
+msgid "Apartment Pages"
+msgstr ""
+
+#: multirent-companion.php:2100
+msgid "Contact Pages"
+msgstr ""
+
+#: multirent-companion.php:2102
+msgid "Hero Buttons"
+msgstr ""
+
+#: multirent-companion.php:2104
+msgid "Help"
+msgstr ""
+
+#: multirent-companion.php:2117
+msgid "Choose which enabled pages appear as buttons under the homepage hero image."
+msgstr ""
+
+#: multirent-companion.php:2122
+msgid "Apartment"
+msgstr ""
+
+#: multirent-companion.php:2123
+msgid "Button label"
+msgstr ""
+
+#: multirent-companion.php:2124
+msgid "No page assigned yet"
+msgstr ""
+
+#: multirent-companion.php:2131
+msgid "How this works"
+msgstr ""
+
+#: multirent-companion.php:2132
+msgid "Older single Apartments and Contact pages migrate into Page 1. Rental units with no assignment appear on Apartment Page 1."
+msgstr ""
+
+#: multirent-companion.php:2133
+msgid "Assign rental units from each Rental Unit editor. Enabled apartment page slots can show different groups of units."
+msgstr ""
+
+#: multirent-companion.php:2137
+msgid "Save Pages & Buttons"
+msgstr ""
+
+#: multirent-companion.php:2151
+msgid "Apartments Page"
+msgstr ""
+
+#: multirent-companion.php:2152
+msgid "Manage whether the Apartments page is visible and choose the apartment listing template from this screen."
+msgstr ""
+
+#: multirent-companion.php:2159
+msgid "Assigned Apartments page"
+msgstr ""
+
+#: multirent-companion.php:2162
+msgid "Choose which WordPress page should behave as the Apartments page. You can create alternate apartment pages and switch between them here."
+msgstr ""
+
+#: multirent-companion.php:2166
+msgid "Show Apartments page"
+msgstr ""
+
+#: multirent-companion.php:2167
+msgid "Publish the Apartments page and allow it in the generated top menu."
+msgstr ""
+
+#: multirent-companion.php:2170
+msgid "Apartments template"
+msgstr ""
+
+#: multirent-companion.php:2177
+msgid "Choose the template here instead of opening Pages > All Pages > Apartments."
+msgstr ""
+
+#: multirent-companion.php:2179
+msgid "Open Apartments Page Preview"
+msgstr ""
+
+#: multirent-companion.php:2181
+msgid "Create the starter pages first to enable the live Apartments page preview link."
+msgstr ""
+
+#: multirent-companion.php:2186
+msgid "Save Apartments Page Settings"
+msgstr ""
+
+#: multirent-companion.php:2200
+msgid "Contact Page"
+msgstr ""
+
+#: multirent-companion.php:2201
+msgid "Manage the optional Contact / Booking Inquiry page and decide which sections should appear."
+msgstr ""
+
+#: multirent-companion.php:2208
+msgid "Assigned Contact page"
+msgstr ""
+
+#: multirent-companion.php:2211
+msgid "Choose which WordPress page should use the Contact / Booking Inquiry template. You can keep multiple contact-page versions and switch between them here."
+msgstr ""
+
+#: multirent-companion.php:2222
+msgid "Choose the Contact page layout."
+msgstr ""
+
+#: multirent-companion.php:2224
+msgid "Open Contact Page Preview"
+msgstr ""
+
+#: multirent-companion.php:2229
+msgid "Contact page visibility"
+msgstr ""
+
+#: multirent-companion.php:2231
+msgid "Publish Contact page and include it in the generated top menu."
+msgstr ""
+
+#: multirent-companion.php:2232
+msgid "Show contact details card."
+msgstr ""
+
+#: multirent-companion.php:2233
+msgid "Show booking inquiry checklist."
+msgstr ""
+
+#: multirent-companion.php:2234
+msgid "Show map iframe."
+msgstr ""
+
+#: multirent-companion.php:2235
+#: multirent-companion.php:2312
+msgid "Show page editor content."
+msgstr ""
+
+#: multirent-companion.php:2236
+msgid "Show form shortcode area."
+msgstr ""
+
+#: multirent-companion.php:2237
+msgid "Show map or arrival note."
+msgstr ""
+
+#: multirent-companion.php:2238
+msgid "Show or hide full Contact page areas while keeping saved field values available for later."
+msgstr ""
+
+#: multirent-companion.php:2255
+msgid "Contact QR code image"
+msgstr ""
+
+#: multirent-companion.php:2257
+msgid "Choose Contact QR code image"
+msgstr ""
+
+#: multirent-companion.php:2257
+msgid "Remove Contact QR code image"
+msgstr ""
+
+#: multirent-companion.php:2262
+msgid "Save Contact Page Settings"
+msgstr ""
+
+#: multirent-companion.php:2277
+msgid "Manage the optional Local Information page and decide which travel-guide sections should appear."
+msgstr ""
+
+#: multirent-companion.php:2284
+msgid "Assigned Local page"
+msgstr ""
+
+#: multirent-companion.php:2287
+msgid "Choose which WordPress page should use the Local Information template. You can keep multiple local-guide versions and switch between them here."
+msgstr ""
+
+#: multirent-companion.php:2291
+msgid "Local template"
+msgstr ""
+
+#: multirent-companion.php:2298
+msgid "Choose the Local page layout."
+msgstr ""
+
+#: multirent-companion.php:2300
+msgid "Open Local Page Preview"
+msgstr ""
+
+#: multirent-companion.php:2305
+msgid "Local page visibility"
+msgstr ""
+
+#: multirent-companion.php:2307
+msgid "Publish Local page and include it in the generated top menu."
+msgstr ""
+
+#: multirent-companion.php:2308
+msgid "Show guide cards."
+msgstr ""
+
+#: multirent-companion.php:2309
+msgid "Show local highlights."
+msgstr ""
+
+#: multirent-companion.php:2310
+msgid "Show trips and activities."
+msgstr ""
+
+#: multirent-companion.php:2311
+msgid "Show useful links sidebar."
+msgstr ""
+
+#: multirent-companion.php:2313
+msgid "Show or hide full Local page areas while keeping saved field values available for later."
+msgstr ""
+
+#: multirent-companion.php:2330
+msgid "Save Local Page Settings"
+msgstr ""
+
+#: multirent-companion.php:2341
+msgid "MultiRent overview"
+msgstr ""
+
+#: multirent-companion.php:2342
+msgid "Visual overview of the theme and companion features on the MultiRent website."
+msgstr ""
+
+#: multirent-companion.php:2346
+msgid "Complete User Guide"
+msgstr ""
+
+#: multirent-companion.php:2347
+msgid "The full site-building workflow: setup, pages, rental units, amenities, menus, backup, and deployment."
+msgstr ""
+
+#: multirent-companion.php:2351
+msgid "Docker, backup, and live restore guide"
+msgstr ""
+
+#: multirent-companion.php:2352
+msgid "Beginner-friendly steps for local testing, backups, and moving a site to a live host."
+msgstr ""
+
+#: multirent-companion.php:2356
+msgid "Plugin README"
+msgstr ""
+
+#: multirent-companion.php:2357
+msgid "Short plugin reference and feature summary."
+msgstr ""
+
+#: multirent-companion.php:2361
+msgid "Latest release and downloads"
+msgstr ""
+
+#: multirent-companion.php:2362
+msgid "Download the newest theme and companion plugin packages."
+msgstr ""
+
+#: multirent-companion.php:2366
+msgid "Public demo site"
+msgstr ""
+
+#: multirent-companion.php:2367
+msgid "Preview a finished MultiRent rental website."
+msgstr ""
+
+#: multirent-companion.php:2376
+msgid "MultiRent Help & Guides"
+msgstr ""
+
+#: multirent-companion.php:2377
+msgid "Open any help or instruction file below. Each link opens in a new browser tab."
+msgstr ""

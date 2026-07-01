@@ -35,7 +35,9 @@ function Get-SourceFiles {
 		Where-Object {
 			$relativePath = (Get-RelativePath -BasePath $repoRoot -Path $_.FullName).Replace('\\', '/')
 			$relativePath -notmatch '(^|/)\.git(/|$)' -and
-			$relativePath -notmatch '^release-assets/'
+			$relativePath -notmatch '^release-assets/' -and
+			$relativePath -notmatch '(^|/)vendor(/|$)' -and
+			$relativePath -notmatch '(^|/)node_modules(/|$)'
 		}
 }
 

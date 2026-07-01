@@ -20,13 +20,15 @@
 				)
 			);
 			?>
-			<p class="footer-credit"><?php
+			<p class="footer-credit">
+			<?php
 			printf(
 				/* translators: %s: MultiRent project link. */
 				esc_html__( 'Made with %s', 'multirent' ),
 				'<a href="' . esc_url( 'http://multirent.online/' ) . '" target="_blank" rel="noopener">' . esc_html__( 'MultiRent', 'multirent' ) . '</a>'
 			);
-			?></p>
+			?>
+			</p>
 		</div>
 	</footer>
 </div>

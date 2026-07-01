@@ -1,0 +1,49 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Parameter \#1 \$args of function wp_nav_menu expects array\{menu\?\: int\|string\|WP_Term, menu_class\?\: string, menu_id\?\: string, container\?\: string, container_class\?\: string, container_id\?\: string, container_aria_label\?\: string, fallback_cb\?\: \(callable\(\)\: mixed\)\|false, \.\.\.\}, array\{theme_location\: ''footer'', container\: false, fallback_cb\: false\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: MultiRent/footer.php
+
+		-
+			message: '#^Parameter \#1 \$args of function wp_nav_menu expects array\{menu\?\: int\|string\|WP_Term, menu_class\?\: string, menu_id\?\: string, container\?\: string, container_class\?\: string, container_id\?\: string, container_aria_label\?\: string, fallback_cb\?\: \(callable\(\)\: mixed\)\|false, \.\.\.\}, array\{theme_location\: ''primary'', menu_id\: ''primary\-menu'', container\: false, fallback_cb\: ''multirent_default…''\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: MultiRent/functions.php
+
+		-
+			message: '#^Parameter \#1 \$object_id of function wp_remove_object_terms expects int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: multirent-companion/multirent-companion.php
+
+		-
+			message: '#^Parameter \#1 \$object_id of function wp_set_object_terms expects int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: multirent-companion/multirent-companion.php
+
+		-
+			message: '#^Parameter \#1 \$text of function esc_attr expects string, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: multirent-companion/multirent-companion.php
+
+		-
+			message: '#^Parameter \#1 \$text of function esc_attr expects string, int\<0, max\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: multirent-companion/multirent-companion.php
+
+		-
+			message: '#^Parameter \#3 \$args of function register_taxonomy expects array\{labels\?\: array\<string\>, description\?\: string, public\?\: bool, publicly_queryable\?\: bool, hierarchical\?\: bool, show_ui\?\: bool, show_in_menu\?\: bool, show_in_nav_menus\?\: bool, \.\.\.\}, array\{labels\: array\{name\: string, singular_name\: string\}, public\: true, hierarchical\: true, rewrite\: array\{slug\: ''amenity''\}, show_in_rest\: true, show_in_menu\: ''multirent\-setup'', show_admin_column\: true\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: multirent-companion/multirent-companion.php
+
+		-
+			message: '#^Right side of \|\| is always false\.$#'
+			identifier: booleanOr.rightAlwaysFalse
+			count: 1
+			path: multirent-companion/multirent-companion.php

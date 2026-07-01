@@ -1,0 +1,601 @@
+# Copyright (C) 2026 MultiRent Project
+# This file is distributed under the Proprietary private-use license.
+msgid ""
+msgstr ""
+"Project-Id-Version: Multi Apartment Rental 0.2.6\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/MultiRent\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-07-01T06:19:38+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: multirent\n"
+
+#. Theme Name of the theme
+#: style.css
+msgid "Multi Apartment Rental"
+msgstr ""
+
+#. Description of the theme
+#: style.css
+msgid "A GUI-first rental website theme for apartments, rooms, villas, and multi-unit holiday properties. Works with MultiRent Companion to manage rental units, apartment images, amenities, homepage hero content, contact and local-information pages, top menus, color schemes, review shortcodes, recommended plugins, and in-admin README help without editing theme files. Includes a fixed visible header, ready-made apartment listing templates, featured-image support, responsive layouts, and starter content for no-code setup."
+msgstr ""
+
+#. Author of the theme
+#: style.css
+msgid "MultiRent Project"
+msgstr ""
+
+#: archive-rental_unit.php:12
+#: front-page.php:67
+msgid "Rental units"
+msgstr ""
+
+#: archive-rental_unit.php:22
+msgid "No rental units are published yet."
+msgstr ""
+
+#. translators: %s: MultiRent project link.
+#: footer.php:26
+#, php-format
+msgid "Made with %s"
+msgstr ""
+
+#: footer.php:27
+msgid "MultiRent"
+msgstr ""
+
+#: front-page.php:24
+#: functions.php:608
+msgid "Multi-unit rental website"
+msgstr ""
+
+#: front-page.php:29
+#: functions.php:609
+msgid "Flexible stays for every guest"
+msgstr ""
+
+#: front-page.php:30
+#: functions.php:610
+msgid "Showcase apartments, rooms, villas, or holiday homes with clear details and easy inquiry paths."
+msgstr ""
+
+#: front-page.php:40
+#: functions.php:614
+msgid "About the property"
+msgstr ""
+
+#: front-page.php:41
+#: functions.php:615
+msgid "Manage every unit from WordPress"
+msgstr ""
+
+#: front-page.php:44
+#: functions.php:616
+msgid "Add rental units, amenities, photos, capacity, booking links, and guest-facing details from the WordPress dashboard."
+msgstr ""
+
+#: front-page.php:52
+msgid "Property highlights"
+msgstr ""
+
+#: front-page.php:68
+msgid "Choose what fits your stay"
+msgstr ""
+
+#: front-page.php:93
+msgid "Create your first rentals"
+msgstr ""
+
+#: front-page.php:94
+msgid "Open MultiRent Setup in WordPress admin and choose how many apartments, rooms, or villas you want to create."
+msgstr ""
+
+#: front-page.php:100
+msgid "MultiRent Companion plugin required"
+msgstr ""
+
+#: front-page.php:101
+msgid "Activate the companion plugin to manage rental units, amenities, setup wizard, and demo content from the WordPress dashboard."
+msgstr ""
+
+#: front-page.php:111
+msgid "Guest reviews"
+msgstr ""
+
+#: front-page.php:122
+msgid "Admin reminders"
+msgstr ""
+
+#: front-page.php:124
+msgid "Configure your SEO plugin titles, descriptions, sitemap, and schema after editing property content."
+msgstr ""
+
+#: front-page.php:127
+msgid "Create a full backup before importing, migrating, or making large content changes."
+msgstr ""
+
+#: functions.php:28
+#: header.php:38
+msgid "Primary menu"
+msgstr ""
+
+#: functions.php:29
+msgid "Footer menu"
+msgstr ""
+
+#: functions.php:46
+msgid "Theme default"
+msgstr ""
+
+#: functions.php:47
+msgid "Playfair Display"
+msgstr ""
+
+#: functions.php:48
+msgid "Inter"
+msgstr ""
+
+#: functions.php:49
+msgid "Poppins"
+msgstr ""
+
+#: functions.php:50
+msgid "Montserrat"
+msgstr ""
+
+#: functions.php:51
+msgid "Lora"
+msgstr ""
+
+#: functions.php:52
+msgid "Merriweather"
+msgstr ""
+
+#: functions.php:53
+msgid "Raleway"
+msgstr ""
+
+#: functions.php:54
+msgid "Oswald"
+msgstr ""
+
+#: functions.php:55
+msgid "Nunito Sans"
+msgstr ""
+
+#: functions.php:56
+msgid "Source Sans 3"
+msgstr ""
+
+#: functions.php:113
+msgid "Home"
+msgstr ""
+
+#: functions.php:114
+msgid "Rentals"
+msgstr ""
+
+#: functions.php:115
+#: template-contact-compact.php:10
+#: template-contact-compact.php:28
+#: template-contact-split.php:10
+#: template-contact-split.php:28
+#: template-contact.php:10
+#: template-contact.php:28
+msgid "Contact"
+msgstr ""
+
+#: functions.php:498
+#: functions.php:612
+msgid "View rentals"
+msgstr ""
+
+#: functions.php:524
+msgid "Coastal Blue"
+msgstr ""
+
+#: functions.php:533
+msgid "Olive Garden"
+msgstr ""
+
+#: functions.php:542
+msgid "Coral Sunset"
+msgstr ""
+
+#: functions.php:551
+msgid "Graphite"
+msgstr ""
+
+#: functions.php:598
+msgid "Multi Apartment Rental Setup"
+msgstr ""
+
+#: functions.php:599
+msgid "Configure the homepage, property details, reviews widget, and contact call to action without editing code."
+msgstr ""
+
+#: functions.php:605
+msgid "Property name"
+msgstr ""
+
+#: functions.php:605
+msgid "Your Rental Property"
+msgstr ""
+
+#: functions.php:606
+msgid "Property tagline"
+msgstr ""
+
+#: functions.php:607
+msgid "Global site font"
+msgstr ""
+
+#: functions.php:608
+msgid "Hero eyebrow"
+msgstr ""
+
+#: functions.php:609
+msgid "Hero title"
+msgstr ""
+
+#: functions.php:610
+msgid "Hero text"
+msgstr ""
+
+#: functions.php:611
+msgid "Hero title size in cm"
+msgstr ""
+
+#: functions.php:612
+msgid "Hero button text"
+msgstr ""
+
+#: functions.php:613
+msgid "Hero button URL"
+msgstr ""
+
+#: functions.php:614
+msgid "Intro eyebrow"
+msgstr ""
+
+#: functions.php:615
+msgid "Intro title"
+msgstr ""
+
+#: functions.php:616
+msgid "Intro text"
+msgstr ""
+
+#: functions.php:617
+msgid "Homepage stats, one per line: value | label"
+msgstr ""
+
+#: functions.php:618
+msgid "Reviews shortcode"
+msgstr ""
+
+#: functions.php:619
+msgid "Color scheme"
+msgstr ""
+
+#: functions.php:620
+msgid "Use custom colors"
+msgstr ""
+
+#: functions.php:650
+msgid "Applies to body text, headings, navigation, buttons, cards, and the hero headline. Fonts are bundled locally in the theme."
+msgstr ""
+
+#: functions.php:652
+msgid "Leave empty to use the responsive theme default. Suggested range: 1.0 to 3.0 cm."
+msgstr ""
+
+#. translators: %s: color role name such as primary, dark, surface, or accent.
+#: functions.php:671
+#, php-format
+msgid "Custom %s color"
+msgstr ""
+
+#: functions.php:675
+msgid "Hero image"
+msgstr ""
+
+#: functions.php:677
+msgid "Page logo"
+msgstr ""
+
+#: functions.php:743
+msgid "Guests"
+msgstr ""
+
+#: functions.php:744
+msgid "Bedrooms"
+msgstr ""
+
+#: functions.php:745
+msgid "Bathrooms"
+msgstr ""
+
+#: functions.php:746
+msgid "Size"
+msgstr ""
+
+#: functions.php:747
+msgid "Price"
+msgstr ""
+
+#: functions.php:873
+msgid "Amenities"
+msgstr ""
+
+#: functions.php:985
+msgid "Apartment gallery"
+msgstr ""
+
+#: functions.php:986
+msgid "Gallery"
+msgstr ""
+
+#: functions.php:994
+msgid "Play apartment video"
+msgstr ""
+
+#: functions.php:995
+msgid "Apartment video thumbnail"
+msgstr ""
+
+#: functions.php:1021
+msgid "Guest information"
+msgstr ""
+
+#: functions.php:1022
+msgid "QR code"
+msgstr ""
+
+#: functions.php:1023
+#: functions.php:1030
+msgid "Apartment map"
+msgstr ""
+
+#: header.php:17
+msgid "Skip to content"
+msgstr ""
+
+#: header.php:39
+msgid "Menu"
+msgstr ""
+
+#: index.php:21
+msgid "No content has been published yet."
+msgstr ""
+
+#: single-rental_unit.php:16
+msgid "Rental unit"
+msgstr ""
+
+#: single-rental_unit.php:37
+msgid "Details"
+msgstr ""
+
+#: single-rental_unit.php:42
+msgid "Request this unit"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Apartments - Compact List"
+msgstr ""
+
+#: template-apartments-compact.php:16
+#: template-apartments-featured.php:16
+#: template-apartments-grid.php:16
+msgid "Apartments"
+msgstr ""
+
+#: template-apartments-compact.php:18
+msgid "A tighter apartment listing for rental sites with many units or guests who need quick comparison."
+msgstr ""
+
+#: template-apartments-compact.php:32
+#: template-apartments-featured.php:54
+msgid "No rental units are published yet"
+msgstr ""
+
+#: template-apartments-compact.php:33
+msgid "Create rental units from MultiRent Setup to fill this compact list."
+msgstr ""
+
+#. Template Name of the theme
+msgid "Apartments - Featured Guide"
+msgstr ""
+
+#: template-apartments-featured.php:18
+msgid "A guided apartment overview for guests who want to compare choices before opening each detailed page."
+msgstr ""
+
+#: template-apartments-featured.php:25
+msgid "Choose faster"
+msgstr ""
+
+#: template-apartments-featured.php:26
+msgid "Find the right stay for your trip"
+msgstr ""
+
+#: template-apartments-featured.php:29
+msgid "Use this layout when you want the apartments page to feel like the original rental-site overview: clear intro, simple comparison cards, and direct links into each apartment."
+msgstr ""
+
+#: template-apartments-featured.php:42
+msgid "Rental options"
+msgstr ""
+
+#: template-apartments-featured.php:43
+msgid "Compare available apartments"
+msgstr ""
+
+#: template-apartments-featured.php:55
+msgid "Create rental units from MultiRent Setup to fill this apartment guide."
+msgstr ""
+
+#. Template Name of the theme
+msgid "Apartments - Grid"
+msgstr ""
+
+#: template-apartments-grid.php:18
+msgid "Browse the available rental units, compare details, then open each apartment page for photos, amenities, and booking information."
+msgstr ""
+
+#: template-apartments-grid.php:32
+msgid "Add your first apartments"
+msgstr ""
+
+#: template-apartments-grid.php:33
+msgid "Open MultiRent Setup > Rental Units and create published rental units to populate this page."
+msgstr ""
+
+#. Template Name of the theme
+msgid "Contact - Compact"
+msgstr ""
+
+#: template-contact-compact.php:11
+#: template-contact-split.php:11
+#: template-contact.php:11
+msgid "Send your dates, guest count, and preferred rental unit so the owner can reply with availability."
+msgstr ""
+
+#: template-contact-compact.php:40
+#: template-contact-split.php:74
+#: template-contact.php:42
+msgid "Contact details"
+msgstr ""
+
+#: template-contact-compact.php:46
+#: template-contact-split.php:80
+#: template-contact.php:48
+msgid "Phone"
+msgstr ""
+
+#: template-contact-compact.php:49
+#: template-contact-split.php:83
+#: template-contact.php:51
+msgid "Mobile"
+msgstr ""
+
+#: template-contact-compact.php:52
+#: template-contact-split.php:86
+#: template-contact.php:54
+msgid "Email"
+msgstr ""
+
+#: template-contact-compact.php:58
+#: template-contact-split.php:91
+#: template-contact.php:59
+msgid "Quick booking QR"
+msgstr ""
+
+#: template-contact-compact.php:58
+#: template-contact-split.php:91
+#: template-contact.php:59
+msgid "Contact QR code"
+msgstr ""
+
+#: template-contact-compact.php:62
+#: template-contact-split.php:51
+#: template-contact.php:66
+msgid "Booking inquiry"
+msgstr ""
+
+#: template-contact-compact.php:63
+#: template-contact-split.php:52
+#: template-contact.php:67
+msgid "Details that help with a faster reply"
+msgstr ""
+
+#: template-contact-compact.php:82
+#: template-contact-split.php:40
+#: template-contact.php:78
+msgid "Property map"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Contact - Split Map"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Contact / Booking Inquiry"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Local - Compact Guide"
+msgstr ""
+
+#: template-local-compact.php:10
+#: template-local-featured.php:10
+#: template-local.php:10
+msgid "Local information"
+msgstr ""
+
+#: template-local-compact.php:11
+#: template-local-featured.php:11
+#: template-local.php:11
+msgid "Help guests plan arrival, beaches, restaurants, activities, and useful services around your property."
+msgstr ""
+
+#: template-local-compact.php:23
+#: template-local-featured.php:23
+#: template-local.php:23
+msgid "Local"
+msgstr ""
+
+#: template-local-compact.php:35
+#: template-local-featured.php:35
+#: template-local.php:36
+msgid "Plan your stay"
+msgstr ""
+
+#: template-local-compact.php:60
+#: template-local-featured.php:62
+#: template-local.php:61
+msgid "Explore"
+msgstr ""
+
+#: template-local-compact.php:61
+#: template-local-featured.php:63
+#: template-local.php:62
+msgid "Trips and activities"
+msgstr ""
+
+#: template-local-compact.php:75
+#: template-local-featured.php:82
+#: template-local.php:81
+msgid "Travel links"
+msgstr ""
+
+#: template-local-compact.php:76
+#: template-local-featured.php:83
+#: template-local.php:82
+msgid "Useful connections"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Local - Featured Guide"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Local Information"
+msgstr ""
+
+#: template-local.php:83
+msgid "Add buses, flights, ferries, local guides, restaurants, or any helpful links for guests."
+msgstr ""
+
+#: template-parts/content-rental-card.php:14
+msgid "Add photo"
+msgstr ""
+
+#: template-parts/content-rental-card.php:23
+msgid "View details"
+msgstr ""

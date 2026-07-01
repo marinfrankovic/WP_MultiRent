@@ -278,6 +278,66 @@
 	margin-top: 4px;
 }
 
+.multirent-tab-nav {
+	margin-bottom: 16px;
+}
+
+.multirent-tab-panel {
+	display: none;
+}
+
+.multirent-tab-panel.is-active {
+	display: block;
+}
+
+.multirent-help-links {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	gap: 14px;
+	margin-top: 16px;
+	max-width: 1000px;
+}
+
+.multirent-help-card {
+	position: relative;
+	display: block;
+	padding: 16px 40px 16px 16px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	text-decoration: none;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.multirent-help-card:hover,
+.multirent-help-card:focus {
+	border-color: #2271b1;
+	box-shadow: 0 3px 8px rgba(34, 113, 177, 0.15);
+}
+
+.multirent-help-card-title {
+	display: block;
+	font-size: 15px;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+.multirent-help-card-desc {
+	display: block;
+	margin-top: 4px;
+	font-size: 13px;
+	color: #50575e;
+}
+
+.multirent-help-card-open {
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	font-size: 16px;
+	color: #2271b1;
+}
+
 .multirent-slot-checkboxes {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
